@@ -1,0 +1,2336 @@
+Tech Stack (UI Only)
+
+Note- In this list only you make ui plz noted
+
+Framework: Next.js (App Router)
+Language: TypeScript
+Styling: Tailwind CSS
+UI Components: shadcn/ui
+Icons: Lucide React
+Forms: React Hook Form
+Validation: Zod
+Charts: Recharts
+State Management: Zustand (or Redux Toolkit if you prefer)
+Tables: TanStack Table
+Animations: Framer Motion
+
+Phase 1 - Authentication UI (First)
+1. Splash Screen
+Logo
+Loading Animation
+2. Common Login Screen
+
+Only one login page for every role.
+
+Email / Mobile
+
+Password
+
+Remember Me
+
+Forgot Password
+
+Login Button
+
+School Logo
+
+Version
+
+No separate login pages.
+
+Later backend will identify role automatically.
+
+Example
+
+superadmin@gmail.com
+↓
+
+Backend says
+
+Role = Super Admin
+
+↓
+
+Redirect
+↓
+
+/super-admin/dashboard
+
+Another
+
+teacher@gmail.com
+
+↓
+
+Teacher Dashboard
+
+Same login.
+
+3. Forgot Password
+Email
+OTP
+Reset Password
+
+According to the Super Admin Dashboard image, if you build a professional School ERP, I would estimate:
+
+Total Sidebar Menus = 17
+1. Dashboard
+2. Branch Management
+3. Admission CRM
+4. Students
+5. Academic
+6. Attendance
+7. Examinations
+8. Staff HR
+9. Payroll
+10. Fees & Accounts
+11. Library
+12. Inventory
+13. Transport
+14. Hostel
+15. Health Center
+16. Reports
+17. Audit Logs
+18. Settings
+
+Detailed Page Count
+
+1. Dashboard (5 Pages)
+Overview
+Analytics
+Notifications
+Activities
+Performance Reports
+
+2. Branch Management (10 Pages)
+All Branches
+Create Branch
+Edit Branch
+Branch Admins
+Branch Settings
+Branch Performance
+Branch Documents
+Branch Fees
+Branch Audit Logs
+Branch Reports
+
+3. Admission CRM (12 Pages)
+Dashboard
+Leads
+Inquiries
+Follow Ups
+Lead Sources
+Admission Pipeline
+Counselors
+Admission Forms
+Documents
+Conversion Reports
+Rejected Leads
+Settings
+
+4. Students (15 Pages)
+
+All Students
+Add Student
+Student Profile
+Student Transfer
+Student Promotion
+Student Documents
+Student Categories
+ID Cards
+Certificates
+Discipline
+Achievements
+Medical Records
+Parent Details
+Alumni
+Student Reports
+
+5. Academic (15 Pages)
+Classes
+Sections
+Subjects
+Teacher Allocation
+Timetable
+Academic Session
+Academic Calendar
+Lesson Plans
+Syllabus
+Assignments
+Projects
+Curriculum
+Class Reports
+Subject Reports
+Settings
+
+6. Attendance (8 Pages) 
+Student Attendance
+Teacher Attendance
+Staff Attendance
+Attendance Reports
+Monthly Reports
+Holiday Calendar
+Leave Reports
+Settings
+
+7. Examinations (12 Pages)
+Exam Setup
+Exam Types
+Exam Schedule
+Hall Allocation
+Marks Entry
+Grade System
+Results
+Report Cards
+Rankings
+Result Analytics
+Exam Reports
+Settings
+
+8. Staff HR (15 Pages)
+
+All Employees
+Add Employee
+Departments
+Designation
+Recruitment
+Candidates
+Interviews
+Employee Documents
+Leave Management
+Attendance
+Performance
+Appraisals
+Training
+Staff Reports
+Settings
+
+9. Payroll (10 Pages)
+Salary Structure
+Payroll Processing
+Payslips
+Bonuses
+Deductions
+Reimbursements
+Tax Management
+Payroll Reports
+Salary Analytics
+Settings
+
+10. Fees & Accounts (15 Pages)
+
+Fee Structure
+Fee Categories
+Fee Collection
+Receipts
+Pending Fees
+Discounts
+Scholarships
+Refunds
+Expenses
+Income
+Vendors
+Transactions
+Financial Reports
+Profit/Loss
+Settings
+
+11. Library (10 Pages)
+
+Books
+Categories
+Authors
+Issue Book
+Return Book
+Fine Management
+Book Requests
+Publishers
+Library Reports
+Settings
+
+12. Inventory (10 Pages)
+Products
+Categories
+Stock
+Purchase Orders
+Vendors
+Assets
+Consumables
+Inventory Reports
+Stock Alerts
+Settings
+
+13. Transport (12 Pages)
+Vehicles
+Drivers
+Routes
+Stops
+GPS Tracking
+Fuel Logs
+Maintenance
+Insurance
+Vehicle Documents
+Assignments
+Reports
+Settings
+
+14. Hostel (12 Pages)
+Hostel Blocks
+Rooms
+Beds
+Student Allocation
+Room Transfer
+Hostel Attendance
+Hostel Fees
+Visitor Logs
+Complaints
+Mess Management
+Reports
+Settings
+
+15. Health Center (8 Pages)
+Medical Records
+Medical Visits
+Vaccinations
+Health Reports
+Emergency Contacts
+Medicine Inventory
+Doctor Visits
+Settings
+
+16. Reports (15 Pages)
+Student Reports
+Attendance Reports
+Fee Reports
+Payroll Reports
+Library Reports
+Inventory Reports
+Transport Reports
+Hostel Reports
+Admission Reports
+Academic Reports
+Financial Reports
+Custom Reports
+PDF Export
+Excel Export
+Scheduled Reports
+
+17. Audit Logs (5 Pages)
+Login Logs
+Activity Logs
+System Logs
+Security Logs
+User Logs
+
+18. Settings (20 Pages)
+
+School Profile
+Branch Settings
+User Roles
+Permissions
+SMS Gateway
+Email Gateway
+WhatsApp Gateway
+Payment Gateway
+Theme Settings
+Logo Management
+Notification Settings
+Language Settings
+Backup
+Restore
+API Keys
+Integrations
+Security
+Session Management
+Database Settings
+System Settings
+
+According to this Branch Admin Dashboard UI, I would redesign it slightly because you already decided to have separate dashboards for:
+
+Academic
+Finance
+HR
+Library
+Transport
+Hostel
+
+So the Branch Admin should be a management/control panel, not an operational panel.
+
+Branch Admin Sidebar
+Dashboard
+User Management
+Students
+Admission CRM
+Attendance
+Reports
+Communications
+Approvals
+Settings
+
+Total Main Menus = 9
+
+1. Dashboard (5 Pages)
+Overview
+Today's Summary
+Notifications
+Pending Approvals
+Branch Analytics
+
+2. User Management (12 Pages)
+This is the most important module.
+All Users
+Create User
+Role Management
+Permissions
+Academic Users
+Finance Users
+HR Users
+Library Users
+Transport Users
+Hostel Users
+Teacher Users
+Login Activity
+
+Operations:
+
+Create
+Edit
+Disable
+Reset Password
+Assign Permissions
+
+
+3. Students (15 Pages)
+Student List
+Add Student
+Student Profile
+Student Documents
+Student Categories
+Parent Details
+Student Transfer
+Student Promotion
+ID Cards
+Certificates
+Medical Records
+Discipline Records
+Achievements
+Bulk Import
+Student Reports
+
+
+4. Admission CRM (12 Pages)
+Dashboard
+Inquiries
+Leads
+Follow-Ups
+Admission Forms
+Lead Sources
+Counselors
+Admission Pipeline
+Document Verification
+Admission Approval
+Conversion Reports
+Settings
+
+
+5. Attendance (8 Pages)
+Branch-wide monitoring only.
+Student Attendance
+Teacher Attendance
+Staff Attendance
+Attendance Reports
+Leave Reports
+Monthly Reports
+Holiday Calendar
+Settings
+
+6. Reports (20 Pages)
+Student Reports
+Admission Reports
+Attendance Reports
+Academic Reports
+Finance Reports
+Payroll Reports
+Library Reports
+Transport Reports
+Hostel Reports
+HR Reports
+Custom Reports
+Analytics Dashboard
+Daily Reports
+Monthly Reports
+Yearly Reports
+PDF Export
+Excel Export
+Scheduled Reports
+Audit Reports
+Performance Reports
+
+
+7. Communications (10 Pages)
+Announcements
+SMS Broadcast
+Email Broadcast
+WhatsApp Broadcast
+Templates
+Notice Board
+Push Notifications
+Parent Messages
+Teacher Messages
+Communication Logs
+
+
+8. Approvals (12 Pages)
+Very important.
+Leave Requests
+Fee Discounts
+Scholarships
+Admissions
+Student Transfers
+Hostel Requests
+Transport Requests
+Library Requests
+Expense Requests
+Purchase Requests
+Staff Requests
+Pending Approvals
+
+
+9. Settings (15 Pages)
+Branch Profile
+Academic Settings
+Admission Settings
+Fee Settings
+Attendance Settings
+Communication Settings
+Logo
+Theme
+Session Management
+Password Policy
+Backup
+Restore
+Security
+Integrations
+General Settings
+Department Dashboard Links
+
+Branch Admin can access:
+
+Academic Dashboard
+Finance Dashboard
+HR Dashboard
+Library Dashboard
+Transport Dashboard
+Hostel Dashboard
+Teacher Dashboard
+
+ccording to this Academic Dashboard UI, this dashboard is for:
+
+Principal
+Vice Principal
+Academic Head
+HOD
+
+It should focus only on Academics, Timetable, Exams, Results, Teachers, Performance.
+
+Academic Dashboard Sidebar
+1. Dashboard
+2. Classes & Sections
+3. Subjects
+4. Timetable
+5. Academic Calendar
+6. Syllabus Management
+7. Attendance Monitoring
+8. Examinations
+9. Result Monitoring
+10. Teachers
+11. Students Performance
+12. Reports
+13. Communications
+14. Settings
+
+Total Main Menus = 14
+
+
+1. Dashboard (5 Pages)
+Overview
+Academic Analytics
+Attendance Analytics
+Exam Analytics
+Notifications
+
+2. Classes & Sections (8 Pages)
+All Classes
+Create Class
+Edit Class
+Sections
+Assign Class Teacher
+Class Capacity
+Class Overview
+Class Reports
+
+Operations:
+
+Create
+Update
+Delete
+Assign Teacher
+Promote Students
+
+
+3. Subjects (8 Pages)
+All Subjects
+Create Subject
+Subject Allocation
+Subject Mapping
+Subject Teachers
+Subject Credits
+Subject Reports
+Settings
+
+Operations:
+
+Add Subject
+Assign Teacher
+Edit Subject
+Delete Subject
+
+
+4. Timetable (10 Pages)
+Master Timetable
+Class Timetable
+Teacher Timetable
+Room Allocation
+Period Management
+Substitute Teacher
+Exam Timetable
+Timetable Generator
+Timetable Reports
+Settings
+
+Operations:
+
+Create
+Edit
+Auto Generate
+Assign Rooms
+
+
+5. Academic Calendar (8 Pages)
+Academic Session
+School Events
+Holidays
+Exam Calendar
+PTM Schedule
+Special Events
+Calendar Reports
+Settings
+
+
+6. Syllabus Management (10 Pages)
+Upload Syllabus
+Subject Syllabus
+Chapter Management
+Lesson Planning
+Completion Tracking
+Teacher Progress
+Class Progress
+Subject Progress
+Syllabus Reports
+Settings
+
+Operations:
+
+Upload
+Track
+Monitor
+Approve
+
+
+7. Attendance Monitoring (10 Pages)
+Student Attendance
+Class Attendance
+Subject Attendance
+Teacher Attendance
+Attendance Analytics
+Attendance Reports
+Defaulters
+Attendance Trends
+Monthly Reports
+Settings
+
+
+8. Examinations (15 Pages)
+Exam Setup
+Exam Types
+Exam Schedule
+Exam Centers
+Hall Allocation
+Invigilator Assignment
+Question Bank
+Exam Instructions
+Marks Entry
+Practical Exams
+Exam Analytics
+Grade System
+Exam Reports
+Result Processing
+Settings
+
+Operations:
+
+Create Exam
+Assign Teachers
+Publish Schedule
+Process Results
+
+
+9. Result Monitoring (12 Pages)
+Result Verification
+Publish Results
+Class Results
+Student Results
+Subject Results
+Rank Lists
+Top Performers
+Fail Analysis
+Grade Analysis
+Result Analytics
+Report Cards
+Settings
+
+
+10. Teachers (12 Pages)
+Teacher Directory
+Teacher Allocation
+Teacher Workload
+Teacher Timetable
+Teacher Attendance
+Teacher Performance
+Observations
+Training Programs
+Appraisals
+Teacher Reports
+Documents
+Settings
+
+
+11. Students Performance (12 Pages)
+Student Performance
+Class Performance
+Subject Performance
+Student Ranking
+Progress Tracking
+Weak Students
+Top Performers
+Performance Analytics
+Report Cards
+Comparisons
+Improvement Plans
+Settings
+
+
+12. Reports (15 Pages)
+Academic Reports
+Attendance Reports
+Exam Reports
+Result Reports
+Teacher Reports
+Class Reports
+Subject Reports
+Performance Reports
+Defaulter Reports
+Promotion Reports
+PDF Export
+Excel Export
+Custom Reports
+Scheduled Reports
+Analytics Reports
+
+
+13. Communications (8 Pages)
+Announcements
+Teacher Messages
+Student Messages
+Parent Messages
+Circulars
+Notice Board
+SMS
+Email
+
+
+14. Settings (10 Pages)
+Academic Settings
+Exam Settings
+Attendance Settings
+Result Settings
+Promotion Rules
+Grade Settings
+Session Settings
+Subject Settings
+Calendar Settings
+General Settings
+
+
+
+According to this Finance Manager Dashboard UI, this dashboard should be used by:
+
+Finance Manager
+Accountant
+Cashier (limited access)
+
+This dashboard handles Fees, Expenses, Income, Payroll, Banking, Refunds, Scholarships, Reports, and Approvals.
+
+Finance Dashboard Sidebar
+1. Dashboard
+2. Fee Management
+3. Fee Collection
+4. Receipts
+5. Due Management
+6. Refunds
+7. Expenses
+8. Income
+9. Salary & Payroll
+10. Scholarships & Discounts
+11. Bank & Accounts
+12. Reports
+13. Financial Analytics
+14. Approvals
+15. Settings
+
+
+Total Main Menus = 15
+
+
+1. Dashboard (5 Pages)
+Overview
+Today's Collection
+Fee Analytics
+Expense Analytics
+Notifications
+
+2. Fee Management (10 Pages)
+Fee Structure
+Fee Categories
+Fee Plans
+Class Wise Fees
+Transport Fees
+Hostel Fees
+Late Fee Rules
+Fee Settings
+Fee Reports
+Fee Analytics
+Operations:
+Create Fee Structure
+Update Fee
+Assign Fee
+Delete Fee
+
+3. Fee Collection (8 Pages)
+Collect Fee
+Bulk Collection
+Online Payments
+Offline Payments
+Payment History
+Collection Register
+Collection Reports
+Collection Analytics
+Operations:
+Collect Fee
+Verify Payment
+Print Receipt
+Export Collection
+
+
+4. Receipts (6 Pages)
+Receipt List
+Create Receipt
+Print Receipt
+Duplicate Receipt
+Cancelled Receipts
+Receipt Reports
+
+
+5. Due Management (8 Pages)
+Due Students
+Class Wise Due
+Due Reminders
+Due Notices
+Overdue Fees
+Penalty Management
+Recovery Reports
+Settings
+
+
+6. Refunds (8 Pages)
+Refund Requests
+Refund Approval
+Processed Refunds
+Rejected Refunds
+Refund Tracking
+Refund Reports
+Refund Analytics
+Settings
+
+
+7. Expenses (12 Pages)
+Expense Entry
+Expense Categories
+Expense Approval
+Vendor Payments
+Utility Bills
+Maintenance Expenses
+Transport Expenses
+Hostel Expenses
+Academic Expenses
+Expense Reports
+Expense Analytics
+Settings
+
+Operations:
+Add Expense
+Approve Expense
+Edit Expense
+Delete Expense
+
+8. Income (8 Pages)
+Other Income
+Donations
+Sponsorships
+Events Income
+Miscellaneous Income
+Income Reports
+Income Analytics
+Settings
+
+9. Salary & Payroll (12 Pages)
+Salary Structure
+Payroll Processing
+Payslips
+Salary Approvals
+Bonuses
+Deductions
+Tax Management
+Reimbursements
+Payroll Reports
+Payroll Analytics
+Salary History
+Settings
+
+
+10. Scholarships & Discounts (8 Pages)
+Scholarships
+Scholarship Applications
+Scholarship Approval
+Fee Discounts
+Discount Approval
+Discount Reports
+Analytics
+Settings
+
+11. Bank & Accounts (12 Pages)
+Bank Accounts
+Cash Accounts
+Transactions
+Deposits
+Withdrawals
+Bank Reconciliation
+Cheque Management
+Petty Cash
+Ledger
+Journal Entries
+Account Reports
+Settings
+
+
+12. Reports (15 Pages)
+Fee Reports
+Collection Reports
+Due Reports
+Expense Reports
+Income Reports
+Payroll Reports
+Refund Reports
+Scholarship Reports
+Bank Reports
+Ledger Reports
+Monthly Reports
+Yearly Reports
+Custom Reports
+PDF Export
+Excel Export
+
+
+13. Financial Analytics (10 Pages)
+Revenue Dashboard
+Collection Trends
+Expense Trends
+Profit Analysis
+Branch Comparison
+Fee Recovery Analytics
+Salary Analytics
+Cash Flow
+Forecasting
+KPI Dashboard
+
+
+14. Approvals (8 Pages)
+Expense Approval
+Refund Approval
+Scholarship Approval
+Discount Approval
+Payroll Approval
+Vendor Approval
+Purchase Approval
+Pending Approvals
+
+
+15. Settings (10 Pages)
+Finance Settings
+Payment Gateway
+Receipt Settings
+Tax Settings
+Payroll Settings
+Scholarship Settings
+Discount Settings
+Bank Settings
+Notification Settings
+General Settings
+
+According to this HR Manager Dashboard UI, the HR module should manage:
+
+Employees
+Attendance
+Leave
+Recruitment
+Payroll Coordination
+Performance
+Training
+Documents
+Assets
+Policies
+
+HR Dashboard Sidebar
+1. Dashboard
+2. Employees
+3. Attendance
+4. Leave Management
+5. Payroll
+6. Recruitment
+7. Performance
+8. Training & Development
+9. Documents
+10. Policies
+11. Assets
+12. Reports
+13. Directory
+14. Settings
+
+Total Main Menus = 14
+1. Dashboard (5 Pages)
+Overview
+Employee Analytics
+Attendance Analytics
+Leave Analytics
+Notifications
+
+
+2. Employees (15 Pages)
+Employee List
+Add Employee
+Employee Profile
+Departments
+Designations
+Employee Documents
+Employee Contracts
+Employee Transfers
+Employee Promotions
+Employee Categories
+Employee History
+Employee Exit Process
+Employee Reports
+Bulk Import
+Settings
+
+Operations:
+
+Create Employee
+Update Employee
+Transfer Employee
+Promote Employee
+Deactivate Employee
+
+3. Attendance (10 Pages)
+Attendance Dashboard
+Mark Attendance
+Attendance Register
+Daily Attendance
+Monthly Attendance
+Biometric Sync
+Late Coming Reports
+Absent Reports
+Attendance Analytics
+Settings
+
+4. Leave Management (12 Pages)
+Leave Requests
+Leave Approval
+Leave Types
+Leave Balance
+Leave Calendar
+Casual Leave
+Sick Leave
+Maternity Leave
+Special Leave
+Leave Reports
+Leave Analytics
+Settings
+
+Operations:
+
+Apply Leave
+Approve Leave
+Reject Leave
+Track Leave
+
+
+5. Payroll (12 Pages)
+Salary Structure
+Payroll Processing
+Payslips
+Bonuses
+Incentives
+Deductions
+Tax Management
+Reimbursements
+Payroll Reports
+Payroll Analytics
+Salary History
+Settings
+
+
+6. Recruitment (15 Pages)
+Job Openings
+Create Vacancy
+Candidate Database
+Applications
+Resume Screening
+Interview Scheduling
+Interview Feedback
+Offer Letters
+Joining Process
+Background Verification
+Recruitment Pipeline
+Recruitment Reports
+Recruitment Analytics
+Talent Pool
+Settings
+
+Operations:
+
+Post Job
+Schedule Interview
+Hire Candidate
+Reject Candidate
+
+
+7. Performance (10 Pages)
+Performance Dashboard
+Employee Reviews
+Appraisals
+Goals
+KPI Tracking
+Feedback
+Promotion Recommendations
+Performance Reports
+Performance Analytics
+Settings
+
+
+8. Training & Development (10 Pages)
+Training Programs
+Create Training
+Training Schedule
+Training Attendance
+Certificates
+Workshops
+Employee Skills
+Development Plans
+Training Reports
+Settings
+
+
+9. Documents (8 Pages)
+Employee Documents
+Contracts
+ID Proofs
+Certificates
+Verification Documents
+Document Expiry Tracking
+Document Reports
+Settings
+
+
+10. Policies (8 Pages)
+HR Policies
+Leave Policies
+Attendance Policies
+Code of Conduct
+Payroll Policies
+Security Policies
+Employee Handbook
+Settings
+
+
+11. Assets (10 Pages)
+Asset Inventory
+Assign Assets
+Laptop Management
+ID Cards
+Uniforms
+Asset Return
+Asset Maintenance
+Asset Reports
+Asset Analytics
+Settings
+
+Operations:
+
+Assign Asset
+Return Asset
+Track Asset
+
+
+12. Reports (15 Pages)
+Employee Reports
+Attendance Reports
+Leave Reports
+Payroll Reports
+Recruitment Reports
+Performance Reports
+Training Reports
+Asset Reports
+Department Reports
+Joining Reports
+Exit Reports
+Custom Reports
+PDF Export
+Excel Export
+Scheduled Reports
+
+
+13. Directory (6 Pages)
+Employee Directory
+Department Directory
+Designation Directory
+Contact Directory
+Search Employee
+Directory Reports
+
+
+14. Settings (10 Pages)
+HR Settings
+Attendance Settings
+Leave Settings
+Payroll Settings
+Recruitment Settings
+Performance Settings
+Training Settings
+Notification Settings
+Role Permissions
+General Settings
+
+Based on the dashboards shown, here is a realistic page count for each module.
+
+📚 Library Management Dashboard
+
+Sidebar Modules: 8
+Dashboard
+Book Management
+Issue / Return
+Members
+Fine Management
+Library Transactions
+Reports
+Settings
+
+Inside Pages
+Dashboard
+Dashboard Overview
+
+Book Management (4)
+All Books
+Add/Edit Book
+Categories
+Publishers
+
+Issue / Return (3)
+Issue Book
+Return Book
+Renew Book
+
+
+Members (3)
+All Members
+Add Member
+Member Profile
+
+
+Fine Management (3)
+Fine Rules
+Fine Collection
+Pending Fines
+
+
+Library Transactions (2)
+Issue History
+Return History
+
+Reports (5)
+Book Inventory Report
+Issue Report
+Return Report
+Fine Report
+Member Activity Report
+
+Settings (2)
+Library Settings
+Barcode/QR Settings
+
+
+🚌 Transport Management Dashboard
+
+Sidebar Modules: 10
+Dashboard
+Vehicle Management
+Route Management
+Driver Management
+Transport Allocation
+Fuel Management
+Attendance
+Trip Management
+Reports
+Settings
+
+Inside Pages
+Dashboard
+Dashboard Overview
+
+Vehicle Management (4)
+All Vehicles
+Add Vehicle
+Vehicle Documents
+Maintenance Schedule
+
+
+Route Management (4)
+All Routes
+Add Route
+Stops Management
+Route Mapping
+
+Driver Management (4)
+Driver List
+Add Driver
+Driver Documents
+Driver Attendance
+
+Transport Allocation (3)
+Student Allocation
+Staff Allocation
+Vehicle Assignment
+
+Fuel Management (3)
+Fuel Entry
+Fuel History
+Mileage Tracking
+
+
+Attendance (2)
+Driver Attendance
+Helper Attendance
+
+
+Trip Management (4)
+Trip Schedule
+Daily Trips
+Trip Tracking
+Trip History
+
+
+Reports (6)
+Vehicle Report
+Route Report
+Driver Report
+Fuel Report
+Attendance Report
+Maintenance Report
+
+
+Settings (2)
+Transport Settings
+Notification Settings
+
+🏠 Hostel Management Dashboard
+
+Sidebar Modules: 10
+Dashboard
+Rooms & Beds
+Hostel Students
+Room Allocation
+Leave Management
+Visitors Management
+Complaints
+Finance
+Reports
+Settings
+
+Inside Pages
+Dashboard
+Dashboard Overview
+
+Rooms & Beds (4)
+Room List
+Add Room
+Bed Management
+Room Status
+
+Hostel Students (3)
+Student List
+Student Profile
+Admission History
+
+Room Allocation (3)
+Allocate Room
+Shift Room
+Allocation History
+
+Leave Management (3)
+Leave Requests
+Approvals
+Leave History
+
+Visitors Management (3)
+Visitor Entry
+Visitor Log
+Visitor Approval
+
+Complaints (3)
+Complaint List
+Complaint Details
+Resolution Tracking
+
+Finance (4)
+Hostel Fee Collection
+Payments
+Due Fees
+Hostel Accounts
+
+Reports (6)
+Occupancy Report
+Fee Report
+Leave Report
+Visitor Report
+Complaint Report
+Student Report
+
+Settings (2)
+Hostel Settings
+Notice Board Settings
+
+
+👨‍🏫 Teacher Dashboard
+
+Sidebar Modules: 12
+Dashboard
+My Classes
+Attendance
+Homework
+Examinations
+Students
+Timetable
+Notice Board
+Messages
+Leave Application
+Reports
+Profile & Settings
+
+Internal Pages
+Dashboard
+Dashboard Overview
+
+My Classes (4)
+Class List
+Class Details
+Subject Allocation
+Class Performance
+
+
+Attendance (3)
+Mark Attendance
+Attendance History
+Attendance Reports
+
+
+Homework (4)
+Create Homework
+Homework List
+Homework Submission
+Homework Evaluation
+
+
+Examinations (4)
+Exam Schedule
+Marks Entry
+Evaluation
+Result Review
+
+
+Students (3)
+Student List
+Student Profile
+Performance Tracking
+
+
+Timetable (3)
+My Timetable
+Class Timetable
+Substitution Timetable
+
+
+Notice Board (2)
+Notices
+Announcements
+
+
+Messages (3)
+Inbox
+Send Message
+Parent Communication
+
+
+Leave Application (2)
+Apply Leave
+Leave History
+
+
+Reports (5)
+Attendance Report
+Performance Report
+Homework Report
+Exam Report
+Class Report
+
+
+Profile & Settings (2)
+My Profile
+Settings
+
+
+Student Dashboard
+
+Sidebar Modules: 14
+Dashboard
+Profile
+Attendance
+Timetable
+Homework
+Examinations
+Results
+Fees
+Library
+Transport
+Downloads
+Leave Application
+Messages
+Settings
+
+Internal Pages
+Dashboard
+Overview
+
+Profile (3)
+Personal Details
+Academic Details
+Documents
+
+Attendance (2)
+Attendance Summary
+Attendance History
+
+Timetable (2)
+Daily Timetable
+Full Timetable
+
+Homework (3)
+Homework List
+Submit Homework
+Homework History
+
+Examinations (3)
+Exam Schedule
+Hall Ticket
+Exam Instructions
+
+Results (4)
+Result Card
+Subject Wise Result
+Progress Report
+Report Card Download
+
+Fees (4)
+Fee Summary
+Fee Payment
+Payment History
+Fee Receipt
+
+Library (3)
+Issued Books
+Book Search
+Library History
+
+Transport (2)
+Route Details
+Vehicle Tracking
+
+Downloads (4)
+Admit Card
+Certificates
+Assignments
+Study Materials
+
+Leave Application (2)
+Apply Leave
+Leave History
+
+Messages (2)
+Inbox
+Teacher Messages
+
+Settings (2)
+Profile Settings
+Password Change
+
+Parent Dashboard
+
+Sidebar Modules: 14
+Dashboard
+My Children
+Attendance
+Fees & Payments
+Timetable
+Homework
+Examinations
+Results
+Notices
+School Calendar
+Messages
+Leave Application
+Transport
+Library
+Profile Settings
+
+Internal Pages
+Dashboard
+Overview
+
+
+My Children (3)
+Child List
+Child Profile
+Academic Summary
+
+
+Attendance (3)
+Attendance Summary
+Attendance History
+Monthly Reports
+
+
+Fees & Payments (5)
+Fee Dashboard
+Online Payment
+Payment History
+Receipts
+Due Fees
+
+
+Timetable (2)
+Daily Timetable
+Full Timetable
+
+
+Homework (3)
+Homework List
+Submission Status
+Homework Reports
+
+
+Examinations (3)
+Exam Schedule
+Hall Ticket
+Exam Notifications
+
+
+Results (4)
+Results
+Report Cards
+Performance Analytics
+Progress Reports
+
+
+Notices (2)
+School Notices
+Circulars
+
+
+School Calendar (2)
+Academic Calendar
+Event Calendar
+
+
+Messages (3)
+Inbox
+Teacher Communication
+Admin Communication
+
+
+Leave Application (2)
+Apply Leave
+Leave History
+
+
+Transport (3)
+Route Details
+Vehicle Details
+Pickup/Drop Status
+
+
+Library (2)
+Issued Books
+Fine Status
+
+
+Profile Settings (2)
+Profile
+Password Change
+
+
+==========================================
+ADDITIONAL SECTIONS (Added After Analysis)
+==========================================
+
+Note- These sections were missing from the original plan and are important for a production-ready School ERP UI.
+
+
+Phase 2 - Shared / Reusable Component Architecture
+
+IMPORTANT: ~929 pages exist across 11 dashboards but many modules repeat (Attendance, Reports, Payroll, Settings appear in 4-5 dashboards).
+To avoid building 929 separate pages, use a shared component architecture.
+
+Reusable Page Templates (15-20 Templates)
+
+1. List Page Template
+   - Used For: All Students, All Employees, All Books, All Vehicles, All Routes etc.
+   - Components: Search Bar, Filters, Data Table, Pagination, Bulk Actions, Export Button
+   - Reused in: ~80+ pages across all dashboards
+
+2. Add/Edit Form Template
+   - Used For: Add Student, Add Employee, Create Fee, Add Vehicle etc.
+   - Components: Form Fields, Validation, File Upload, Step Wizard (for large forms), Submit/Cancel
+   - Reused in: ~60+ pages
+
+3. Detail/Profile Page Template
+   - Used For: Student Profile, Employee Profile, Vehicle Detail, Book Detail etc.
+   - Components: Header Card, Tab Navigation, Info Sections, Activity Timeline, Related Items
+   - Reused in: ~30+ pages
+
+4. Dashboard Overview Template
+   - Used For: All 11 Dashboard home pages
+   - Components: KPI Cards Row, Charts Grid (2-3 columns), Recent Activity List, Quick Actions Panel
+   - Reused in: 11 pages
+
+5. Report Page Template
+   - Used For: All report pages (Student Reports, Fee Reports, Attendance Reports etc.)
+   - Components: Date Range Picker, Filters, Report Table, Charts, PDF Export, Excel Export, Print
+   - Reused in: ~100+ pages
+
+6. Analytics Page Template
+   - Used For: Fee Analytics, Attendance Analytics, Performance Analytics etc.
+   - Components: KPI Cards, Multiple Charts, Comparison Tables, Trend Lines, Forecasting Widget
+   - Reused in: ~20+ pages
+
+7. Settings Page Template
+   - Used For: All Settings pages across every dashboard
+   - Components: Settings Groups, Toggle Switches, Input Fields, Save/Reset Buttons
+   - Reused in: ~40+ pages
+
+8. Approval/Request Page Template
+   - Used For: Leave Requests, Fee Discounts, Scholarships, Refunds, Expense Approval etc.
+   - Components: Request List, Status Badges, Approve/Reject Buttons, Comments, History Timeline
+   - Reused in: ~25+ pages
+
+9. Calendar Page Template
+   - Used For: Academic Calendar, Holiday Calendar, Exam Calendar, Event Calendar, Timetable
+   - Components: Month/Week/Day Views, Event Cards, Add Event Modal, Color Coding
+   - Reused in: ~10+ pages
+
+10. Communication/Message Page Template
+    - Used For: Inbox, Messages, Announcements, Notices, Circulars
+    - Components: Message List, Compose Modal, Read/Unread Status, Attachments, Reply Thread
+    - Reused in: ~15+ pages
+
+11. Import/Export Page Template
+    - Used For: Bulk Import Students, Bulk Import Employees, Data Export
+    - Components: File Upload, Column Mapping, Preview Table, Validation Errors, Progress Bar
+    - Reused in: ~8+ pages
+
+12. Allocation/Assignment Page Template
+    - Used For: Room Allocation, Vehicle Assignment, Teacher Allocation, Subject Mapping
+    - Components: Drag & Drop Interface, Available List, Assigned List, Search, Filters
+    - Reused in: ~12+ pages
+
+13. Tracking/Timeline Page Template
+    - Used For: Complaint Tracking, Document Expiry Tracking, Trip Tracking, Attendance History
+    - Components: Timeline View, Status Steps, Filters, Detail Modal
+    - Reused in: ~10+ pages
+
+14. Collection/Payment Page Template
+    - Used For: Fee Collection, Fine Collection, Hostel Fee Collection, Online Payment
+    - Components: Student Search, Fee Summary, Payment Mode Selection, Receipt Generation, Print
+    - Reused in: ~8+ pages
+
+15. Document Management Page Template
+    - Used For: Student Documents, Employee Documents, Vehicle Documents, Driver Documents
+    - Components: Document List, Upload, Preview, Download, Verification Status, Expiry Alerts
+    - Reused in: ~12+ pages
+
+Shared UI Components Library (Core Components)
+
+Layout Components
+- DashboardLayout (Sidebar + Header + Content Area)
+- Sidebar (Collapsible, with nested items, active state highlight)
+- Header (Page Title, Breadcrumb, Branch Selector, Date Picker, Notifications, User Menu)
+- PageContainer (Content wrapper with padding and max-width)
+- BreadcrumbNav
+
+Data Display Components
+- KPICard (Icon, Title, Value, Trend Indicator, Comparison Text)
+- DataTable (Sortable, Filterable, Paginated, Selectable, with TanStack Table)
+- StatCard (Mini stat with icon and label)
+- ProgressBar (Linear and Circular)
+- Badge / StatusPill (Colored status indicators: Active, Pending, Approved, Rejected etc.)
+- Avatar (User profile image with online indicator)
+- EmptyState (No data illustration with action button)
+
+Chart Components (using Recharts)
+- LineChart (with area fill option)
+- BarChart (Vertical and Horizontal)
+- DonutChart / PieChart (with center label)
+- AreaChart
+- StackedBarChart
+- TrendSparkline (Mini inline chart)
+
+Form Components
+- FormInput (Text, Email, Phone, Number)
+- FormTextarea
+- FormSelect / Dropdown
+- FormMultiSelect
+- FormDatePicker / DateRangePicker
+- FormTimePicker
+- FormFileUpload (Single and Multiple, with drag & drop)
+- FormCheckbox / FormRadio
+- FormSwitch / Toggle
+- FormOTPInput
+- FormSearchableSelect (with API search)
+- SearchBar (Global search with keyboard shortcut)
+
+Feedback Components
+- Toast / Notification (Success, Error, Warning, Info)
+- AlertBanner
+- ConfirmDialog (Are you sure? modal)
+- LoadingSpinner / Skeleton
+- ProgressStepper (Multi-step form indicator)
+
+Navigation Components
+- SidebarItem (with icon, label, badge count, nested children)
+- SidebarGroup (Collapsible group header)
+- TabNav (Horizontal tabs for page sections)
+- QuickActionCard (Icon + Label, clickable)
+- Pagination
+
+Modal / Overlay Components
+- Modal (Small, Medium, Large, Full Screen)
+- Drawer (Side panel for details)
+- Popover
+- Tooltip
+- DropdownMenu
+
+Export Components
+- PDFExportButton
+- ExcelExportButton
+- PrintButton
+- BulkExportModal
+
+
+Phase 3 - Responsive / Mobile Design
+
+All pages must be responsive. These breakpoints will be used:
+
+Breakpoints
+- Mobile: 320px - 640px
+- Tablet: 641px - 1024px
+- Desktop: 1025px - 1440px
+- Large Desktop: 1441px+
+
+Mobile Behavior
+- Sidebar: Hidden by default, opens as overlay drawer on hamburger menu tap
+- Header: Sticky top, compact mode (hide branch selector text, show icons only)
+- KPI Cards: Stack vertically (1 per row on mobile, 2 per row on tablet)
+- Data Tables: Horizontal scroll with sticky first column, or switch to card view
+- Charts: Full width, stack vertically
+- Forms: Single column layout
+- Quick Actions: Horizontal scrollable row or grid (2 columns)
+- Modals: Full screen on mobile
+
+Tablet Behavior
+- Sidebar: Collapsed to icon-only mode, expands on hover
+- KPI Cards: 2-3 per row
+- Data Tables: Horizontal scroll if needed
+- Charts: 2 per row
+- Forms: 2 column layout
+
+Desktop Behavior
+- Sidebar: Expanded by default, collapsible
+- KPI Cards: 4-5 per row
+- Data Tables: Full width
+- Charts: 2-3 per row as shown in mockups
+- Forms: 2-3 column layout
+
+Touch Friendly
+- Minimum touch target: 44px x 44px
+- Swipe gestures for sidebar open/close
+- Pull to refresh on list pages
+- Bottom navigation bar for most used actions on mobile
+
+
+Phase 4 - Dark Mode / Theme System
+
+Theme Toggle
+- Light Mode (Default as shown in mockups - white content area, dark sidebar)
+- Dark Mode (Full dark - dark content area, darker sidebar)
+- System Preference (Auto-detect from OS setting)
+- Toggle button in Header (Sun/Moon icon)
+- User preference saved in local storage / user profile
+
+Light Mode Colors (Current Design)
+- Sidebar Background: #1a1f36 (Dark Navy)
+- Sidebar Active: #6366f1 (Indigo/Purple)
+- Content Background: #f5f7fa (Light Gray)
+- Card Background: #ffffff (White)
+- Text Primary: #1e293b (Dark Slate)
+- Text Secondary: #64748b (Medium Slate)
+- Border: #e2e8f0 (Light Border)
+- Primary Action: #6366f1 (Indigo)
+- Success: #22c55e (Green)
+- Warning: #f59e0b (Amber)
+- Danger: #ef4444 (Red)
+- Info: #3b82f6 (Blue)
+
+Dark Mode Colors
+- Sidebar Background: #0f1117 (Darker Navy)
+- Sidebar Active: #818cf8 (Lighter Indigo)
+- Content Background: #1a1d2e (Dark Blue-Gray)
+- Card Background: #232738 (Dark Card)
+- Text Primary: #f1f5f9 (Light)
+- Text Secondary: #94a3b8 (Medium Light)
+- Border: #334155 (Dark Border)
+- Primary Action: #818cf8 (Light Indigo)
+- Success: #4ade80 (Light Green)
+- Warning: #fbbf24 (Light Amber)
+- Danger: #f87171 (Light Red)
+- Info: #60a5fa (Light Blue)
+
+Theme Variables
+- Use CSS custom properties (--color-primary, --color-bg-card, etc.)
+- Tailwind CSS dark: variant for all components
+- Smooth transition on theme switch (300ms ease)
+
+
+Phase 5 - Notification System
+
+Notification Bell (Header)
+- Badge count showing unread notifications
+- Dropdown panel on click
+- Mark as read / Mark all as read
+- View All link to full Notifications page
+
+Notification Types
+- System Notifications (Auto-generated)
+  - Fee due reminders
+  - Attendance alerts (absent students)
+  - Document expiry warnings
+  - Leave request status changes
+  - Exam schedule published
+  - Result published
+  - Payroll processed
+  - Vehicle maintenance due
+  - Library book overdue
+  - Hostel complaint updates
+
+- User Notifications (Manual)
+  - Announcements from Admin
+  - Messages from Teachers/Parents
+  - Circulars and Notices
+  - Event reminders
+
+Notification Center Page (All Roles)
+- All Notifications (List with infinite scroll)
+- Filter by Type (System, Manual, Urgent)
+- Filter by Read/Unread
+- Filter by Date Range
+- Notification Settings (Enable/Disable per type)
+- Sound Preferences (On/Off)
+
+Push Notifications
+- Browser Push Notifications (Web Push API)
+- In-App Toast notifications for real-time events
+- Email Notifications (configurable per user)
+- SMS Notifications (for critical alerts - fee due, emergency)
+
+Notification Preferences Page
+- Each user can configure which notifications they want
+- Channel preference: In-App / Email / SMS / Push / All
+- Frequency: Instant / Daily Digest / Weekly Digest
+- Do Not Disturb mode (Time-based)
+
+
+Phase 6 - Real-Time Updates (WebSocket / SSE)
+
+Real-Time Features
+- Live Attendance Count (Dashboard KPI updates in real-time)
+- Fee Collection Counter (Updates as payments come in)
+- Notification Badge (Live count update)
+- Chat/Messages (Real-time message delivery)
+- GPS Vehicle Tracking (Live location updates on map)
+- Online/Offline User Status (Green dot indicator)
+- Exam Result Publishing (Live result availability)
+- Approval Queue (Real-time new request alerts)
+
+Implementation Approach
+- Use Server-Sent Events (SSE) for one-way updates (Dashboard KPIs, Notifications)
+- Use WebSocket for two-way communication (Chat, Messages)
+- Fallback to polling (30 second intervals) if WebSocket not supported
+- Connection status indicator (Connected / Reconnecting / Offline)
+
+UI Indicators
+- Pulse animation on live-updating KPI cards
+- "Live" badge next to real-time data
+- "Last updated: X seconds ago" timestamp
+- Auto-refresh toggle button
+- Connection lost banner (Yellow warning bar at top)
+
+
+Phase 7 - File Upload Handling
+
+File Upload Component Features
+- Drag & Drop zone with visual feedback
+- Click to browse files
+- Multiple file upload support
+- File type validation (PDF, JPG, PNG, DOC, DOCX, XLS, XLSX)
+- File size limit (Max 5MB per file, configurable)
+- Upload progress bar (per file)
+- Preview thumbnails for images
+- File name display with remove button
+- Retry on upload failure
+
+Where File Upload is Used
+- Student Documents (Aadhar, Birth Certificate, Transfer Certificate, Photos)
+- Employee Documents (Resume, ID Proof, Certificates, Contracts)
+- Vehicle Documents (Registration, Insurance, Fitness Certificate)
+- Driver Documents (License, ID Proof, Address Proof)
+- Syllabus Upload (PDF files)
+- Homework Submission (Student uploads)
+- Assignment Upload (Teacher uploads)
+- Profile Photo (All users)
+- Book Cover Image (Library)
+- School Logo (Settings)
+- Bulk Import Files (CSV, Excel)
+- Receipt Attachments
+- Complaint Attachments (Hostel)
+- Medical Records (Health Center)
+
+File Preview
+- Image Preview (in-app viewer with zoom)
+- PDF Preview (embedded PDF viewer)
+- Document Preview (for DOC/DOCX)
+- Download option for all file types
+
+File Storage Display
+- File icon based on type (PDF icon, Image icon, Doc icon, Excel icon)
+- File name (truncated with tooltip)
+- File size
+- Upload date
+- Uploaded by
+- Download button
+- Delete button (with confirmation)
+- View/Preview button
+
+
+Phase 8 - Print Layout Styling
+
+Print-Specific Pages (Require Special Print CSS)
+
+1. Fee Receipt
+   - School Logo + Name + Address
+   - Receipt Number, Date
+   - Student Name, Class, Roll No
+   - Fee Details Table (Particular, Amount)
+   - Total Amount (in words and numbers)
+   - Payment Mode
+   - Authorized Signature
+   - Print size: A5 or Half A4
+
+2. Report Card
+   - School Header (Logo, Name, Address, Contact)
+   - Student Photo + Details
+   - Subject-wise Marks Table
+   - Grade Table
+   - Attendance Summary
+   - Teacher Remarks
+   - Principal Signature
+   - Print size: A4
+
+3. Admit Card / Hall Ticket
+   - School Header
+   - Student Photo
+   - Exam Details
+   - Subject + Date + Time Table
+   - Instructions
+   - Print size: A5
+
+4. ID Card
+   - School Logo
+   - Student/Staff Photo
+   - Name, Class/Department, Blood Group
+   - Barcode/QR Code
+   - Emergency Contact
+   - Print size: ID Card (85.6mm x 54mm)
+
+5. Transfer Certificate
+   - Official school letterhead
+   - Student details
+   - TC Number and Date
+   - Conduct and Character
+   - Principal signature and seal
+   - Print size: A4
+
+6. Payslip
+   - School Header
+   - Employee Details
+   - Earnings Table
+   - Deductions Table
+   - Net Pay
+   - Print size: A4
+
+7. Salary Structure Letter
+   - Official letterhead
+   - Employee details
+   - CTC Breakdown
+   - Signature
+   - Print size: A4
+
+8. Library Issue Slip
+   - Book Details
+   - Member Details
+   - Issue/Return Date
+   - Barcode
+   - Print size: Slip (small)
+
+9. Transport Route Card
+   - Student Details
+   - Route, Stop, Vehicle
+   - Driver Contact
+   - Print size: Card
+
+10. Bonafide Certificate
+    - School letterhead
+    - Student study details
+    - Purpose
+    - Principal signature
+    - Print size: A4
+
+Print CSS Rules
+- Hide sidebar, header, footer, navigation
+- Hide action buttons (Edit, Delete, Print Button itself)
+- Show only content area
+- Use @media print CSS
+- Force white background, black text
+- Remove shadows, gradients, animations
+- Use serif font for formal documents
+- Page break handling (avoid breaking tables mid-row)
+- Print-specific margins and padding
+- QR Code / Barcode rendering for receipts and ID cards
+
+
+Phase 9 - Visitor Management (Missing Module)
+
+Note: This module was visible in Super Admin sidebar mockup but was not detailed in the plan.
+
+Visitor Management Module (Super Admin & Branch Admin)
+
+Sidebar Menu: Visitor Management
+
+Pages (8 Pages)
+
+1. Visitor Dashboard
+   - Today's Visitors Count
+   - Check-In / Check-Out stats
+   - Visitor Trends (Weekly Chart)
+   - Recent Visitors List
+
+2. Visitor Entry
+   - Visitor Name
+   - Phone Number
+   - Photo Capture (Webcam)
+   - Purpose of Visit
+   - Person to Meet
+   - Department
+   - ID Proof Type + Number
+   - Vehicle Number (optional)
+   - Expected Duration
+   - Visitor Badge Number
+   - Check-In Time (Auto)
+
+3. Visitor Log
+   - All Visitors List (Date-wise)
+   - Filter by Date, Purpose, Department
+   - Search by Name or Phone
+   - Check-In / Check-Out Status
+   - Duration of Visit
+
+4. Pre-Approved Visitors
+   - Schedule a visitor in advance
+   - Recurring visitors (e.g., Vendors)
+   - Auto-approve on arrival
+   - QR Code generation for pre-approved visitors
+
+5. Visitor Pass
+   - Digital Visitor Pass
+   - Printable Visitor Badge
+   - QR Code on pass
+   - Auto-expire after duration
+
+6. Blacklisted Visitors
+   - Blocked visitors list
+   - Add to blacklist
+   - Reason for blocking
+   - Alert on attempted re-entry
+
+7. Visitor Reports
+   - Daily Visitor Report
+   - Monthly Visitor Report
+   - Department-wise Visitors
+   - Purpose-wise Analysis
+   - Peak Hours Analysis
+   - PDF / Excel Export
+
+8. Visitor Settings
+   - Required Fields Configuration
+   - Auto-notification to host (SMS/Email when visitor arrives)
+   - Badge Template
+   - Check-out Reminder (Auto-alert if visitor exceeds expected time)
+   - Gate/Entry Point Configuration
+
+
+Phase 10 - Accessibility (a11y) Standards
+
+Accessibility is important for all users including differently-abled staff and students.
+
+Keyboard Navigation
+- All interactive elements focusable via Tab key
+- Skip to main content link
+- Keyboard shortcuts for common actions
+- Focus visible outline on all interactive elements
+- Escape key to close modals and dropdowns
+
+Screen Reader Support
+- Proper ARIA labels on all interactive elements
+- ARIA roles for custom components (sidebar, tabs, modals)
+- Alt text for all images
+- Descriptive link text (not "click here")
+- Form field labels properly associated
+- Error messages announced to screen readers
+- Live regions for dynamic content updates (ARIA-live)
+
+Color and Contrast
+- WCAG 2.1 AA minimum contrast ratio (4.5:1 for text, 3:1 for large text)
+- Do not rely on color alone to convey information (use icons + text + color)
+- Status badges use icons along with colors (checkmark for success, X for error)
+- Chart legends include patterns/shapes in addition to colors
+
+Text and Typography
+- Base font size: 16px minimum
+- Line height: 1.5 minimum
+- Allow browser zoom up to 200% without layout breaking
+- No text in images (except logos)
+
+Motion and Animation
+- Respect prefers-reduced-motion OS setting
+- Provide option to disable animations in Settings
+- No flashing content (seizure risk)
+- Loading states use skeleton screens instead of spinners where possible
+
+
+Phase 11 - Error Handling & Empty States
+
+Error Pages
+- 404 Not Found (Custom branded page with navigation back)
+- 403 Forbidden (Access denied with message about permissions)
+- 500 Server Error (Friendly error with retry button)
+- Session Expired (Auto-redirect to login with message)
+- Network Error (Offline indicator with retry)
+
+Empty States (All List Pages)
+- No Students Found - illustration + "Add your first student" button
+- No Records Found - illustration + description of what to do
+- No Notifications - illustration + "You're all caught up!"
+- No Results - illustration + "Try adjusting your filters"
+- No Messages - illustration + "Start a conversation"
+- Search No Results - illustration + "No matches found, try different keywords"
+
+Form Validation
+- Inline validation (show error as user types)
+- Required field indicator (red asterisk *)
+- Error message below field (red text)
+- Success indicator (green checkmark on valid field)
+- Form-level error summary at top
+- Prevent form submission until all validations pass
+
+Loading States
+- Full page skeleton loader (for initial page load)
+- Table skeleton (rows with shimmer effect)
+- Card skeleton (KPI cards shimmer)
+- Chart skeleton (chart placeholder shimmer)
+- Button loading state (spinner inside button, disabled during action)
+- Infinite scroll loading (spinner at bottom of list)
+
+
+==========================================
+TOTAL UPDATED PAGE COUNT
+==========================================
+
+Original Pages: ~929
+Added Pages:
+- Visitor Management: +8 pages
+- Notification Center (per dashboard): +1 page x 11 = +11 pages
+- Notification Preferences: +1 page x 11 = +11 pages
+- Error Pages (shared): +4 pages
+
+New Total: ~963 pages
+
+Note: With the Shared Component Architecture (Phase 2), the actual unique component development work is estimated at:
+- ~15-20 Page Templates
+- ~60-70 Core UI Components
+- ~11 Dashboard Configurations
+This makes the project manageable despite the high page count.
