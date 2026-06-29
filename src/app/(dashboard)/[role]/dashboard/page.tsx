@@ -36,6 +36,12 @@ import {
   AlertCircle,
   Search,
   Settings,
+  CheckSquare,
+  ChevronRight,
+  Megaphone,
+  IndianRupee,
+  CalendarRange,
+
 } from "lucide-react";
 import { UserRole } from "@/types/common";
 import { PageHeader } from "@/components/layout/page-header";
@@ -386,147 +392,638 @@ export default function RoleDashboardPage({ params }: { params: Promise<{ role: 
         return <SuperAdminDashboard />;
 
       case "branch-admin":
-        return (
-          <div className="space-y-6">
-            <KPICardRow>
-              <KPICard title="Branch Revenue (May)" value="₹8,45,200" icon={CreditCard} trend={{ value: 10.4, isPositive: true }} color="green" />
-              <KPICard title="Enrolled Students" value="280 Students" icon={GraduationCap} trend={{ value: 6.2, isPositive: true }} color="blue" />
-              <KPICard title="Active Branch Staff" value="45 Employees" icon={Users} trend={{ value: 2.1, isPositive: true }} color="purple" />
-              <KPICard title="Pending Local Approvals" value="12 Requests" icon={AlertCircle} trend={{ value: 15.3, isPositive: false }} color="orange" />
-            </KPICardRow>
+        {
+          const notifications = [
+            { icon: CreditCard, title: "Fee reminder sent to 120 students", time: "Today, 10:30 AM", color: "text-green-500 bg-green-500/10" },
+            { icon: Calendar, title: "PTM scheduled on 25 May 2025", time: "Today, 09:15 AM", color: "text-orange-500 bg-orange-500/10" },
+            { icon: UserPlus, title: "New admission inquiry received", time: "Today, 08:45 AM", color: "text-purple-500 bg-purple-500/10" },
+            { icon: FileCheck, title: "Exam schedule published", time: "Yesterday, 04:30 PM", color: "text-blue-500 bg-blue-500/10" },
+            { icon: Clock, title: "Staff leave request pending", time: "Yesterday, 11:20 AM", color: "text-red-500 bg-red-500/10" },
+          ];
 
-            <QuickActionsGrid>
-              <QuickActionCard label="User Directory" icon={Users} href="/branch-admin/user-management" color="blue" />
-              <QuickActionCard label="Student Records" icon={GraduationCap} href="/branch-admin/students" color="green" />
-              <QuickActionCard label="Admission CRM" icon={Briefcase} href="/branch-admin/admission-crm" color="purple" />
-              <QuickActionCard label="Branch Settings" icon={Settings} href="/branch-admin/settings" color="orange" />
-            </QuickActionsGrid>
+          const modulesData = [
+            {
+              name: "Students",
+              icon: GraduationCap,
+              color: "text-blue-500 bg-blue-500/10",
+              links: [
+                { label: "Student List", href: "/branch-admin/students" },
+                { label: "Student Categories", href: "/branch-admin/students/categories" },
+                { label: "Student Transfer", href: "/branch-admin/students/transfers" },
+                { label: "Student Documents", href: "/branch-admin/students/documents" },
+              ],
+              viewAllHref: "/branch-admin/students",
+            },
+            {
+              name: "Admission CRM",
+              icon: Users,
+              color: "text-green-500 bg-green-500/10",
+              links: [
+                { label: "Inquiry Management", href: "/branch-admin/admission-crm/inquiries" },
+                { label: "Follow Ups", href: "/branch-admin/admission-crm/follow-ups" },
+                { label: "Lead Sources", href: "/branch-admin/admission-crm/sources" },
+                { label: "Conversion Tracking", href: "/branch-admin/admission-crm/reports" },
+              ],
+              viewAllHref: "/branch-admin/admission-crm",
+            },
+            {
+              name: "Academic",
+              icon: BookOpen,
+              color: "text-blue-500 bg-blue-500/10",
+              links: [
+                { label: "Classes", href: "/branch-admin/classes-sections" },
+                { label: "Sections", href: "/branch-admin/classes-sections" },
+                { label: "Subjects", href: "/branch-admin/subjects" },
+                { label: "Timetable", href: "/branch-admin/timetable" },
+              ],
+              viewAllHref: "/branch-admin/classes-sections",
+            },
+            {
+              name: "Attendance",
+              icon: UserCheck,
+              color: "text-orange-500 bg-orange-500/10",
+              links: [
+                { label: "Student Attendance", href: "/branch-admin/attendance" },
+                { label: "Staff Attendance", href: "/branch-admin/attendance/staff" },
+                { label: "Attendance Reports", href: "/branch-admin/attendance/reports" },
+              ],
+              viewAllHref: "/branch-admin/attendance",
+            },
+            {
+              name: "Examination",
+              icon: FileCheck,
+              color: "text-red-500 bg-red-500/10",
+              links: [
+                { label: "Exam Setup", href: "/branch-admin/examinations" },
+                { label: "Marks Entry", href: "/branch-admin/examinations" },
+                { label: "Result Processing", href: "/branch-admin/examinations" },
+                { label: "Report Cards", href: "/branch-admin/examinations" },
+              ],
+              viewAllHref: "/branch-admin/examinations",
+            },
+            {
+              name: "Staff Management",
+              icon: Briefcase,
+              color: "text-teal-500 bg-teal-500/10",
+              links: [
+                { label: "Staff List", href: "/branch-admin/employees" },
+                { label: "Departments", href: "/branch-admin/employees" },
+                { label: "Leave Management", href: "/branch-admin/attendance/leaves" },
+                { label: "Staff Documents", href: "/branch-admin/employees" },
+              ],
+              viewAllHref: "/branch-admin/employees",
+            },
+            {
+              name: "Fees",
+              icon: CreditCard,
+              color: "text-orange-500 bg-orange-500/10",
+              links: [
+                { label: "Fee Collection", href: "/branch-admin/fee-collection" },
+                { label: "Fee Structure", href: "/branch-admin/fee-management" },
+                { label: "Discounts", href: "/branch-admin/approvals/discounts" },
+                { label: "Due Management", href: "/branch-admin/due-management" },
+              ],
+              viewAllHref: "/branch-admin/fee-management",
+            },
+            {
+              name: "Payroll",
+              icon: CheckSquare,
+              color: "text-purple-500 bg-purple-500/10",
+              links: [
+                { label: "Payroll Processing", href: "/branch-admin/payroll" },
+                { label: "Payslips", href: "/branch-admin/payroll" },
+                { label: "Salary Structure", href: "/branch-admin/payroll" },
+                { label: "Payroll Reports", href: "/branch-admin/payroll" },
+              ],
+              viewAllHref: "/branch-admin/payroll",
+            },
+            {
+              name: "Library",
+              icon: BookOpen,
+              color: "text-indigo-500 bg-indigo-500/10",
+              links: [
+                { label: "Books", href: "/branch-admin/books" },
+                { label: "Issue / Return", href: "/branch-admin/issue-return" },
+                { label: "Fine Management", href: "/branch-admin/fines" },
+                { label: "Library Reports", href: "/branch-admin/reports/library" },
+              ],
+              viewAllHref: "/branch-admin/books",
+            },
+            {
+              name: "Reports",
+              icon: FileText,
+              color: "text-blue-500 bg-blue-500/10",
+              links: [
+                { label: "Academic Reports", href: "/branch-admin/reports/academic" },
+                { label: "Attendance Reports", href: "/branch-admin/reports/attendance" },
+                { label: "Fee Reports", href: "/branch-admin/reports/finance" },
+                { label: "Financial Reports", href: "/branch-admin/reports/finance" },
+              ],
+              viewAllHref: "/branch-admin/reports",
+            },
+          ];
 
-            <div className="grid gap-6 lg:grid-cols-12">
-              <div className="lg:col-span-8">
-                <ChartContainer title="Branch Cash Flow Overview" subtitle="Comparing monthly revenue collections vs local operating expenditures">
-                  <BarChart
-                    data={[
-                      { month: "Jan", Revenue: 120000, Outflow: 80000 },
-                      { month: "Feb", Revenue: 150000, Outflow: 90000 },
-                      { month: "Mar", Revenue: 180000, Outflow: 95000 },
-                      { month: "Apr", Revenue: 160000, Outflow: 100000 },
-                      { month: "May", Revenue: 200000, Outflow: 110000 },
-                      { month: "Jun", Revenue: 215000, Outflow: 105000 },
-                    ]}
-                    xAxisKey="month"
-                    series={[
-                      { key: "Revenue", name: "Revenue Collection (₹)", color: "#22c55e" },
-                      { key: "Outflow", name: "Operating Expenses (₹)", color: "#ef4444" },
-                    ]}
-                  />
-                </ChartContainer>
+          return (
+            <div className="space-y-6 text-left">
+              {/* ── Row 1: Top 5 KPI Cards ── */}
+              <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+                <KPICard title="Total Students" value="1,248" icon={GraduationCap} trend={{ value: 8.6, isPositive: true }} color="blue" />
+                <KPICard title="Total Staff" value="124" icon={Users} trend={{ value: 4.3, isPositive: true }} color="blue" />
+                <KPICard title="Fee Collection (May)" value="₹18,45,200" icon={CreditCard} trend={{ value: 12.5, isPositive: true }} color="green" />
+                <KPICard title="Outstanding Fees" value="₹6,78,550" icon={CreditCard} trend={{ value: 3.2, isPositive: false }} color="orange" />
+                <KPICard title="New Admissions" value="84" icon={UserPlus} trend={{ value: 11.4, isPositive: true }} color="red" />
               </div>
 
-              <div className="lg:col-span-4">
-                <ChartContainer title="Student Weekly Attendance" subtitle="Average daily presence rate">
+              {/* ── Row 2: Charts & Notifications (Fee Collection, Attendance, Recent Notifications) ── */}
+              <div className="grid gap-6 grid-cols-1 lg:grid-cols-12">
+                {/* Fee Collection Overview */}
+                <div className="lg:col-span-5 flex flex-col">
+                  <div className="rounded-xl border border-border bg-card p-5 shadow-sm space-y-4 flex-1 flex flex-col justify-between">
+                    <div className="flex items-center justify-between pb-1 border-b border-border/40 shrink-0">
+                      <h3 className="text-sm font-bold text-foreground">Fee Collection Overview</h3>
+                      <select className="text-xs bg-muted/50 border border-border rounded-lg px-2 py-1 font-medium text-muted-foreground outline-none cursor-pointer">
+                        <option>This Month</option>
+                        <option>This Quarter</option>
+                        <option>This Year</option>
+                      </select>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-6 py-2 flex-1">
+                      <div className="relative flex items-center justify-center h-36 w-36 shrink-0 mx-auto sm:mx-0">
+                        {/* Circular Progress SVG */}
+                        <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                          <circle cx="50" cy="50" r="40" className="stroke-muted/20" strokeWidth="9" fill="transparent" />
+                          <circle cx="50" cy="50" r="40" className="stroke-[#6366f1]" strokeWidth="9" fill="transparent" strokeDasharray="251.2" strokeDashoffset={251.2 - (251.2 * 72) / 100} strokeLinecap="round" />
+                        </svg>
+                        <div className="absolute flex flex-col items-center justify-center text-center">
+                          <span className="text-xl font-extrabold text-foreground leading-none">72%</span>
+                          <span className="text-[9px] text-muted-foreground font-bold mt-0.5 uppercase tracking-wide">Collected</span>
+                        </div>
+                      </div>
+
+                      <div className="flex-1 space-y-3 text-xs w-full">
+                        <div className="flex items-center justify-between border-b border-border/40 pb-2">
+                          <span className="text-muted-foreground font-medium">Total Fee (May)</span>
+                          <span className="font-bold text-foreground">₹25,68,750</span>
+                        </div>
+                        <div className="flex items-center justify-between border-b border-border/40 pb-2">
+                          <div className="flex items-center gap-1.5">
+                            <span className="h-2 w-2 rounded-full bg-[#6366f1]" />
+                            <span className="text-muted-foreground font-medium">Collected Amount</span>
+                          </div>
+                          <span className="font-bold text-foreground">₹18,45,200</span>
+                        </div>
+                        <div className="flex items-center justify-between pb-1">
+                          <div className="flex items-center gap-1.5">
+                            <span className="h-2 w-2 rounded-full bg-orange-500" />
+                            <span className="text-muted-foreground font-medium">Pending Amount</span>
+                          </div>
+                          <span className="font-bold text-foreground">₹7,23,550</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Student Attendance Overview Line Chart */}
+                <div className="lg:col-span-4 flex flex-col">
+                  <ChartContainer
+                    title="Student Attendance Overview"
+                    className="flex-1 flex flex-col justify-between"
+                    action={
+                      <select className="text-xs bg-muted/50 border border-border rounded-lg px-2 py-1 font-medium text-muted-foreground outline-none cursor-pointer">
+                        <option>This Week</option>
+                        <option>This Month</option>
+                      </select>
+                    }
+                  >
+                    <LineChart
+                      data={[
+                        { day: "Mon", Attendance: 80 },
+                        { day: "Tue", Attendance: 70 },
+                        { day: "Wed", Attendance: 86 },
+                        { day: "Thu", Attendance: 92 },
+                        { day: "Fri", Attendance: 85 },
+                        { day: "Sat", Attendance: 92 },
+                      ]}
+                      xAxisKey="day"
+                      series={[{ key: "Attendance", name: "Attendance Rate (%)", color: "#6366f1" }]}
+                    />
+                  </ChartContainer>
+                </div>
+
+                {/* Recent Notifications */}
+                <div className="lg:col-span-3 flex flex-col">
+                  <div className="rounded-xl border border-border bg-card p-5 shadow-sm flex-1 flex flex-col justify-between">
+                    <div>
+                      <h3 className="text-sm font-bold text-foreground mb-4">Recent Notifications</h3>
+                      <div className="space-y-4">
+                        {notifications.map((act, idx) => {
+                          const Icon = act.icon;
+                          return (
+                            <div key={idx} className="flex items-start gap-3 text-left">
+                              <div className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${act.color}`}>
+                                <Icon className="h-4 w-4" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="text-xs font-semibold text-foreground leading-tight truncate">{act.title}</p>
+                                <p className="text-[10px] text-muted-foreground">{act.time}</p>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                    <Link href="/branch-admin/communications" className="flex items-center gap-1 text-xs font-semibold text-primary mt-4 hover:underline self-start">
+                      View All <ArrowRight className="h-3 w-3" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
+              {/* ── Row 3: Quick Actions ── */}
+              <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
+                <h3 className="text-sm font-bold text-foreground mb-4">Quick Actions</h3>
+                <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
+                  {[
+                    { icon: UserPlus, label: "Add Student", href: "/branch-admin/students/create", color: "text-blue-500 bg-blue-500/10" },
+                    { icon: FileText, label: "New Admission", href: "/branch-admin/admission-crm", color: "text-green-500 bg-green-500/10" },
+                    { icon: IndianRupee, label: "Collect Fee", href: "/branch-admin/fee-collection", color: "text-orange-500 bg-orange-500/10" },
+                    { icon: Calendar, label: "Mark Attendance", href: "/branch-admin/attendance", color: "text-blue-500 bg-blue-500/10" },
+                    { icon: UserPlus, label: "Add Staff", href: "/branch-admin/user-management/create", color: "text-purple-500 bg-purple-500/10" },
+                    { icon: FileCheck, label: "Create Exam", href: "/branch-admin/examinations", color: "text-red-500 bg-red-500/10" },
+                    { icon: FileText, label: "Generate Report", href: "/branch-admin/reports", color: "text-green-500 bg-green-500/10" },
+                    { icon: Megaphone, label: "Send Notice", href: "/branch-admin/communications", color: "text-blue-500 bg-blue-500/10" },
+                  ].map((action, idx) => {
+                    const Icon = action.icon;
+                    return (
+                      <Link
+                        key={idx}
+                        href={action.href}
+                        className="flex flex-col items-center justify-center gap-2 p-3 rounded-xl border border-border/40 hover:bg-muted/50 hover:border-border transition-all group"
+                      >
+                        <div className={`flex h-10 w-10 items-center justify-center rounded-lg ${action.color} group-hover:scale-105 transition-transform shrink-0`}>
+                          <Icon className="h-5 w-5" />
+                        </div>
+                        <span className="text-[11px] font-bold text-foreground text-center leading-tight">{action.label}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* ── Row 4: Operational Modules Grid (10 Cards) ── */}
+              <div className="space-y-4">
+                <h3 className="text-sm font-bold text-foreground">Operational Modules</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                  {modulesData.map((mod, idx) => {
+                    const Icon = mod.icon;
+                    return (
+                      <div key={idx} className="rounded-xl border border-border bg-card p-4 flex flex-col justify-between shadow-sm hover:shadow-md transition-all">
+                        <div>
+                          <div className="flex items-center gap-2 mb-3 border-b border-border/40 pb-2">
+                            <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${mod.color}`}>
+                              <Icon className="h-4.5 w-4.5" />
+                            </div>
+                            <span className="text-xs font-bold text-foreground">{mod.name}</span>
+                          </div>
+                          <div className="space-y-1 mb-4">
+                            {mod.links.map((link, lIdx) => (
+                              <Link
+                                key={lIdx}
+                                href={link.href}
+                                className="flex items-center justify-between text-[11px] py-1.5 px-1 hover:text-primary transition-colors text-muted-foreground group/link"
+                              >
+                                <span className="truncate">{link.label}</span>
+                                <ChevronRight className="h-3 w-3 text-muted-foreground/45 group-hover/link:text-primary group-hover/link:translate-x-0.5 transition-transform" />
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                        <Link
+                          href={mod.viewAllHref}
+                          className="flex items-center justify-center w-full pt-2.5 mt-auto text-[11px] font-bold text-primary hover:underline border-t border-border/45"
+                        >
+                          View All
+                        </Link>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          );
+        }
+
+      case "academic":
+        const academicModulesData = [
+          {
+            name: "Classes & Sections",
+            icon: Building2,
+            color: "text-blue-500 bg-blue-500/10",
+            links: [
+              { label: "Manage Classes", href: "/academic/classes-sections" },
+              { label: "Manage Sections", href: "/academic/classes-sections/sections" },
+              { label: "Assign Class Teacher", href: "/academic/classes-sections/assign-teacher" },
+              { label: "Class Overview", href: "/academic/classes-sections/overview" },
+            ],
+            viewAllHref: "/academic/classes-sections",
+          },
+          {
+            name: "Subjects",
+            icon: BookOpen,
+            color: "text-green-500 bg-green-500/10",
+            links: [
+              { label: "Manage Subjects", href: "/academic/subjects" },
+              { label: "Assign Subjects", href: "/academic/subjects/mapping" },
+              { label: "Subject Allocation", href: "/academic/subjects/allocations" },
+              { label: "Subject Overview", href: "/academic/subjects/reports" },
+            ],
+            viewAllHref: "/academic/subjects",
+          },
+          {
+            name: "Timetable",
+            icon: CalendarRange,
+            color: "text-purple-500 bg-purple-500/10",
+            links: [
+              { label: "Create Timetable", href: "/academic/timetable/generator" },
+              { label: "Manage Timetable", href: "/academic/timetable" },
+              { label: "Teacher Timetable", href: "/academic/timetable/teacher" },
+              { label: "Room Allocation", href: "/academic/timetable/rooms" },
+            ],
+            viewAllHref: "/academic/timetable",
+          },
+          {
+            name: "Academic Calendar",
+            icon: Calendar,
+            color: "text-orange-500 bg-orange-500/10",
+            links: [
+              { label: "Holidays", href: "/academic/academic-calendar/holidays" },
+              { label: "Events", href: "/academic/academic-calendar/events" },
+              { label: "Exam Calendar", href: "/academic/academic-calendar/exams" },
+              { label: "Important Dates", href: "/academic/academic-calendar" },
+            ],
+            viewAllHref: "/academic/academic-calendar",
+          },
+          {
+            name: "Syllabus Management",
+            icon: FileText,
+            color: "text-red-500 bg-red-500/10",
+            links: [
+              { label: "Upload Syllabus", href: "/academic/syllabus" },
+              { label: "Syllabus Overview", href: "/academic/syllabus/subject" },
+              { label: "Track Completion", href: "/academic/syllabus/tracking" },
+              { label: "Subjectwise Progress", href: "/academic/syllabus/subjects" },
+            ],
+            viewAllHref: "/academic/syllabus",
+          },
+          {
+            name: "Attendance Monitoring",
+            icon: UserCheck,
+            color: "text-teal-500 bg-teal-500/10",
+            links: [
+              { label: "Student Attendance", href: "/academic/attendance" },
+              { label: "Attendance Analytics", href: "/academic/attendance/analytics" },
+              { label: "Class Attendance Report", href: "/academic/attendance/class" },
+              { label: "Subject Attendance", href: "/academic/attendance/subject" },
+            ],
+            viewAllHref: "/academic/attendance",
+          },
+          {
+            name: "Examinations",
+            icon: FileCheck,
+            color: "text-indigo-500 bg-indigo-500/10",
+            links: [
+              { label: "Exam Setup", href: "/academic/examinations" },
+              { label: "Exam Schedule", href: "/academic/examinations/schedule" },
+              { label: "Mark Entry", href: "/academic/examinations/marks" },
+              { label: "Exam Reports", href: "/academic/examinations/reports" },
+            ],
+            viewAllHref: "/academic/examinations",
+          },
+          {
+            name: "Result Monitoring",
+            icon: CheckSquare,
+            color: "text-pink-500 bg-pink-500/10",
+            links: [
+              { label: "Verify Results", href: "/academic/results" },
+              { label: "Publish Results", href: "/academic/results/publish" },
+              { label: "Grade Settings", href: "/academic/settings/grading" },
+              { label: "Result Analytics", href: "/academic/results/analytics" },
+            ],
+            viewAllHref: "/academic/results",
+          },
+          {
+            name: "Teachers",
+            icon: Users,
+            color: "text-blue-500 bg-blue-500/10",
+            links: [
+              { label: "Teacher Directory", href: "/academic/teachers" },
+              { label: "Teacher Workload", href: "/academic/teachers/workloads" },
+              { label: "Performance Review", href: "/academic/teachers/performance" },
+              { label: "Training & Development", href: "/academic/teachers/training" },
+            ],
+            viewAllHref: "/academic/teachers",
+          },
+          {
+            name: "Students Performance",
+            icon: GraduationCap,
+            color: "text-orange-500 bg-orange-500/10",
+            links: [
+              { label: "Class Performance", href: "/academic/students-performance/classes" },
+              { label: "Student Performance", href: "/academic/students-performance" },
+              { label: "Subject Performance", href: "/academic/students-performance/subjects" },
+              { label: "Report Cards", href: "/academic/students-performance/report-cards" },
+            ],
+            viewAllHref: "/academic/students-performance",
+          },
+        ];
+
+        return (
+          <div className="space-y-6 text-left">
+            {/* ── Row 1: Top 5 KPI Cards ── */}
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+              <KPICard title="Total Students" value="1,248" icon={GraduationCap} trend={{ value: 8.6, isPositive: true }} color="blue" />
+              <KPICard title="Total Teachers" value="76" icon={Users} trend={{ value: 4.3, isPositive: true }} color="blue" />
+              <KPICard title="Average Attendance" value="92.6%" icon={UserCheck} trend={{ value: 2.5, isPositive: true }} color="green" />
+              <KPICard title="Exams Conducted" value="12" icon={FileCheck} trend={{ value: 20.0, isPositive: true }} color="orange" />
+              <KPICard title="Pass Percentage" value="88.4%" icon={Award} trend={{ value: 3.2, isPositive: true }} color="red" />
+            </div>
+
+            {/* ── Row 2: Charts & Upcoming Exams ── */}
+            <div className="grid gap-6 grid-cols-1 lg:grid-cols-12">
+              {/* Performance Doughnut Chart */}
+              <div className="lg:col-span-4 flex flex-col">
+                <div className="rounded-xl border border-border bg-card p-5 shadow-sm space-y-4 flex-1 flex flex-col justify-between">
+                  <div className="flex items-center justify-between pb-1 border-b border-border/40 shrink-0">
+                    <h3 className="text-sm font-bold text-foreground">Student Performance Overview</h3>
+                    <select className="text-xs bg-muted/50 border border-border rounded-lg px-2 py-1 font-medium text-muted-foreground outline-none cursor-pointer">
+                      <option>This Term</option>
+                      <option>Last Term</option>
+                    </select>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-6 py-2 flex-1">
+                    <div className="relative flex items-center justify-center h-32 w-32 shrink-0 mx-auto sm:mx-0">
+                      <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="40" className="stroke-muted/20" strokeWidth="10" fill="transparent" />
+                        <circle cx="50" cy="50" r="40" className="stroke-blue-500" strokeWidth="10" fill="transparent" strokeDasharray="251.2" strokeDashoffset={251.2 - (251.2 * 25) / 100} />
+                        <circle cx="50" cy="50" r="40" className="stroke-green-500" strokeWidth="10" fill="transparent" strokeDasharray="251.2" strokeDashoffset={251.2 - (251.2 * 64) / 100} strokeDashdelay="25" />
+                      </svg>
+                      <div className="absolute flex flex-col items-center justify-center text-center">
+                        <span className="text-lg font-extrabold text-foreground leading-none">1,248</span>
+                        <span className="text-[8px] text-muted-foreground font-bold mt-0.5 uppercase tracking-wide">Students</span>
+                      </div>
+                    </div>
+
+                    <div className="flex-1 space-y-2.5 text-xs w-full">
+                      <div className="flex items-center justify-between border-b border-border/40 pb-1.5">
+                        <span className="text-muted-foreground font-medium">Excellent (90%+)</span>
+                        <span className="font-bold text-foreground">312 (25%)</span>
+                      </div>
+                      <div className="flex items-center justify-between border-b border-border/40 pb-1.5">
+                        <span className="text-muted-foreground font-medium">Good (75%-89%)</span>
+                        <span className="font-bold text-foreground">486 (38.9%)</span>
+                      </div>
+                      <div className="flex items-center justify-between border-b border-border/40 pb-1.5">
+                        <span className="text-muted-foreground font-medium">Average (60%-74%)</span>
+                        <span className="font-bold text-foreground">324 (26%)</span>
+                      </div>
+                      <div className="flex items-center justify-between pb-0.5">
+                        <span className="text-muted-foreground font-medium">Needs Imp. (&lt;60%)</span>
+                        <span className="font-bold text-foreground">126 (10.1%)</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Attendance Trend Line Chart */}
+              <div className="lg:col-span-5 flex flex-col">
+                <ChartContainer
+                  title="Attendance Trend"
+                  subtitle="Daily average presence log (01 May - 21 May)"
+                  className="flex-1 flex flex-col justify-between"
+                  action={
+                    <select className="text-xs bg-muted/50 border border-border rounded-lg px-2 py-1 font-medium text-muted-foreground outline-none cursor-pointer">
+                      <option>This Month</option>
+                      <option>This Week</option>
+                    </select>
+                  }
+                >
                   <LineChart
                     data={[
-                      { week: "Week 1", Attendance: 94 },
-                      { week: "Week 2", Attendance: 92 },
-                      { week: "Week 3", Attendance: 96 },
-                      { week: "Week 4", Attendance: 95 },
-                      { week: "Week 5", Attendance: 93 },
+                      { day: "01 May", Attendance: 82 },
+                      { day: "06 May", Attendance: 85 },
+                      { day: "11 May", Attendance: 92 },
+                      { day: "16 May", Attendance: 83 },
+                      { day: "21 May", Attendance: 91 },
                     ]}
-                    xAxisKey="week"
+                    xAxisKey="day"
                     series={[{ key: "Attendance", name: "Attendance Rate (%)", color: "#6366f1" }]}
                   />
                 </ChartContainer>
               </div>
-            </div>
 
-            <div className="bg-card border rounded-xl p-5 shadow-sm text-left">
-              <h3 className="text-sm font-bold text-foreground mb-4">Branch Action Log</h3>
-              <DataTable
-                columns={[
-                  { accessorKey: "time", header: "Timestamp" },
-                  { accessorKey: "user", header: "User" },
-                  { accessorKey: "action", header: "Action Item" },
-                  { accessorKey: "details", header: "Details" },
-                ]}
-                data={[
-                  { time: "Today, 11:20 AM", user: "Vikram Malhotra", action: "Discount Request", details: "Approved 10% waiver for Priya Patel" },
-                  { time: "Today, 10:15 AM", user: "Vikram Malhotra", action: "User Creation", details: "Registered Ms. Shalini Gupta (teacher)" },
-                  { time: "Yesterday, 04:30 PM", user: "Vikram Malhotra", action: "Fee Receipts", details: "Generated batch billing logs for Class 10" },
-                  { time: "24 Jun, 09:00 AM", user: "System", action: "Cloud Database Sync", details: "Successfully synched branch records with cloud" },
-                ]}
-              />
-            </div>
-          </div>
-        );
-
-      case "academic":
-        return (
-          <div className="space-y-6">
-            <KPICardRow>
-              <KPICard title="Active Class Sections" value="24 Sections" icon={Building2} description="Total active subdivisions" color="blue" />
-              <KPICard title="Syllabus Completion" value="78.4%" icon={FileText} trend={{ value: 4.8, isPositive: true }} color="green" />
-              <KPICard title="Scheduled Examinations" value="3 Active Exams" icon={FileCheck} description="Scheduled for next term" color="purple" />
-              <KPICard title="Average Attendance" value="94.2%" icon={UserCheck} trend={{ value: 1.2, isPositive: true }} color="orange" />
-            </KPICardRow>
-
-            <QuickActionsGrid>
-              <QuickActionCard label="Master Timetable" icon={CalendarIcon} href="/academic/timetable" color="blue" />
-              <QuickActionCard label="Academic Calendar" icon={CalendarIcon} href="/academic/academic-calendar" color="green" />
-              <QuickActionCard label="Class allocations" icon={Building2} href="/academic/classes-sections" color="purple" />
-              <QuickActionCard label="Syllabus Monitor" icon={FileText} href="/academic/syllabus" color="orange" />
-            </QuickActionsGrid>
-
-            <div className="grid gap-6 lg:grid-cols-12">
-              <div className="lg:col-span-7">
-                <ChartContainer title="Syllabus Progress by Grade" subtitle="Completion rate tracking per class division">
-                  <BarChart
-                    data={[
-                      { grade: "Class 6", Completion: 85 },
-                      { grade: "Class 7", Completion: 80 },
-                      { grade: "Class 8", Completion: 75 },
-                      { grade: "Class 9", Completion: 68 },
-                      { grade: "Class 10", Completion: 84 },
-                    ]}
-                    xAxisKey="grade"
-                    series={[{ key: "Completion", name: "Syllabus Completed (%)", color: "#8b5cf6" }]}
-                  />
-                </ChartContainer>
-              </div>
-
-              <div className="lg:col-span-5">
-                <ChartContainer title="Attendance Density by Level" subtitle="Weekly school attendance rate average">
-                  <LineChart
-                    data={[
-                      { week: "Wk 1", Attendance: 92 },
-                      { week: "Wk 2", Attendance: 94 },
-                      { week: "Wk 3", Attendance: 95 },
-                      { week: "Wk 4", Attendance: 94 },
-                      { week: "Wk 5", Attendance: 96 },
-                    ]}
-                    xAxisKey="week"
-                    series={[{ key: "Attendance", name: "Attendance Rate (%)", color: "#10b981" }]}
-                  />
-                </ChartContainer>
+              {/* Upcoming Exams Feed */}
+              <div className="lg:col-span-3 flex flex-col">
+                <div className="rounded-xl border border-border bg-card p-5 shadow-sm flex-1 flex flex-col justify-between">
+                  <div>
+                    <h3 className="text-sm font-bold text-foreground mb-4">Upcoming Exams</h3>
+                    <div className="space-y-4">
+                      {[
+                        { title: "Unit Test - I", desc: "Class 6 - 10", date: "28 May 2025" },
+                        { title: "Half Yearly Exam", desc: "Class 1 - 12", date: "05 Jun 2025" },
+                        { title: "Science Practical", desc: "Class 9 - 12", date: "15 Jun 2025" },
+                        { title: "Pre Board Exam", desc: "Class 10 - 12", date: "20 Jun 2025" },
+                      ].map((exam, idx) => (
+                        <div key={idx} className="flex items-start gap-3 text-left">
+                          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary font-bold text-[10px] flex-col leading-none">
+                            <span>{exam.date.split(" ")[0]}</span>
+                            <span className="text-[7px] uppercase mt-0.5">{exam.date.split(" ")[1]}</span>
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs font-semibold text-foreground leading-tight truncate">{exam.title}</p>
+                            <p className="text-[10px] text-muted-foreground">{exam.desc}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <Link href="/academic/examinations" className="flex items-center gap-1 text-xs font-semibold text-primary mt-4 hover:underline self-start">
+                    View Exam Schedule <ArrowRight className="h-3 w-3" />
+                  </Link>
+                </div>
               </div>
             </div>
 
-            <div className="bg-card border rounded-xl p-5 shadow-sm text-left">
-              <h3 className="text-sm font-bold text-foreground mb-4">Academic Schedule Highlights</h3>
-              <DataTable
-                columns={[
-                  { accessorKey: "date", header: "Schedule Date" },
-                  { accessorKey: "event", header: "Academic Event" },
-                  { accessorKey: "class", header: "Class Cohort" },
-                  { accessorKey: "status", header: "Status" },
-                ]}
-                data={[
-                  { date: "02 Jul 2026", event: "Mathematics Paper Final Exam", class: "Class 10-A", status: "Scheduled" },
-                  { date: "04 Jul 2026", event: "General Science Paper Exam", class: "Class 10-A", status: "Scheduled" },
-                  { date: "10 Jul 2026", event: "Parent Teacher Meeting (PTM)", class: "All Grades", status: "Planned" },
-                  { date: "15 Jul 2026", event: "Term 1 Report Card Distribution", class: "All Grades", status: "Planned" },
-                ]}
-              />
+            {/* ── Row 3: Quick Actions ── */}
+            <div className="rounded-xl border border-border bg-card p-5 shadow-sm">
+              <h3 className="text-sm font-bold text-foreground mb-4">Quick Actions</h3>
+              <div className="grid grid-cols-2 sm:grid-cols-6 gap-4">
+                {[
+                  { icon: Calendar, label: "Create Timetable", href: "/academic/timetable/generator", color: "text-blue-500 bg-blue-500/10" },
+                  { icon: UserPlus, label: "Assign Teacher", href: "/academic/classes-sections/assign-teacher", color: "text-indigo-500 bg-indigo-500/10" },
+                  { icon: FileCheck, label: "Create Exam", href: "/academic/examinations", color: "text-green-500 bg-green-500/10" },
+                  { icon: FileText, label: "Upload Syllabus", href: "/academic/syllabus", color: "text-amber-500 bg-amber-500/10" },
+                  { icon: FileText, label: "View Reports", href: "/academic/reports", color: "text-red-500 bg-red-500/10" },
+                  { icon: Megaphone, label: "Send Announcement", href: "/academic/communications", color: "text-blue-500 bg-blue-500/10" },
+                ].map((action, idx) => {
+                  const Icon = action.icon;
+                  return (
+                    <Link
+                      key={idx}
+                      href={action.href}
+                      className="flex flex-col items-center justify-center gap-2 p-3 rounded-xl border border-border/40 hover:bg-muted/50 hover:border-border transition-all group"
+                    >
+                      <div className={`flex h-10 w-10 items-center justify-center rounded-lg ${action.color} group-hover:scale-105 transition-transform shrink-0`}>
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <span className="text-[11px] font-bold text-foreground text-center leading-tight">{action.label}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* ── Row 4: Operational Modules Grid ── */}
+            <div className="space-y-4">
+              <h3 className="text-sm font-bold text-foreground">Operational Modules</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                {academicModulesData.map((mod, idx) => {
+                  const Icon = mod.icon;
+                  return (
+                    <div key={idx} className="rounded-xl border border-border bg-card p-4 flex flex-col justify-between shadow-sm hover:shadow-md transition-all">
+                      <div>
+                        <div className="flex items-center gap-2 mb-3 border-b border-border/40 pb-2">
+                          <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${mod.color}`}>
+                            <Icon className="h-4.5 w-4.5" />
+                          </div>
+                          <span className="text-xs font-bold text-foreground">{mod.name}</span>
+                        </div>
+                        <div className="space-y-1 mb-4">
+                          {mod.links.map((link, lIdx) => (
+                            <Link
+                              key={lIdx}
+                              href={link.href}
+                              className="flex items-center justify-between text-[11px] py-1.5 px-1 hover:text-primary transition-colors text-muted-foreground group/link"
+                            >
+                              <span className="truncate">{link.label}</span>
+                              <ChevronRight className="h-3 w-3 text-muted-foreground/45 group-hover/link:text-primary group-hover/link:translate-x-0.5 transition-transform" />
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                      <Link
+                        href={mod.viewAllHref}
+                        className="flex items-center justify-center w-full pt-2.5 mt-auto text-[11px] font-bold text-primary hover:underline border-t border-border/45"
+                      >
+                        View All
+                      </Link>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         );
@@ -872,10 +1369,6 @@ export default function RoleDashboardPage({ params }: { params: Promise<{ role: 
 
   return (
     <PageContainer>
-      <PageHeader
-        title={`${getRoleName(role)} Dashboard`}
-        description={`Welcome back to Greenwood International portal. Sector 15 Branch.`}
-      />
       {renderDashboardContent()}
     </PageContainer>
   );

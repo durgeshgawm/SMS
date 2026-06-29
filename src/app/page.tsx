@@ -12,24 +12,19 @@ export default function Home() {
   useEffect(() => {
     initialize();
 
-    // 2-second premium splash screen animation delay
-    const timer = setTimeout(() => {
-      if (typeof window !== "undefined") {
-        const stored = localStorage.getItem("user_session");
-        if (stored) {
-          try {
-            const parsed = JSON.parse(stored);
-            if (parsed && parsed.role) {
-              router.push(`/${parsed.role}/dashboard`);
-              return;
-            }
-          } catch (e) {}
-        }
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("user_session");
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          if (parsed && parsed.role) {
+            router.replace(`/${parsed.role}/dashboard`);
+            return;
+          }
+        } catch (e) {}
       }
-      router.push("/login");
-    }, 2000);
-
-    return () => clearTimeout(timer);
+    }
+    router.replace("/login");
   }, [router, initialize]);
 
   return (

@@ -7,7 +7,7 @@ interface BranchState {
 }
 
 export const useBranchStore = create<BranchState>((set) => ({
-  selectedBranchId: "br-delhi",
-  selectedBranchName: "Delhi Main Branch",
+  selectedBranchId: "br-greenfield",
+  selectedBranchName: "Greenfield Public School",
   setSelectedBranch: (id, name) => set({ selectedBranchId: id, selectedBranchName: name }),
 }));

@@ -71,7 +71,7 @@ export function SidebarItem({ item, depth = 0 }: SidebarItemProps) {
             </span>
           )}
           {isCollapsed && (
-            <span className="absolute left-full ml-2 px-2 py-1 bg-[#1e293b] text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity遂 z-50 pointer-events-none shadow-md">
+            <span className="absolute left-full ml-2 px-2 py-1 bg-[#1e293b] text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity z-50 pointer-events-none shadow-md">
               {item.label}
             </span>
           )}

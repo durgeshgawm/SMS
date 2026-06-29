@@ -33,10 +33,10 @@ export function KPICard({
   };
 
   return (
-    <div className="rounded-xl border border-border bg-card p-4 shadow-sm hover:shadow-md transition-all duration-200 flex items-center justify-between gap-3">
+    <div className="rounded-xl border border-border bg-card p-4 xl:p-3 2xl:p-4 shadow-sm hover:shadow-md transition-all duration-200 flex items-center justify-between gap-3 xl:gap-2 2xl:gap-3">
       <div className="space-y-1.5 flex-1 min-w-0">
         <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block">{title}</span>
-        <span className="text-xl xl:text-2xl font-bold tracking-tight text-foreground block truncate">{value}</span>
+        <span className="text-lg md:text-xl xl:text-[15px] 2xl:text-xl font-bold tracking-tight text-foreground block break-all pr-1">{value}</span>
         <div className="flex items-center gap-1.5 flex-wrap">
           {trend && (
             <span
@@ -62,8 +62,8 @@ export function KPICard({
           )}
         </div>
       </div>
-      <div className={cn("flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border", colorMap[color])}>
-        <Icon className="h-5.5 w-5.5" />
+      <div className={cn("flex h-11 w-11 xl:h-10 xl:w-10 2xl:h-11 2xl:w-11 shrink-0 items-center justify-center rounded-xl border transition-all", colorMap[color])}>
+        <Icon className="h-5.5 w-5.5 xl:h-5 xl:w-5 2xl:h-5.5 2xl:w-5.5" />
       </div>
     </div>
   );

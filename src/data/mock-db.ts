@@ -142,3 +142,133 @@ export const mockHostelRooms: HostelRoomMock[] = [
   { id: "hs-4", roomNo: "Room 202", block: "Girls B-Block", capacity: 3, allocated: 1, rentPerMonth: 7500, wardenName: "Aarti Deshpande" },
   { id: "hs-5", roomNo: "Room 301", block: "Special Suite C", capacity: 2, allocated: 2, rentPerMonth: 12000, wardenName: "Rajesh Kumar" },
 ];
+
+// --- 8. Audit Logs & Activity ---
+export interface AuditLogMock {
+  id: string;
+  time: string;
+  cat: string;
+  user: string;
+  action: string;
+  ip: string;
+}
+
+export const mockAuditLogs: AuditLogMock[] = [
+  { id: "log-1", time: "2026-06-26 12:05:40", cat: "Login Action", user: "branchadmin@greenfield.edu", action: "User authenticated branch session key successfully", ip: "103.45.191.12" },
+  { id: "log-2", time: "2026-06-26 11:42:15", cat: "Fee Payment", user: "finance@school.com", action: "Generated Fee Receipt #GW-F-2026-901", ip: "103.45.191.45" },
+  { id: "log-3", time: "2026-06-26 10:15:30", cat: "Syllabus Mod", user: "dean@school.com", action: "Updated grade 10 Mathematics syllabus criteria", ip: "182.49.201.76" },
+  { id: "log-4", time: "2026-06-26 09:30:12", cat: "Student Catalog", user: "teacher@school.com", action: "Registered student #std-5 (Aanya Verma)", ip: "182.49.201.81" },
+  { id: "log-5", time: "2026-06-26 08:00:00", cat: "Database Backup", user: "System Scheduler", action: "Automated daily system cluster snapshot written to AWS S3 node", ip: "localhost" },
+  { id: "log-6", time: "2026-06-25 15:30:22", cat: "User Creation", user: "branchadmin@greenfield.edu", action: "Created User Account for Library Assistant (Mr. Karan Das)", ip: "103.45.191.12" },
+  { id: "log-7", time: "2026-06-25 14:10:05", cat: "Security Policy", user: "branchadmin@greenfield.edu", action: "Updated Password Complexity settings", ip: "103.45.191.12" },
+];
+
+// --- 9. Communications (Notice Board & Broadcasts) ---
+export interface NoticeMock {
+  id: string;
+  title: string;
+  sender: string;
+  date: string;
+  type: "notice" | "circular" | "announcement" | "sms";
+  audience: string;
+  content: string;
+  attachments?: string[];
+}
+
+export const mockNotices: NoticeMock[] = [
+  {
+    id: "nt-1",
+    title: "Summer Vacation Schedule 2026",
+    sender: "Principal Greenwood",
+    date: "2026-06-20",
+    type: "circular",
+    audience: "All Cohorts",
+    content: "The academy campus will remain closed for summer vacation from 1st July 2026 to 31st July 2026. Online homework tasks are uploaded under the academic student syllabus modules."
+  },
+  {
+    id: "nt-2",
+    title: "Fee Payment Term 2 Deadline",
+    sender: "Finance desk Bureau",
+    date: "2026-06-25",
+    type: "notice",
+    audience: "Parents Only",
+    content: "Please pay outstanding Term 2 fee dues by 10th July 2026. A late charge penalty of 2.5% applies post the grace date window."
+  },
+  {
+    id: "nt-3",
+    title: "PTM Schedule May 2026 Announcement",
+    sender: "Dean of Studies",
+    date: "2026-06-24",
+    type: "announcement",
+    audience: "Teachers & Parents",
+    content: "Parent Teacher Meeting is scheduled on 28th June 2026. Timings: 9:00 AM to 1:00 PM. Please check section-wise schedules."
+  }
+];
+
+// --- 10. Approvals Feed Mock ---
+export interface ApprovalMock {
+  id: string;
+  title: string;
+  requester: string;
+  date: string;
+  type: string;
+  status: "pending" | "approved" | "rejected";
+  details: Record<string, string>;
+  timeline: { title: string; desc: string; time: string; user: string }[];
+}
+
+export const mockApprovals: ApprovalMock[] = [
+  {
+    id: "app-1",
+    title: "Student Medical Leave Request",
+    requester: "Kabir Dev (Class 9-A)",
+    date: "2026-06-25",
+    type: "Leave Request",
+    status: "pending",
+    details: {
+      "Reason for Leave": "High fever and viral infection recovery.",
+      "Duration Requested": "3 Days (28th June - 30th June)",
+      "Parent Consent Verified": "Yes (via SMS gateway)",
+      "Medical Certificate Attached": "Yes (physician letter uploaded)"
+    },
+    timeline: [
+      { title: "Parent Consent Submitted", desc: "Guardian verified leave notice", time: "09:30 AM", user: "Rajesh Dev (Parent)" },
+      { title: "Request Filed", desc: "Submitted to class teacher", time: "08:15 AM", user: "Kabir Dev (Student)" }
+    ]
+  },
+  {
+    id: "app-2",
+    title: "Fee Merit Discount Request",
+    requester: "Rohan Sen (Class 9-C)",
+    date: "2026-06-24",
+    type: "Fee Discount",
+    status: "pending",
+    details: {
+      "Discount Category": "Merit Scholarship Waiver",
+      "Requested Discount": "15% Term 2 Tuition Waiver",
+      "Previous Semester Score": "92.4% aggregate",
+      "Outstanding Dues Status": "None (fully clear)"
+    },
+    timeline: [
+      { title: "Marks Verified", desc: "Aggregate score check complete", time: "04:30 PM", user: "Ms. Shalini Gupta (Class Teacher)" },
+      { title: "Discount Request Filed", desc: "Sent to finance review board", time: "11:20 AM", user: "Rohan Sen (Student)" }
+    ]
+  },
+  {
+    id: "app-3",
+    title: "Hostel Room Allocation Request",
+    requester: "Priya Patel (Class 10-B)",
+    date: "2026-06-22",
+    type: "Hostel Room Allotment",
+    status: "approved",
+    details: {
+      "Requested Block": "Girls B-Block",
+      "Preference Room": "Room 201 (Triple Occupancy)",
+      "Medical Conditions": "None declared"
+    },
+    timeline: [
+      { title: "Room Allotted", desc: "Assigned Room 201 Bed C", time: "02:00 PM", user: "Mr. Rajesh Kumar (Hostel Warden)" },
+      { title: "Request Filed", desc: "Sent with parent request", time: "10:15 AM", user: "Priya Patel (Student)" }
+    ]
+  }
+];

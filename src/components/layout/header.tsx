@@ -12,13 +12,12 @@ import { useBranchStore } from "@/store/use-branch-store";
 import { useNotificationStore } from "@/store/use-notification-store";
 import { useThemeStore } from "@/store/use-theme-store";
 import { useAuthStore } from "@/store/use-auth-store";
-import { BreadcrumbNav } from "./breadcrumb-nav";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/format";
 
 export function Header() {
   const router = useRouter();
-  const { toggleMobileSidebar } = useSidebarStore();
+  const { isCollapsed, toggleSidebar, toggleMobileSidebar } = useSidebarStore();
   const { selectedBranchId, selectedBranchName, setSelectedBranch } = useBranchStore();
   const { notifications, unreadCount, markAsRead, markAllAsRead } = useNotificationStore();
   const { theme, toggleTheme } = useThemeStore();
@@ -48,8 +47,9 @@ export function Header() {
 
   return (
     <header className="flex h-[70px] shrink-0 items-center justify-between border-b border-border bg-card px-4 md:px-6 shadow-sm relative z-30">
-      {/* Left Area: Mobile Menu + Breadcrumbs */}
+      {/* Left Area: Mobile Menu / Collapse Toggle + Breadcrumbs */}
       <div className="flex items-center gap-3">
+        {/* Mobile Menu trigger */}
         <Button
           variant="ghost"
           size="icon"
@@ -58,9 +58,19 @@ export function Header() {
         >
           <Menu className="h-5 w-5" />
         </Button>
-        <div className="hidden sm:block">
-          <BreadcrumbNav />
-        </div>
+        
+        {/* Desktop Expand trigger (only shows when sidebar is collapsed) */}
+        {isCollapsed && (
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleSidebar}
+            className="hidden lg:flex hover:bg-muted text-foreground"
+            title="Expand Sidebar"
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
+        )}
       </div>
 
       {/* Right Area: Actions */}
@@ -131,15 +141,15 @@ export function Header() {
               setIsNotifOpen(!isNotifOpen);
               setIsBranchOpen(false);
             }}
-            className="h-8 w-8 relative"
+            className="h-8 w-8"
           >
             <Bell className="h-4 w-4" />
-            {unreadCount > 0 && (
-              <span className="absolute top-1 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[9px] font-bold text-white animate-pulse">
-                {unreadCount}
-              </span>
-            )}
           </Button>
+          {unreadCount > 0 && (
+            <span className="absolute top-0.5 right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[9px] font-bold text-white ring-2 ring-card animate-pulse pointer-events-none z-10">
+              {unreadCount}
+            </span>
+          )}
 
           {isNotifOpen && (
             <div className="absolute right-0 mt-2 w-80 rounded-lg border border-border bg-card shadow-lg overflow-hidden z-50 animate-in fade-in-50 slide-in-from-top-1 duration-150">
