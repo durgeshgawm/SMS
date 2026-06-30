@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use } from "react";
+import React, { use, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import {
@@ -41,7 +41,11 @@ import {
   Megaphone,
   IndianRupee,
   CalendarRange,
-
+  BadgePercent,
+  Shield,
+  Check,
+  X,
+  Cake,
 } from "lucide-react";
 import { UserRole } from "@/types/common";
 import { PageHeader } from "@/components/layout/page-header";
@@ -69,7 +73,10 @@ import {
   mockHostelRooms,
 } from "@/data/mock-db";
 import { ColumnDef } from "@tanstack/react-table";
+import { cn } from "@/lib/utils";
 import { DataTable } from "@/components/data-table";
+import { PieChart as RechartsPieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
+import { toast } from "@/components/ui/toast";
 
 // --- Columns definitions for dashboards list tables ---
 const branchColumns: ColumnDef<any>[] = [
@@ -372,6 +379,3295 @@ function SuperAdminDashboard() {
       </div>
 
       {/* ── Footer ── */}
+      <div className="text-center py-4 border-t border-border/40">
+        <p className="text-[11px] text-muted-foreground">© 2025 School Management System ERP | All Rights Reserved</p>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────
+   Parent Dashboard - matching reference image exactly
+   ───────────────────────────────────────────────────────── */
+
+function ParentDashboard() {
+  const attendanceOverviewData = [
+    { name: "Present", value: 23, color: "#22c55e" },
+    { name: "Absent", value: 2, color: "#ef4444" },
+    { name: "Leave", value: 1, color: "#f59e0b" },
+  ];
+
+  const kids = [
+    { name: "Aditya Verma", class: "Class 10-B", rollNo: 23, status: "Active", avatarColor: "bg-blue-500/10 text-blue-600 border border-blue-500/20" },
+    { name: "Ananya Verma", class: "Class 7-A", rollNo: 11, status: "Active", avatarColor: "bg-purple-500/10 text-purple-600 border border-purple-500/20" },
+  ];
+
+  const timetableToday = [
+    { period: 1, time: "08:30 AM - 09:15 AM", subject: "Mathematics", teacher: "Mr. Rajesh Sharma", room: "201" },
+    { period: 2, time: "09:15 AM - 10:00 AM", subject: "Physics", teacher: "Ms. Neha Gupta", room: "Lab 2" },
+    { period: 3, time: "10:00 AM - 10:20 AM", subject: "Break", teacher: "-", room: "-" },
+    { period: 4, time: "10:20 AM - 11:05 AM", subject: "English", teacher: "Mr. Amit Verma", room: "103" },
+    { period: 5, time: "11:05 AM - 11:50 AM", subject: "Chemistry", teacher: "Ms. Pooja Singh", room: "Lab 1" },
+    { period: 6, time: "11:50 AM - 12:35 PM", subject: "Computer Science", teacher: "Mr. Rohit Kumar", room: "Lab 3" },
+  ];
+
+  const recentHomework = [
+    { topic: "Quadratic Equations Worksheet", subject: "Mathematics", due: "Due: 30 May 2025", isUrgent: true },
+    { topic: "Lab Report - Motion", subject: "Physics", due: "Due: 31 May 2025", isUrgent: true },
+    { topic: "Chemical Reactions Worksheet", subject: "Chemistry", due: "Due: 02 Jun 2025", isUrgent: false },
+    { topic: "Essay on Democracy", subject: "English", due: "Due: 03 Jun 2025", isUrgent: false },
+  ];
+
+  const upcomingExams = [
+    { name: "Unit Test - 1", subject: "Mathematics", date: "05 Jun 2025" },
+    { name: "Unit Test - 1", subject: "Physics", date: "09 Jun 2025" },
+    { name: "Unit Test - 1", subject: "Chemistry", date: "12 Jun 2025" },
+    { name: "Unit Test - 1", subject: "English", date: "16 Jun 2025" },
+  ];
+
+  const announcements = [
+    { text: "Summer holiday from 15 June 2025.", date: "28 May 2025", color: "bg-blue-500" },
+    { text: "PTM is scheduled on 07 June 2025.", date: "27 May 2025", color: "bg-green-500" },
+    { text: "Science Exhibition on 10 June 2025.", date: "25 May 2025", color: "bg-amber-500" },
+    { text: "School will remain closed on 02 June 2025 due to public holiday.", date: "24 May 2025", color: "bg-blue-500" },
+  ];
+
+  const upcomingEvents = [
+    { title: "Parent Teacher Meeting", desc: "Saturday, 07 June 2025", time: "10:00 AM - 12:00 PM", day: "07", month: "JUN" },
+    { title: "Science Exhibition", desc: "Tuesday, 10 June 2025", time: "09:00 AM - 02:00 PM", day: "10", month: "JUN" },
+    { title: "Annual Sports Day", desc: "Friday, 20 June 2025", time: "08:00 AM - 03:00 PM", day: "20", month: "JUN" },
+  ];
+
+  const performanceList = [
+    { subject: "Mathematics", grade: "A+", marks: "92%", avg: "78%" },
+    { subject: "Physics", grade: "A", marks: "88%", avg: "75%" },
+    { subject: "Chemistry", grade: "A", marks: "85%", avg: "72%" },
+    { subject: "English", grade: "A+", marks: "90%", avg: "80%" },
+    { subject: "Computer Science", grade: "A", marks: "87%", avg: "76%" },
+  ];
+
+  return (
+    <div className="space-y-6 text-left">
+      {/* Parent Welcome Header */}
+      <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+        <div>
+          <span className="text-xs font-semibold text-muted-foreground">Welcome back,</span>
+          <h2 className="text-xl font-extrabold text-foreground flex items-center gap-1.5 mt-0.5">
+            Rajesh Verma <span className="animate-pulse">👏</span>
+          </h2>
+        </div>
+        <div className="flex items-center gap-3">
+          <select className="text-xs bg-card border border-border rounded-lg px-3 py-1.5 font-semibold text-muted-foreground outline-none cursor-pointer">
+            <option>Session 2024-25</option>
+          </select>
+          <select className="text-xs bg-card border border-border rounded-lg px-3 py-1.5 font-semibold text-muted-foreground outline-none cursor-pointer">
+            <option>Green Valley School</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Date Display */}
+      <div className="flex justify-end items-center gap-1.5 text-muted-foreground text-xs font-semibold -mt-2">
+        <span>Today, 29 May 2025</span>
+        <Calendar className="h-4 w-4 text-muted-foreground" />
+      </div>
+
+      {/* ── Row 1: Top 5 KPI Cards ── */}
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <KPICard
+          title="My Children"
+          value="2"
+          icon={Users}
+          description="Active Students"
+          color="purple"
+        />
+        <KPICard
+          title="Attendance"
+          value="92%"
+          icon={UserCheck}
+          trend={{ value: 5.4, isPositive: true }}
+          description="Average This Month"
+          color="green"
+        />
+        <KPICard
+          title="Pending Fees"
+          value="₹6,250"
+          icon={CreditCard}
+          description="Due for 1 Child"
+          color="blue"
+        />
+        <KPICard
+          title="Overall Performance"
+          value="A"
+          icon={Award}
+          description="Aditya Verma (Class 10-B)"
+          color="orange"
+        />
+        <KPICard
+          title="Unread Messages"
+          value="3"
+          icon={MessageSquare}
+          description="From School"
+          color="purple"
+        />
+      </div>
+
+      {/* ── Row 2: My Children + Attendance Overview + Fee Summary ── */}
+      <div className="grid gap-6 grid-cols-1 lg:grid-cols-12">
+        {/* My Children Profile Selectors */}
+        <div className="lg:col-span-4 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">My Children</h3>
+              <Link href="/parent/children" className="text-xs font-bold text-primary hover:underline">View All</Link>
+            </div>
+            
+            <div className="space-y-3.5">
+              {kids.map((kid, idx) => (
+                <div key={idx} className="flex items-center justify-between p-3 border border-border/60 rounded-xl hover:bg-muted/10 transition-all cursor-pointer">
+                  <div className="flex items-center gap-3">
+                    <div className={cn("h-9 w-9 rounded-full flex items-center justify-center font-bold text-xs shrink-0", kid.avatarColor)}>
+                      {kid.name.split(" ")[0][0]}{kid.name.split(" ")[1][0]}
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-foreground">{kid.name}</p>
+                      <p className="text-[10px] text-muted-foreground">{kid.class} • Roll No. {kid.rollNo}</p>
+                    </div>
+                  </div>
+                  <span className="px-2 py-0.5 bg-green-500/10 text-green-600 border border-green-500/20 text-[9px] font-bold rounded uppercase">
+                    {kid.status}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <button className="w-full mt-4 py-2 border border-dashed border-border hover:border-primary/50 text-[11px] font-bold text-primary rounded-xl transition-all">
+            + Add Another Child
+          </button>
+        </div>
+
+        {/* Attendance donut */}
+        <div className="lg:col-span-4 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Attendance Overview (This Month)</h3>
+              <Link href="/parent/attendance" className="text-xs font-bold text-primary hover:underline">View Details</Link>
+            </div>
+            <div className="h-[150px] flex items-center justify-between gap-1">
+              <div className="relative flex items-center justify-center h-full w-[45%] shrink-0">
+                <ResponsiveContainer width="100%" height="100%">
+                  <RechartsPieChart>
+                    <Pie
+                      data={attendanceOverviewData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={36}
+                      outerRadius={50}
+                      paddingAngle={2}
+                      dataKey="value"
+                    >
+                      {attendanceOverviewData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      formatter={(value: any) => [`${value} Days`, "Days"]}
+                      contentStyle={{
+                        backgroundColor: "white",
+                        borderColor: "hsl(var(--border))",
+                        color: "black",
+                        borderRadius: "8px",
+                        fontSize: "11px",
+                      }}
+                    />
+                  </RechartsPieChart>
+                </ResponsiveContainer>
+                <div className="absolute flex flex-col items-center justify-center text-center">
+                  <span className="text-base font-extrabold text-foreground leading-none">92%</span>
+                  <span className="text-[7px] uppercase font-bold text-muted-foreground mt-0.5 leading-none">Present</span>
+                </div>
+              </div>
+
+              <div className="w-[55%] flex flex-col justify-center space-y-1.5 text-[10px] sm:text-[11px] pr-1">
+                {attendanceOverviewData.map((item) => (
+                  <div key={item.name} className="flex items-center justify-between gap-1 border-b border-border/30 pb-1 last:border-0 last:pb-0">
+                    <div className="flex items-center gap-1.5 min-w-0">
+                      <span className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
+                      <span className="text-muted-foreground font-medium truncate" title={item.name}>{item.name}</span>
+                    </div>
+                    <span className="font-bold text-foreground shrink-0">{item.value} Days</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <div className="bg-green-500/10 text-green-700 border border-green-500/10 rounded-lg p-2 text-center text-[10px] font-bold mt-2">
+              Good job! Aditya's attendance is excellent.
+            </div>
+          </div>
+        </div>
+
+        {/* Fee Summary */}
+        <div className="lg:col-span-4 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Fee Summary</h3>
+              <Link href="/parent/fees" className="text-xs font-bold text-primary hover:underline">View Details</Link>
+            </div>
+            
+            <div className="space-y-3.5 text-xs">
+              <div className="grid grid-cols-3 gap-2 border-b border-border/40 pb-3">
+                <div>
+                  <p className="text-[9px] text-muted-foreground uppercase font-bold">Total Fees (Annual)</p>
+                  <p className="text-sm font-bold text-foreground mt-0.5">₹52,000</p>
+                </div>
+                <div>
+                  <p className="text-[9px] text-muted-foreground uppercase font-bold">Paid Amount</p>
+                  <p className="text-sm font-bold text-green-600 mt-0.5">₹45,750</p>
+                </div>
+                <div>
+                  <p className="text-[9px] text-muted-foreground uppercase font-bold">Pending Amount</p>
+                  <p className="text-sm font-bold text-red-500 mt-0.5">₹6,250</p>
+                </div>
+              </div>
+              
+              <div className="flex justify-between items-center text-[11px] border-b border-border/30 pb-2">
+                <div>
+                  <p className="text-muted-foreground font-medium">Last Payment</p>
+                  <p className="font-bold text-foreground mt-0.5">₹10,000</p>
+                </div>
+                <span className="text-[10px] text-muted-foreground font-semibold">Date: 15 May 2025</span>
+              </div>
+
+              <div className="flex justify-between items-center pt-1">
+                <div>
+                  <p className="text-[10px] text-muted-foreground font-medium">Next Due Date</p>
+                  <p className="text-xs font-extrabold text-red-500 mt-0.5">10 Jun 2025</p>
+                </div>
+                <Link href="/parent/fees" className="px-4 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold shadow-sm transition-colors">
+                  Pay Now
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Row 3: Timetable + Recent Notices + Upcoming Events ── */}
+      <div className="grid gap-6 grid-cols-1 lg:grid-cols-12">
+        {/* Today's Timetable (Aditya Verma) */}
+        <div className="lg:col-span-4 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Today's Timetable (Aditya Verma)</h3>
+              <Link href="/parent/timetable" className="text-xs font-bold text-primary hover:underline">View Timetable</Link>
+            </div>
+            
+            <div className="space-y-2 text-xs">
+              {timetableToday.slice(0, 5).map((item) => (
+                <div key={item.period} className="flex items-center justify-between border-b border-border/40 pb-2 last:border-0 last:pb-0">
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary font-bold text-[9px]">
+                      {item.period}
+                    </span>
+                    <span className="text-[10px] font-bold font-mono text-muted-foreground w-[100px] shrink-0">
+                      {item.time}
+                    </span>
+                    <div>
+                      <p className="font-bold text-foreground leading-tight">{item.subject}</p>
+                      <p className="text-[9px] text-muted-foreground">{item.teacher}</p>
+                    </div>
+                  </div>
+                  <span className="text-[9px] font-bold text-foreground font-mono bg-muted/60 px-1.5 py-0.5 rounded border">
+                    {item.room}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Recent Notices */}
+        <div className="lg:col-span-4 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Recent Notices</h3>
+              <Link href="/parent/notices" className="text-xs font-bold text-primary hover:underline">View All</Link>
+            </div>
+            
+            <div className="space-y-2">
+              {announcements.map((item, idx) => (
+                <div key={idx} className="p-2 border border-border/60 rounded-lg bg-muted/10 flex flex-col gap-1">
+                  <div className="flex items-start gap-1.5">
+                    <span className={cn("h-2 w-2 rounded-full shrink-0 mt-1", item.color)} />
+                    <p className="text-[11px] font-semibold text-foreground leading-tight">{item.text}</p>
+                  </div>
+                  <span className="text-[9px] text-muted-foreground font-mono self-end">{item.date}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <Link href="/parent/notices" className="text-[11px] text-center font-bold text-primary hover:underline mt-3 self-center">
+            View All Notices
+          </Link>
+        </div>
+
+        {/* Upcoming Events */}
+        <div className="lg:col-span-4 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Upcoming Events</h3>
+              <Link href="/parent/calendar" className="text-xs font-bold text-primary hover:underline">View Calendar</Link>
+            </div>
+            
+            <div className="space-y-3">
+              {upcomingEvents.map((ev, idx) => (
+                <div key={idx} className="flex items-start gap-3 border-b border-border/30 pb-2 last:border-0 last:pb-0">
+                  <div className="flex h-10 w-10 shrink-0 flex-col items-center justify-center rounded-lg bg-blue-500/10 text-blue-600 font-bold border border-blue-500/10">
+                    <span className="text-xs leading-none">{ev.day}</span>
+                    <span className="text-[8px] uppercase mt-0.5 leading-none">{ev.month}</span>
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-bold text-foreground truncate">{ev.title}</p>
+                    <p className="text-[9px] text-muted-foreground leading-tight mt-0.5">{ev.desc}</p>
+                    <p className="text-[9px] text-primary/75 font-semibold mt-0.5">{ev.time}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <Link href="/parent/calendar" className="text-[11px] text-center font-bold text-primary hover:underline mt-3 self-center">
+            View All Events
+          </Link>
+        </div>
+      </div>
+
+      {/* ── Row 4: Recent Homework + Upcoming Examinations + Performance Overview ── */}
+      <div className="grid gap-6 grid-cols-1 lg:grid-cols-12">
+        {/* Recent Homework (Aditya Verma) */}
+        <div className="lg:col-span-4 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Recent Homework (Aditya Verma)</h3>
+              <Link href="/parent/homework" className="text-xs font-bold text-primary hover:underline">View All</Link>
+            </div>
+            
+            <div className="space-y-2 text-xs">
+              {recentHomework.map((item, idx) => (
+                <div key={idx} className="flex items-center justify-between border-b border-border/30 pb-2 last:border-0 last:pb-0">
+                  <div>
+                    <p className="font-bold text-foreground truncate max-w-[150px]">{item.topic}</p>
+                    <p className="text-[9px] text-muted-foreground mt-0.5">{item.subject}</p>
+                  </div>
+                  <span className={cn("text-[9px] font-bold", item.isUrgent ? "text-red-500" : "text-muted-foreground")}>
+                    {item.due}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Upcoming Examinations */}
+        <div className="lg:col-span-3 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Upcoming Examinations</h3>
+              <Link href="/parent/examinations" className="text-xs font-bold text-primary hover:underline">View All</Link>
+            </div>
+            
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs text-left min-w-[200px]">
+                <thead>
+                  <tr className="border-b border-border text-muted-foreground">
+                    <th className="pb-2 font-semibold">Exam Code</th>
+                    <th className="pb-2 font-semibold text-right">Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {upcomingExams.map((item, idx) => (
+                    <tr key={idx} className="border-b border-border/50 last:border-0 hover:bg-muted/10">
+                      <td className="py-2.5">
+                        <p className="font-bold text-foreground">{item.name}</p>
+                        <p className="text-[9px] text-muted-foreground">{item.subject}</p>
+                      </td>
+                      <td className="py-2.5 text-right text-muted-foreground font-mono">{item.date}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        {/* Performance Overview (Aditya Verma) */}
+        <div className="lg:col-span-5 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-1 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Performance Overview (Aditya Verma)</h3>
+              <select className="text-xs bg-muted/50 border border-border rounded-lg px-2 py-1 font-medium text-muted-foreground outline-none cursor-pointer">
+                <option>This Term</option>
+              </select>
+            </div>
+            
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs text-left min-w-[300px]">
+                <thead>
+                  <tr className="border-b border-border text-muted-foreground">
+                    <th className="pb-1.5 font-semibold">Subject</th>
+                    <th className="pb-1.5 font-semibold text-center">Overall Grade</th>
+                    <th className="pb-1.5 font-semibold text-center">Marks (%)</th>
+                    <th className="pb-1.5 font-semibold text-right">Class Average</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {performanceList.map((item, idx) => (
+                    <tr key={idx} className="border-b border-border/50 last:border-0 hover:bg-muted/10">
+                      <td className="py-2 font-medium text-foreground">{item.subject}</td>
+                      <td className="py-2 text-center font-bold text-green-600">{item.grade}</td>
+                      <td className="py-2 text-center text-muted-foreground font-mono">{item.marks}</td>
+                      <td className="py-2 text-right text-muted-foreground font-mono">{item.avg}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <Link href="/parent/results" className="text-[11px] text-center font-bold text-primary hover:underline mt-3 self-center">
+            View Detailed Report
+          </Link>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="text-center py-4 border-t border-border/40">
+        <p className="text-[11px] text-muted-foreground">© 2025 School Management System ERP | All Rights Reserved</p>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────
+   Student Dashboard - matching reference image exactly
+   ───────────────────────────────────────────────────────── */
+
+function StudentDashboard() {
+  const attendanceOverviewData = [
+    { name: "Present", value: 23, color: "#22c55e" },
+    { name: "Absent", value: 2, color: "#ef4444" },
+    { name: "Leave", value: 1, color: "#f59e0b" },
+  ];
+
+  const subjectPerformanceData = [
+    { block: "Maths", Percentage: 88, color: "#3b82f6" },
+    { block: "Physics", Percentage: 82, color: "#22c55e" },
+    { block: "Chemistry", Percentage: 78, color: "#f59e0b" },
+    { block: "English", Percentage: 90, color: "#8b5cf6" },
+    { block: "Computer", Percentage: 85, color: "#ec4899" },
+  ];
+
+  const timetableToday = [
+    { period: 1, time: "08:30 AM - 09:15 AM", subject: "Mathematics", teacher: "Mr. Rajesh Sharma", room: "Room 201" },
+    { period: 2, time: "09:15 AM - 10:00 AM", subject: "Physics", teacher: "Ms. Neha Gupta", room: "Lab 2" },
+    { period: 3, time: "10:00 AM - 10:20 AM", subject: "Break", teacher: "-", room: "-" },
+    { period: 4, time: "10:20 AM - 11:05 AM", subject: "English", teacher: "Mr. Amit Verma", room: "Room 103" },
+    { period: 5, time: "11:05 AM - 11:50 AM", subject: "Chemistry", teacher: "Ms. Pooja Singh", room: "Lab 1" },
+    { period: 6, time: "11:50 AM - 12:35 PM", subject: "Computer Science", teacher: "Mr. Rohit Kumar", room: "Lab 3" },
+  ];
+
+  const pendingHomework = [
+    { topic: "Quadratic Equations", subject: "Mathematics", due: "Due Today", badgeColor: "bg-red-500/10 text-red-600 border-red-500/20 font-bold" },
+    { topic: "Lab Report - Motion", subject: "Physics", due: "Due Tomorrow", badgeColor: "bg-amber-500/10 text-amber-600 border-amber-500/20 font-bold" },
+    { topic: "Chemical Reactions", subject: "Chemistry", due: "02 Jun 2025", badgeColor: "text-muted-foreground" },
+    { topic: "Essay on Democracy", subject: "English", due: "03 Jun 2025", badgeColor: "text-muted-foreground" },
+    { topic: "Python Functions", subject: "Computer Science", due: "04 Jun 2025", badgeColor: "text-muted-foreground" },
+  ];
+
+  const upcomingExams = [
+    { name: "Unit Test - 1", subject: "Mathematics", date: "05 Jun 2025" },
+    { name: "Unit Test - 1", subject: "Physics", date: "09 Jun 2025" },
+    { name: "Unit Test - 1", subject: "Chemistry", date: "12 Jun 2025" },
+    { name: "Unit Test - 1", subject: "English", date: "16 Jun 2025" },
+  ];
+
+  const announcements = [
+    { text: "Summer holiday from 15 June 2025.", date: "28 May 2025", color: "bg-blue-500" },
+    { text: "PTM is scheduled on 07 June 2025.", date: "27 May 2025", color: "bg-green-500" },
+    { text: "Maths Quiz for Class 10 on 03 June.", date: "26 May 2025", color: "bg-purple-500" },
+    { text: "Science Exhibition on 10 June 2025.", date: "25 May 2025", color: "bg-amber-500" },
+  ];
+
+  const downloads = [
+    { name: "Admit Card - Annual Exam" },
+    { name: "Date Sheet - Term 1" },
+    { name: "Holiday Calendar 2025" },
+    { name: "Bus Route Map" },
+  ];
+
+  return (
+    <div className="space-y-6 text-left">
+      {/* Student Welcome Header */}
+      <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+        <div>
+          <span className="text-xs font-semibold text-muted-foreground">Welcome back,</span>
+          <h2 className="text-xl font-extrabold text-foreground flex items-center gap-1.5 mt-0.5">
+            Aditya Verma <span className="animate-pulse">👏</span>
+          </h2>
+        </div>
+        <div className="flex items-center gap-3">
+          <select className="text-xs bg-card border border-border rounded-lg px-3 py-1.5 font-semibold text-muted-foreground outline-none cursor-pointer">
+            <option>Session 2024-25</option>
+          </select>
+          <select className="text-xs bg-card border border-border rounded-lg px-3 py-1.5 font-semibold text-muted-foreground outline-none cursor-pointer">
+            <option>Green Valley School</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Date Display */}
+      <div className="flex justify-end items-center gap-1.5 text-muted-foreground text-xs font-semibold -mt-2">
+        <span>Today, 29 May 2025</span>
+        <Calendar className="h-4 w-4 text-muted-foreground" />
+      </div>
+
+      {/* ── Row 1: Top 5 KPI Cards ── */}
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <KPICard
+          title="Attendance"
+          value="92%"
+          icon={UserCheck}
+          trend={{ value: 5.4, isPositive: true }}
+          description="↑ 5% from last month"
+          color="purple"
+        />
+        <KPICard
+          title="Assignments"
+          value="05"
+          icon={ClipboardList}
+          description="2 Due Today"
+          color="blue"
+        />
+        <KPICard
+          title="Exams"
+          value="02"
+          icon={FileCheck}
+          description="Next: 05 Jun 2025"
+          color="green"
+        />
+        <KPICard
+          title="Fee Balance"
+          value="₹6,250"
+          icon={CreditCard}
+          description="Due on 10 Jun 2025"
+          color="red"
+        />
+        <KPICard
+          title="Overall Grade"
+          value="A"
+          icon={Award}
+          description="CGPA: 8.6/10"
+          color="orange"
+        />
+      </div>
+
+      {/* ── Row 2: Timetable + Attendance overview + Announcements ── */}
+      <div className="grid gap-6 grid-cols-1 lg:grid-cols-12">
+        {/* Today's Timetable */}
+        <div className="lg:col-span-5 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Today's Timetable</h3>
+              <Link href="/student/timetable" className="text-xs font-bold text-primary hover:underline">View Full Timetable</Link>
+            </div>
+            
+            <div className="space-y-2 text-xs">
+              {timetableToday.map((item) => (
+                <div key={item.period} className="flex items-center justify-between border-b border-border/40 pb-2 last:border-0 last:pb-0">
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary font-bold text-[9px]">
+                      {item.period}
+                    </span>
+                    <span className="text-[10px] font-bold font-mono text-muted-foreground w-[110px] shrink-0">
+                      {item.time}
+                    </span>
+                    <div>
+                      <p className="font-bold text-foreground leading-tight">{item.subject}</p>
+                      <p className="text-[9px] text-muted-foreground">{item.teacher}</p>
+                    </div>
+                  </div>
+                  <span className="text-[10px] font-bold text-foreground font-mono bg-muted/60 px-2 py-0.5 rounded border">
+                    {item.room}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Attendance Overview */}
+        <div className="lg:col-span-4 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <h3 className="text-sm font-semibold tracking-tight text-foreground pb-2 border-b border-border/40 mb-3">Attendance Overview (This Month)</h3>
+            <div className="h-[180px] flex items-center justify-between gap-1">
+              <div className="relative flex items-center justify-center h-full w-[45%] shrink-0">
+                <ResponsiveContainer width="100%" height="100%">
+                  <RechartsPieChart>
+                    <Pie
+                      data={attendanceOverviewData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={36}
+                      outerRadius={50}
+                      paddingAngle={2}
+                      dataKey="value"
+                    >
+                      {attendanceOverviewData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      formatter={(value: any) => [`${value} Days`, "Days"]}
+                      contentStyle={{
+                        backgroundColor: "white",
+                        borderColor: "hsl(var(--border))",
+                        color: "black",
+                        borderRadius: "8px",
+                        fontSize: "11px",
+                      }}
+                    />
+                  </RechartsPieChart>
+                </ResponsiveContainer>
+                <div className="absolute flex flex-col items-center justify-center text-center">
+                  <span className="text-base font-extrabold text-foreground leading-none">92%</span>
+                  <span className="text-[7px] uppercase font-bold text-muted-foreground mt-0.5 leading-none">Present</span>
+                </div>
+              </div>
+
+              <div className="w-[55%] flex flex-col justify-center space-y-2 text-[10px] sm:text-[11px] pr-1">
+                {attendanceOverviewData.map((item) => (
+                  <div key={item.name} className="flex items-center justify-between gap-1 border-b border-border/30 pb-1 last:border-0 last:pb-0">
+                    <div className="flex items-center gap-1.5 min-w-0">
+                      <span className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
+                      <span className="text-muted-foreground font-medium truncate" title={item.name}>{item.name}</span>
+                    </div>
+                    <span className="font-bold text-foreground shrink-0">{item.value} Days</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            <div className="bg-green-500/10 text-green-700 border border-green-500/10 rounded-lg p-2 text-center text-[10px] font-bold mt-2">
+              Good going! Your attendance is excellent.
+            </div>
+          </div>
+        </div>
+
+        {/* Recent Announcements */}
+        <div className="lg:col-span-3 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Recent Announcements</h3>
+              <Link href="/student/notices" className="text-xs font-bold text-primary hover:underline">View All</Link>
+            </div>
+            
+            <div className="space-y-3">
+              {announcements.map((item, idx) => (
+                <div key={idx} className="p-2.5 border border-border/60 rounded-xl bg-muted/10 flex flex-col gap-1">
+                  <div className="flex items-start gap-1.5">
+                    <span className={cn("h-2 w-2 rounded-full shrink-0 mt-1", item.color)} />
+                    <p className="text-[11px] font-semibold text-foreground leading-tight">{item.text}</p>
+                  </div>
+                  <span className="text-[9px] text-muted-foreground font-mono self-end">{item.date}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Row 3: Pending Homework + Upcoming Exams + Performance + Fee status ── */}
+      <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+        {/* Pending Homework */}
+        <div className="rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Pending Homework</h3>
+              <Link href="/student/homework" className="text-xs font-bold text-primary hover:underline">View All</Link>
+            </div>
+            
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs text-left min-w-[200px]">
+                <thead>
+                  <tr className="border-b border-border text-muted-foreground">
+                    <th className="pb-1.5 font-semibold">Topic</th>
+                    <th className="pb-1.5 font-semibold text-right">Due Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {pendingHomework.map((item, idx) => (
+                    <tr key={idx} className="border-b border-border/50 last:border-0 hover:bg-muted/10">
+                      <td className="py-2.5">
+                        <p className="font-bold text-foreground truncate max-w-[120px]" title={item.topic}>{item.topic}</p>
+                        <p className="text-[9px] text-muted-foreground">{item.subject}</p>
+                      </td>
+                      <td className="py-2.5 text-right font-mono">
+                        <span className={cn("px-1.5 py-0.5 rounded text-[9px] border inline-block whitespace-nowrap", item.badgeColor)}>
+                          {item.due}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        {/* Upcoming Exams */}
+        <div className="rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Upcoming Exams</h3>
+              <Link href="/student/examinations" className="text-xs font-bold text-primary hover:underline">View All</Link>
+            </div>
+            
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs text-left min-w-[200px]">
+                <thead>
+                  <tr className="border-b border-border text-muted-foreground">
+                    <th className="pb-2 font-semibold">Exam Code</th>
+                    <th className="pb-2 font-semibold">Subject</th>
+                    <th className="pb-2 font-semibold text-right">Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {upcomingExams.map((item, idx) => (
+                    <tr key={idx} className="border-b border-border/50 last:border-0 hover:bg-muted/10">
+                      <td className="py-2.5 font-medium text-foreground">{item.name}</td>
+                      <td className="py-2.5 text-muted-foreground">{item.subject}</td>
+                      <td className="py-2.5 text-right text-muted-foreground font-mono">{item.date}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        {/* Performance Overview */}
+        <div className="rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-1 border-b border-border/40 mb-4">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Subject Wise Performance</h3>
+              <select className="text-xs bg-muted/50 border border-border rounded-lg px-2 py-1 font-medium text-muted-foreground outline-none cursor-pointer">
+                <option>This Term</option>
+              </select>
+            </div>
+            <div className="h-[180px]">
+              <HorizontalBarChart
+                data={subjectPerformanceData}
+                yAxisKey="block"
+                barKey="Percentage"
+                barName="Score %"
+                color="#3b82f6"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Fee Payment status circular gauge */}
+        <div className="rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Fee Payment Status</h3>
+              <Link href="/student/fees" className="text-xs font-bold text-primary hover:underline">View Details</Link>
+            </div>
+            
+            <div className="flex flex-col items-center gap-3">
+              <div className="relative flex items-center justify-center h-24 w-24 shrink-0">
+                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="40" className="stroke-muted/20" strokeWidth="8" fill="transparent" />
+                  <circle cx="50" cy="50" r="40" className="stroke-success" strokeWidth="8" fill="transparent" strokeDasharray="251.2" strokeDashoffset={251.2 - (251.2 * 87.98) / 100} strokeLinecap="round" />
+                </svg>
+                <div className="absolute flex flex-col items-center justify-center text-center">
+                  <span className="text-[8px] text-muted-foreground font-bold uppercase leading-none">Total Fees</span>
+                  <span className="text-sm font-extrabold text-foreground mt-0.5">₹52,000</span>
+                </div>
+              </div>
+
+              <div className="w-full space-y-1 text-[11px] border-b border-border/40 pb-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1.5">
+                    <span className="h-2 w-2 rounded-full bg-green-500 shrink-0" />
+                    <span className="text-muted-foreground font-medium">Paid</span>
+                  </div>
+                  <span className="font-bold text-foreground">₹45,750</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1.5">
+                    <span className="h-2 w-2 rounded-full bg-orange-500 shrink-0" />
+                    <span className="text-muted-foreground font-medium">Pending</span>
+                  </div>
+                  <span className="font-bold text-foreground">₹6,250</span>
+                </div>
+              </div>
+              
+              <div className="flex justify-between items-center w-full mt-1">
+                <span className="text-[10px] text-red-500 font-bold">Due Date: 10 Jun 2025</span>
+                <Link href="/student/fees" className="px-3 py-1 bg-red-500 hover:bg-red-600 text-white rounded text-[10px] font-bold shadow-sm transition-colors">
+                  Pay Now
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Row 4: Library + Transport + Downloads + Quick Actions ── */}
+      <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+        {/* Library Info */}
+        <div className="rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Library</h3>
+              <Link href="/student/library" className="text-xs font-bold text-primary hover:underline">View All</Link>
+            </div>
+            <div className="flex gap-3">
+              <div className="h-16 w-12 bg-primary/10 border border-primary/20 rounded flex items-center justify-center text-primary text-[8px] font-bold text-center p-1 uppercase shrink-0">
+                Physics
+              </div>
+              <div className="min-w-0 text-xs flex flex-col justify-center">
+                <p className="font-bold text-foreground truncate">Fundamentals of Physics</p>
+                <p className="text-[10px] text-muted-foreground mt-0.5 truncate">Author: David Halliday</p>
+                <p className="text-[9px] text-muted-foreground font-mono mt-1">Issued: 20 May 2025</p>
+                <p className="text-[9px] text-red-500 font-bold font-mono mt-0.5">Due: 03 Jun 2025</p>
+              </div>
+            </div>
+          </div>
+          <span className="px-2 py-0.5 bg-green-500/10 text-green-600 border border-green-500/20 text-[9px] font-bold rounded uppercase self-start mt-3">
+            Issued
+          </span>
+        </div>
+
+        {/* Transport Info */}
+        <div className="rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <h3 className="text-sm font-semibold tracking-tight text-foreground pb-2 border-b border-border/40 mb-3">Transport</h3>
+            <div className="space-y-1.5 text-xs">
+              <div className="flex justify-between border-b border-border/30 pb-1">
+                <span className="text-muted-foreground font-medium">Bus No.</span>
+                <span className="font-mono font-bold text-foreground">UP32 AB 1234</span>
+              </div>
+              <div className="flex justify-between border-b border-border/30 pb-1">
+                <span className="text-muted-foreground font-medium">Route</span>
+                <span className="text-foreground truncate max-w-[120px] font-semibold" title="City Center - Green Valley">City Center - Green Valley</span>
+              </div>
+              <div className="flex justify-between border-b border-border/30 pb-1">
+                <span className="text-muted-foreground font-medium">Pickup Time</span>
+                <span className="font-mono text-foreground">07:15 AM</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground font-medium">Drop Time</span>
+                <span className="font-mono text-foreground">02:30 PM</span>
+              </div>
+            </div>
+          </div>
+          <span className="px-2 py-0.5 bg-green-500/10 text-green-600 border border-green-500/20 text-[9px] font-bold rounded uppercase self-start mt-3">
+            Active
+          </span>
+        </div>
+
+        {/* Downloads */}
+        <div className="rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Downloads</h3>
+              <Link href="/student/downloads" className="text-xs font-bold text-primary hover:underline">View All</Link>
+            </div>
+            
+            <div className="space-y-2 text-xs">
+              {downloads.map((item, idx) => (
+                <div key={idx} className="flex items-center justify-between border-b border-border/30 pb-1.5 last:border-0 last:pb-0 group hover:bg-muted/10 cursor-pointer">
+                  <span className="text-muted-foreground font-medium truncate max-w-[160px]" title={item.name}>{item.name}</span>
+                  <div className="flex h-5 w-5 items-center justify-center rounded bg-primary/10 text-primary border border-primary/10 shrink-0 group-hover:scale-105 transition-transform">
+                    <FileText className="h-3 w-3" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Quick Actions */}
+        <div className="rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <h3 className="text-sm font-semibold tracking-tight text-foreground pb-2 border-b border-border/40 mb-3">Quick Actions</h3>
+            <div className="grid grid-cols-2 gap-2">
+              {[
+                { label: "Apply Leave", color: "bg-green-500/10 text-green-500 border-green-500/10 hover:bg-green-500/20", href: "/student/leave" },
+                { label: "Fee Payment", color: "bg-red-500/10 text-red-500 border-red-500/10 hover:bg-red-500/20", href: "/student/fees" },
+                { label: "Ask Doubt", color: "bg-blue-500/10 text-blue-500 border-blue-500/10 hover:bg-blue-500/20", href: "/student/messages" },
+                { label: "Online Classes", color: "bg-purple-500/10 text-purple-500 border-purple-500/10 hover:bg-purple-500/20", href: "/student/timetable" },
+              ].map((act, idx) => (
+                <Link
+                  key={idx}
+                  href={act.href}
+                  className={cn("flex flex-col items-center justify-center p-2 rounded-lg border text-center text-[10px] font-bold transition-all shadow-sm", act.color)}
+                >
+                  {act.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="text-center py-4 border-t border-border/40">
+        <p className="text-[11px] text-muted-foreground">© 2025 School Management System ERP | All Rights Reserved</p>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────
+   Teacher Dashboard - matching reference image exactly
+   ───────────────────────────────────────────────────────── */
+
+function TeacherDashboard() {
+  const attendanceOverviewData = [
+    { name: "Present", value: 92, color: "#22c55e" },
+    { name: "Absent", value: 6, color: "#ef4444" },
+    { name: "Leave", value: 2, color: "#f59e0b" },
+  ];
+
+  const classPerformanceData = [
+    { block: "Class 7-B", Percentage: 72, color: "#8b5cf6" },
+    { block: "Class 8-A", Percentage: 83, color: "#22c55e" },
+    { block: "Class 9-A", Percentage: 78, color: "#f59e0b" },
+    { block: "Class 9-B", Percentage: 68, color: "#ec4899" },
+    { block: "Class 10-B", Percentage: 85, color: "#3b82f6" },
+  ];
+
+  const timetableToday = [
+    { time: "08:30 AM", class: "Class 9-A", subject: "Mathematics", status: "Completed", color: "bg-green-500/10 text-green-600 border-green-500/20" },
+    { time: "09:30 AM", class: "Class 10-B", subject: "Mathematics", status: "Completed", color: "bg-green-500/10 text-green-600 border-green-500/20" },
+    { time: "10:30 AM", class: "Class 8-A", subject: "Mathematics", status: "In Progress", color: "bg-blue-500/10 text-blue-600 border-blue-500/20" },
+    { time: "11:30 AM", class: "Class 7-B", subject: "Mathematics", status: "Upcoming", color: "bg-muted text-muted-foreground border-border" },
+    { time: "01:00 PM", class: "Class 9-B", subject: "Mathematics", status: "Upcoming", color: "bg-muted text-muted-foreground border-border" },
+  ];
+
+  const classesOverview = [
+    { class: "Class 9-A", subject: "Mathematics", students: 28 },
+    { class: "Class 10-B", subject: "Mathematics", students: 23 },
+    { class: "Class 8-A", subject: "Mathematics", students: 25 },
+    { class: "Class 7-B", subject: "Mathematics", students: 26 },
+    { class: "Class 9-B", subject: "Mathematics", students: 26 },
+    { class: "Class 10-A", subject: "Mathematics", students: 28 },
+  ];
+
+  const recentHomework = [
+    { topic: "Quadratic Equations", class: "Class 9-A", ratio: "12/28 Submitted" },
+    { topic: "Surface Areas & Volumes", class: "Class 10-B", ratio: "18/23 Submitted" },
+    { topic: "Linear Equations", class: "Class 8-A", ratio: "10/25 Submitted" },
+    { topic: "Integers", class: "Class 7-B", ratio: "8/26 Submitted" },
+    { topic: "Real Numbers", class: "Class 9-B", ratio: "20/26 Submitted" },
+  ];
+
+  const announcements = [
+    { text: "PTM is scheduled on 07 June 2025.", date: "29 May 2025", color: "bg-blue-500" },
+    { text: "Summer holiday from 15 June 2025.", date: "28 May 2025", color: "bg-amber-500" },
+    { text: "Maths Quiz for Class 8 on 03 June.", date: "27 May 2025", color: "bg-purple-500" },
+    { text: "Submit assignment on time.", date: "26 May 2025", color: "bg-green-500" },
+    { text: "Extra classes for weak students on 31 May 2025.", date: "25 May 2025", color: "bg-green-500" },
+  ];
+
+  const evaluationList = [
+    { test: "Unit Test - 1", class: "Class 10-B", subject: "Mathematics", total: 23, evaluated: 20, pending: 3, status: "Evaluate", color: "bg-blue-500/10 text-blue-600 border-blue-500/20 hover:bg-blue-500/20 cursor-pointer" },
+    { test: "Mid Term Exam", class: "Class 9-A", subject: "Mathematics", total: 28, evaluated: 25, pending: 3, status: "Evaluate", color: "bg-blue-500/10 text-blue-600 border-blue-500/20 hover:bg-blue-500/20 cursor-pointer" },
+    { test: "Unit Test - 1", class: "Class 8-A", subject: "Mathematics", total: 25, evaluated: 25, pending: 0, status: "Completed", color: "bg-green-500/10 text-green-600 border-green-500/20" },
+    { test: "Monthly Test", class: "Class 7-B", subject: "Mathematics", total: 26, evaluated: 18, pending: 8, status: "Evaluate", color: "bg-blue-500/10 text-blue-600 border-blue-500/20 hover:bg-blue-500/20 cursor-pointer" },
+  ];
+
+  const upcomingClassesReminders = [
+    { class: "Class 9-A", subject: "Mathematics", date: "30 May 2025", time: "08:30 AM" },
+    { class: "Class 10-B", subject: "Mathematics", date: "30 May 2025", time: "09:30 AM" },
+    { class: "Class 8-A", subject: "Mathematics", date: "30 May 2025", time: "10:30 AM" },
+  ];
+
+  return (
+    <div className="space-y-6 text-left">
+      {/* Page Header */}
+      <PageHeader
+        title="Teacher Dashboard"
+        description="Plan classes, register roll calls, publish assignments, configure exams, and manage reports."
+        actions={
+          <div className="flex items-center gap-3">
+            <select className="text-xs bg-card border border-border rounded-lg px-3 py-1.5 font-semibold text-muted-foreground outline-none cursor-pointer">
+              <option>Session 2024-25</option>
+              <option>Session 2025-26</option>
+            </select>
+            <select className="text-xs bg-card border border-border rounded-lg px-3 py-1.5 font-semibold text-muted-foreground outline-none cursor-pointer">
+              <option>Green Valley School</option>
+            </select>
+          </div>
+        }
+      />
+
+      {/* Date Display */}
+      <div className="flex justify-end items-center gap-1.5 text-muted-foreground text-xs font-semibold -mt-2">
+        <span>Today, 29 May 2025</span>
+        <Calendar className="h-4 w-4 text-muted-foreground" />
+      </div>
+
+      {/* ── Row 1: Top 6 KPI Cards ── */}
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+        <KPICard
+          title="My Classes"
+          value="6"
+          icon={GraduationCap}
+          description="All Classes"
+          color="purple"
+        />
+        <KPICard
+          title="My Students"
+          value="156"
+          icon={Users}
+          description="Total Students"
+          color="blue"
+        />
+        <KPICard
+          title="Today's Classes"
+          value="4"
+          icon={Calendar}
+          description="Next: 10:30 AM"
+          color="green"
+        />
+        <KPICard
+          title="Pending Homework"
+          value="3"
+          icon={ClipboardList}
+          description="To Be Checked"
+          color="orange"
+        />
+        <KPICard
+          title="Pending Exams"
+          value="2"
+          icon={FileCheck}
+          description="To Be Evaluated"
+          color="red"
+        />
+        <KPICard
+          title="Leave Balance"
+          value="12"
+          icon={CalendarRange}
+          description="Days Remaining"
+          color="blue"
+        />
+      </div>
+
+      {/* ── Row 2: Timetable + Attendance overview + Classes list ── */}
+      <div className="grid gap-6 grid-cols-1 lg:grid-cols-12">
+        {/* Timetable Card */}
+        <div className="lg:col-span-4 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Today's Timetable</h3>
+              <Link href="/teacher/timetable" className="text-xs font-bold text-primary hover:underline">View Full Timetable</Link>
+            </div>
+            
+            <div className="space-y-3">
+              {timetableToday.map((item, idx) => (
+                <div key={idx} className="flex items-center justify-between border-b border-border/40 pb-2 last:border-0 last:pb-0">
+                  <div className="flex items-center gap-3">
+                    <span className="text-[10px] font-bold font-mono text-muted-foreground">{item.time}</span>
+                    <span className="h-4 w-0.5 bg-border shrink-0" />
+                    <div>
+                      <p className="text-xs font-bold text-foreground">{item.class}</p>
+                      <p className="text-[10px] text-muted-foreground">{item.subject}</p>
+                    </div>
+                  </div>
+                  <span className={cn("px-2 py-0.5 rounded text-[9px] font-bold border inline-block uppercase", item.color)}>
+                    {item.status}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Attendance Overview Donut Chart */}
+        <div className="lg:col-span-4 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <h3 className="text-sm font-semibold tracking-tight text-foreground pb-2 border-b border-border/40 mb-3">Attendance Overview (This Month)</h3>
+            <div className="h-[180px] flex items-center justify-between gap-1">
+              <div className="relative flex items-center justify-center h-full w-[45%] shrink-0">
+                <ResponsiveContainer width="100%" height="100%">
+                  <RechartsPieChart>
+                    <Pie
+                      data={attendanceOverviewData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={36}
+                      outerRadius={50}
+                      paddingAngle={2}
+                      dataKey="value"
+                    >
+                      {attendanceOverviewData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      formatter={(value: any) => [`${value}%`, "Share"]}
+                      contentStyle={{
+                        backgroundColor: "white",
+                        borderColor: "hsl(var(--border))",
+                        color: "black",
+                        borderRadius: "8px",
+                        fontSize: "11px",
+                      }}
+                    />
+                  </RechartsPieChart>
+                </ResponsiveContainer>
+                <div className="absolute flex flex-col items-center justify-center text-center">
+                  <span className="text-base font-extrabold text-foreground leading-none">92%</span>
+                  <span className="text-[6.5px] uppercase font-bold text-muted-foreground mt-0.5 leading-none">Average Attendance</span>
+                </div>
+              </div>
+
+              <div className="w-[55%] flex flex-col justify-center space-y-2 text-[10px] sm:text-[11px] pr-1">
+                {attendanceOverviewData.map((item) => (
+                  <div key={item.name} className="flex items-center justify-between gap-1 border-b border-border/30 pb-1 last:border-0 last:pb-0">
+                    <div className="flex items-center gap-1.5 min-w-0">
+                      <span className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
+                      <span className="text-muted-foreground font-medium truncate" title={item.name}>{item.name}</span>
+                    </div>
+                    <span className="font-bold text-foreground shrink-0">{item.value}%</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* My Classes Overview Table */}
+        <div className="lg:col-span-4 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">My Classes Overview</h3>
+              <Link href="/teacher/my-classes" className="text-xs font-bold text-primary hover:underline">View All</Link>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs text-left min-w-[200px]">
+                <thead>
+                  <tr className="border-b border-border text-muted-foreground">
+                    <th className="pb-1.5 font-semibold">Class</th>
+                    <th className="pb-1.5 font-semibold">Subject</th>
+                    <th className="pb-1.5 font-semibold text-center">Students</th>
+                    <th className="pb-1.5 font-semibold text-right">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {classesOverview.map((item, idx) => (
+                    <tr key={idx} className="border-b border-border/50 last:border-0 hover:bg-muted/10">
+                      <td className="py-2.5 font-bold text-foreground">{item.class}</td>
+                      <td className="py-2.5 text-muted-foreground">{item.subject}</td>
+                      <td className="py-2.5 text-center text-muted-foreground font-mono">{item.students}</td>
+                      <td className="py-2.5 text-right">
+                        <Link href={`/teacher/students?class=${item.class}`} className="text-primary font-bold hover:underline">View</Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Row 3: Recent Homework + Recent Announcements + Student Performance Overview ── */}
+      <div className="grid gap-6 grid-cols-1 md:grid-cols-3">
+        {/* Recent Homework */}
+        <div className="rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Recent Homework</h3>
+              <Link href="/teacher/homework" className="text-xs font-bold text-primary hover:underline">View All</Link>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs text-left min-w-[200px]">
+                <thead>
+                  <tr className="border-b border-border text-muted-foreground">
+                    <th className="pb-2 font-semibold">Homework Topic</th>
+                    <th className="pb-2 font-semibold">Class</th>
+                    <th className="pb-2 font-semibold text-right">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {recentHomework.map((item, idx) => (
+                    <tr key={idx} className="border-b border-border/50 last:border-0 hover:bg-muted/10">
+                      <td className="py-2.5 font-medium text-foreground">{item.topic}</td>
+                      <td className="py-2.5 text-muted-foreground font-mono">{item.class}</td>
+                      <td className="py-2.5 text-right font-bold font-mono text-green-500">{item.ratio}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        {/* Recent Announcements */}
+        <div className="rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Recent Announcements</h3>
+              <Link href="/teacher/notice-board" className="text-xs font-bold text-primary hover:underline">View All</Link>
+            </div>
+            <div className="space-y-3">
+              {announcements.map((n, idx) => (
+                <div key={idx} className="p-2 border border-border/60 rounded-lg bg-muted/10 flex flex-col gap-1">
+                  <div className="flex items-start gap-1.5">
+                    <span className={cn("h-2 w-2 rounded-full shrink-0 mt-1", n.color)} />
+                    <p className="text-[11px] font-semibold text-foreground leading-tight">{n.text}</p>
+                  </div>
+                  <span className="text-[9px] text-muted-foreground font-mono self-end">{n.date}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Student Performance Overview Bar Chart */}
+        <div className="rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-1 border-b border-border/40 mb-4">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Student Performance Overview</h3>
+              <select className="text-xs bg-muted/50 border border-border rounded-lg px-2 py-1 font-medium text-muted-foreground outline-none cursor-pointer">
+                <option>This Month</option>
+              </select>
+            </div>
+            <div className="h-[180px]">
+              <HorizontalBarChart
+                data={classPerformanceData}
+                yAxisKey="block"
+                barKey="Percentage"
+                barName="Class Average %"
+                color="#3b82f6"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Row 4: Examination/Evaluation + Upcoming Classes ── */}
+      <div className="grid gap-6 grid-cols-1 lg:grid-cols-12">
+        {/* Examination / Evaluation Table */}
+        <div className="lg:col-span-8 bg-card border border-border rounded-xl p-5 shadow-sm">
+          <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+            <h3 className="text-sm font-semibold tracking-tight text-foreground">Examination / Evaluation</h3>
+            <Link href="/teacher/examinations" className="text-xs font-bold text-primary hover:underline">View All</Link>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs text-left min-w-[500px]">
+              <thead>
+                <tr className="border-b border-border text-muted-foreground">
+                  <th className="pb-2 font-semibold">Exam / Test</th>
+                  <th className="pb-2 font-semibold">Class</th>
+                  <th className="pb-2 font-semibold">Subject</th>
+                  <th className="pb-2 font-semibold text-center">Total Students</th>
+                  <th className="pb-2 font-semibold text-center">Evaluated</th>
+                  <th className="pb-2 font-semibold text-center">Pending</th>
+                  <th className="pb-2 font-semibold text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {evaluationList.map((item, idx) => (
+                  <tr key={idx} className="border-b border-border/50 last:border-0 hover:bg-muted/10">
+                    <td className="py-2.5 font-medium text-foreground">{item.test}</td>
+                    <td className="py-2.5 font-bold text-foreground">{item.class}</td>
+                    <td className="py-2.5 text-muted-foreground">{item.subject}</td>
+                    <td className="py-2.5 text-center text-muted-foreground font-mono">{item.total}</td>
+                    <td className="py-2.5 text-center text-muted-foreground font-mono">{item.evaluated}</td>
+                    <td className="py-2.5 text-center text-red-500 font-bold font-mono">{item.pending}</td>
+                    <td className="py-2.5 text-right">
+                      <span className={cn("px-3 py-1 rounded text-[10px] font-bold border inline-block", item.color)}>
+                        {item.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Upcoming Classes reminders */}
+        <div className="lg:col-span-4 bg-card border border-border rounded-xl p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <h3 className="text-sm font-semibold tracking-tight text-foreground pb-2 border-b border-border/40 mb-3">Upcoming Classes</h3>
+            <div className="space-y-3">
+              {upcomingClassesReminders.map((item, idx) => (
+                <div key={idx} className="p-3 border border-border/60 rounded-xl bg-muted/10 flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2">
+                    <div className="flex h-7 w-7 items-center justify-center rounded bg-blue-500/10 text-blue-500 border border-blue-500/10">
+                      <Calendar className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-foreground">{item.class}</p>
+                      <p className="text-[10px] text-muted-foreground">{item.subject}</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-[10px] font-bold text-foreground font-mono">{item.time}</p>
+                    <p className="text-[9px] text-muted-foreground font-semibold font-mono">{item.date}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="text-center py-4 border-t border-border/40">
+        <p className="text-[11px] text-muted-foreground">© 2025 School Management System ERP | All Rights Reserved</p>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────
+   Hostel Warden Dashboard - matching reference image exactly
+   ───────────────────────────────────────────────────────── */
+
+function HostelDashboard() {
+  const occupancyOverviewData = [
+    { name: "Occupied Beds", value: 256, color: "#8b5cf6" },
+    { name: "Vacant Beds", value: 64, color: "#22c55e" },
+  ];
+
+  const blockOccupancyData = [
+    { block: "A Block", Percentage: 90, color: "#8b5cf6" },
+    { block: "B Block", Percentage: 75, color: "#22c55e" },
+    { block: "C Block", Percentage: 85, color: "#f59e0b" },
+    { block: "D Block", Percentage: 70, color: "#3b82f6" },
+    { block: "E Block", Percentage: 60, color: "#ec4899" },
+  ];
+
+  const pendingFeesData = [
+    { name: "Rohan Verma", room: "Room B-203", amount: 8500 },
+    { name: "Arjun Singh", room: "Room C-105", amount: 7500 },
+    { name: "Karan Gupta", room: "Room A-101", amount: 6000 },
+    { name: "Vivek Kumar", room: "Room D-201", amount: 5750 },
+    { name: "Manish Patel", room: "Room B-204", amount: 5000 },
+  ];
+
+  const recentCheckIns = [
+    { name: "Rohan Verma", room: "Room B-203", date: "29 May 2025", time: "09:15 AM" },
+    { name: "Arjun Singh", room: "Room C-105", date: "29 May 2025", time: "10:20 AM" },
+    { name: "Vivek Kumar", room: "Room A-101", date: "28 May 2025", time: "08:45 AM" },
+    { name: "Karan Gupta", room: "Room B-204", date: "28 May 2025", time: "07:30 PM" },
+    { name: "Suresh Kumar", room: "Room D-104", date: "28 May 2025", time: "06:10 PM" },
+  ];
+
+  const leaveRequests = [
+    { name: "Rohan Verma", room: "Room B-203", status: "Pending", color: "bg-amber-500/10 text-amber-600 border-amber-500/20" },
+    { name: "Aryan Mishra", room: "Room A-202", status: "Approved", color: "bg-green-500/10 text-green-600 border-green-500/20" },
+    { name: "Vivek Kumar", room: "Room C-105", status: "Pending", color: "bg-amber-500/10 text-amber-600 border-amber-500/20" },
+    { name: "Manish Patel", room: "Room D-201", status: "Approved", color: "bg-green-500/10 text-green-600 border-green-500/20" },
+    { name: "Karan Gupta", room: "Room B-204", status: "Rejected", color: "bg-red-500/10 text-red-600 border-red-500/20" },
+  ];
+
+  const todaysVisitors = [
+    { name: "Ravi Verma", relation: "Father of Rohan", time: "11:30 AM" },
+    { name: "Suresh Kumar", relation: "Father of Aryan", time: "12:15 PM" },
+    { name: "Pooja Sharma", relation: "Mother of Vivek", time: "02:20 PM" },
+    { name: "Anil Patel", relation: "Uncle of Manish", time: "04:10 PM" },
+    { name: "Neha Gupta", relation: "Sister of Karan", time: "05:05 PM" },
+  ];
+
+  const recentComplaints = [
+    { title: "Wi-Fi not working", room: "Room C-105", date: "28 May 2025", status: "Resolved", color: "bg-green-500/10 text-green-600 border-green-500/20" },
+    { title: "Mess food quality", room: "Room A-101", date: "28 May 2025", status: "In Progress", color: "bg-blue-500/10 text-blue-600 border-blue-500/20" },
+    { title: "Water problem in washroom", room: "Room B-203", date: "27 May 2025", status: "In Progress", color: "bg-blue-500/10 text-blue-600 border-blue-500/20" },
+    { title: "TV in common room not working", room: "Room D-201", date: "27 May 2025", status: "Resolved", color: "bg-green-500/10 text-green-600 border-green-500/20" },
+    { title: "Ac cooler not working", room: "Room E-102", date: "26 May 2025", status: "Resolved", color: "bg-green-500/10 text-green-600 border-green-500/20" },
+  ];
+
+  const feeSummaryData = [
+    { block: "A Block", students: 68, collected: 124000, pending: 16000, total: 140000 },
+    { block: "B Block", students: 72, collected: 120000, pending: 15000, total: 135000 },
+    { block: "C Block", students: 50, collected: 92000, pending: 12000, total: 104000 },
+    { block: "D Block", students: 40, collected: 56000, pending: 9000, total: 65000 },
+    { block: "E Block", students: 26, collected: 40000, pending: 6750, total: 46750 },
+  ];
+
+  const roomStatusData = [
+    { name: "Occupied", value: 38, color: "#8b5cf6" },
+    { name: "Vacant", value: 2, color: "#22c55e" },
+    { name: "Maintenance", value: 2, color: "#f59e0b" },
+  ];
+
+  const notices = [
+    { text: "Mess will be closed on 02 June 2025 (Monday) due to public holiday.", date: "29 May 2025", color: "bg-purple-500" },
+    { text: "Library timing in hostel is 6:00 PM to 9:00 PM.", date: "28 May 2025", color: "bg-green-500" },
+    { text: "All students are requested to keep their rooms clean.", date: "27 May 2025", color: "bg-amber-500" },
+    { text: "Hostel fee for June month is due before 05 June 2025.", date: "27 May 2025", color: "bg-blue-500" },
+  ];
+
+  return (
+    <div className="space-y-6 text-left">
+      {/* Page Header */}
+      <PageHeader
+        title="Hostel Warden Dashboard"
+        description="Monitor student accommodation status, review leave registrations, audit collections, and track complaints."
+        actions={
+          <div className="flex items-center gap-3">
+            <select className="text-xs bg-card border border-border rounded-lg px-3 py-1.5 font-semibold text-muted-foreground outline-none cursor-pointer">
+              <option>Session 2024-25</option>
+              <option>Session 2025-26</option>
+            </select>
+            <select className="text-xs bg-card border border-border rounded-lg px-3 py-1.5 font-semibold text-muted-foreground outline-none cursor-pointer">
+              <option>Green Valley School</option>
+            </select>
+          </div>
+        }
+      />
+
+      {/* Date Display */}
+      <div className="flex justify-end items-center gap-1.5 text-muted-foreground text-xs font-semibold -mt-2">
+        <span>Today, 29 May 2025</span>
+        <Calendar className="h-4 w-4 text-muted-foreground" />
+      </div>
+
+      {/* ── Row 1: Top 5 KPI Cards ── */}
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <KPICard
+          title="Total Students"
+          value="256"
+          icon={Users}
+          trend={{ value: 4.9, isPositive: true }}
+          description="↑ 12 this month"
+          color="purple"
+        />
+        <KPICard
+          title="Rooms"
+          value="42"
+          icon={Home}
+          description="Allotted: 38"
+          color="blue"
+        />
+        <KPICard
+          title="Beds"
+          value="320"
+          icon={Home}
+          description="Occupied: 256"
+          color="orange"
+        />
+        <KPICard
+          title="Occupancy"
+          value="80%"
+          icon={CheckCircle}
+          trend={{ value: 6.67, isPositive: true }}
+          description="↑ 5% this month"
+          color="green"
+        />
+        <KPICard
+          title="Pending Fees"
+          value="₹48,750"
+          icon={CreditCard}
+          description="12 Students"
+          color="red"
+        />
+      </div>
+
+      {/* ── Row 2: Charts + Right side details ── */}
+      <div className="grid gap-6 grid-cols-1 lg:grid-cols-12">
+        {/* Occupancy Donut Chart */}
+        <div className="lg:col-span-3 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <h3 className="text-sm font-semibold tracking-tight text-foreground pb-2 border-b border-border/40 mb-3">Hostel Occupancy Overview</h3>
+            <div className="h-[180px] flex items-center justify-between gap-1">
+              <div className="relative flex items-center justify-center h-full w-[45%] shrink-0">
+                <ResponsiveContainer width="100%" height="100%">
+                  <RechartsPieChart>
+                    <Pie
+                      data={occupancyOverviewData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={36}
+                      outerRadius={50}
+                      paddingAngle={2}
+                      dataKey="value"
+                    >
+                      {occupancyOverviewData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      formatter={(value: any) => [`${value} Beds`, "Beds"]}
+                      contentStyle={{
+                        backgroundColor: "white",
+                        borderColor: "hsl(var(--border))",
+                        color: "black",
+                        borderRadius: "8px",
+                        fontSize: "11px",
+                      }}
+                    />
+                  </RechartsPieChart>
+                </ResponsiveContainer>
+                <div className="absolute flex flex-col items-center justify-center text-center">
+                  <span className="text-sm font-extrabold text-foreground leading-none">256</span>
+                  <span className="text-[7px] uppercase font-bold text-muted-foreground mt-0.5 leading-none">Occupied</span>
+                </div>
+              </div>
+
+              <div className="w-[55%] flex flex-col justify-center space-y-2 text-[10px] sm:text-[11px] pr-1">
+                {occupancyOverviewData.map((item) => {
+                  const percent = ((item.value / 320) * 100).toFixed(0);
+                  return (
+                    <div key={item.name} className="flex items-center justify-between gap-1">
+                      <div className="flex items-center gap-1">
+                        <span className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
+                        <span className="text-muted-foreground font-medium truncate" title={item.name}>{item.name}</span>
+                      </div>
+                      <span className="font-bold text-foreground shrink-0">{item.value} ({percent}%)</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="text-center pt-2.5 mt-2.5 border-t border-border/45">
+              <span className="text-[11px] font-bold text-muted-foreground">Total Beds: 320</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Room Occupancy Block Wise */}
+        <div className="lg:col-span-4 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-1 border-b border-border/40 mb-4">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Room Occupancy (Block Wise)</h3>
+              <select className="text-xs bg-muted/50 border border-border rounded-lg px-2 py-1 font-medium text-muted-foreground outline-none cursor-pointer">
+                <option>This Month</option>
+              </select>
+            </div>
+            <div className="h-[180px]">
+              <HorizontalBarChart
+                data={blockOccupancyData}
+                yAxisKey="block"
+                barKey="Percentage"
+                barName="Occupancy %"
+                color="#8b5cf6"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Today's Check-In / Check-Out */}
+        <div className="lg:col-span-2 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <h3 className="text-sm font-semibold tracking-tight text-foreground pb-2 border-b border-border/40 mb-3">Today's Activity</h3>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between border-b border-border/40 pb-2">
+                <div className="flex items-center gap-2">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-green-500/10 text-green-500 border border-green-500/10">
+                    <UserCheck className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-foreground">Check-In</p>
+                    <p className="text-[10px] text-muted-foreground">8 Students</p>
+                  </div>
+                </div>
+                <Link href="/hostel/visitors" className="text-[10px] font-bold text-primary hover:underline">View All</Link>
+              </div>
+
+              <div className="flex items-center justify-between border-b border-border/40 pb-2">
+                <div className="flex items-center gap-2">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-red-500/10 text-red-500 border border-red-500/10">
+                    <X className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-foreground">Check-Out</p>
+                    <p className="text-[10px] text-muted-foreground">3 Students</p>
+                  </div>
+                </div>
+                <Link href="/hostel/visitors" className="text-[10px] font-bold text-primary hover:underline">View All</Link>
+              </div>
+
+              <div className="flex items-center justify-between border-b border-border/40 pb-2">
+                <div className="flex items-center gap-2">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-blue-500/10 text-blue-500 border border-blue-500/10">
+                    <Users className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-foreground">Total Present</p>
+                    <p className="text-[10px] text-muted-foreground">234 Students</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-orange-500/10 text-orange-500 border border-orange-500/10">
+                    <Users className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-foreground">Total Absent</p>
+                    <p className="text-[10px] text-muted-foreground">22 Students</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Pending Hostel Fees */}
+        <div className="lg:col-span-3 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Pending Hostel Fees</h3>
+              <Link href="/hostel/finance" className="text-xs font-bold text-primary hover:underline">View All</Link>
+            </div>
+            <div className="space-y-2">
+              {pendingFeesData.map((item, idx) => (
+                <div key={idx} className="flex items-center justify-between text-xs py-1 border-b border-border/40 last:border-0 last:pb-0">
+                  <div className="min-w-0">
+                    <p className="font-bold text-foreground truncate">{item.name}</p>
+                    <p className="text-[9px] text-muted-foreground">{item.room}</p>
+                  </div>
+                  <span className="font-bold text-foreground shrink-0">₹{item.amount.toLocaleString()}</span>
+                </div>
+              ))}
+            </div>
+            <div className="flex justify-between items-center pt-2.5 mt-2 border-t border-border/45 text-xs">
+              <span className="font-semibold text-muted-foreground">Total Pending</span>
+              <span className="font-extrabold text-red-500">₹48,750</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Row 3: Four Columns (Logs & Milestones) ── */}
+      <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+        {/* Recent Check-Ins */}
+        <div className="rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Recent Check-Ins</h3>
+              <Link href="/hostel/visitors" className="text-xs font-bold text-primary hover:underline">View All</Link>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs text-left min-w-[200px]">
+                <thead>
+                  <tr className="border-b border-border text-muted-foreground">
+                    <th className="pb-2 font-semibold">Student</th>
+                    <th className="pb-2 font-semibold">Date</th>
+                    <th className="pb-2 font-semibold text-right">Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {recentCheckIns.map((item, idx) => (
+                    <tr key={idx} className="border-b border-border/50 last:border-0 hover:bg-muted/10">
+                      <td className="py-2">
+                        <p className="font-medium text-foreground">{item.name}</p>
+                        <p className="text-[9px] text-muted-foreground">{item.room}</p>
+                      </td>
+                      <td className="py-2 text-muted-foreground font-mono">{item.date}</td>
+                      <td className="py-2 text-right text-muted-foreground font-mono">{item.time}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        {/* Leave Requests */}
+        <div className="rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Leave Requests</h3>
+              <Link href="/hostel/leave" className="text-xs font-bold text-primary hover:underline">View All</Link>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs text-left min-w-[200px]">
+                <thead>
+                  <tr className="border-b border-border text-muted-foreground">
+                    <th className="pb-2 font-semibold">Student</th>
+                    <th className="pb-2 font-semibold">Room</th>
+                    <th className="pb-2 font-semibold text-right">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {leaveRequests.map((item, idx) => (
+                    <tr key={idx} className="border-b border-border/50 last:border-0 hover:bg-muted/10">
+                      <td className="py-2 font-medium text-foreground">{item.name}</td>
+                      <td className="py-2 text-muted-foreground font-mono">{item.room}</td>
+                      <td className="py-2 text-right">
+                        <span className={cn("px-2 py-0.5 rounded text-[9px] font-bold border inline-block", item.color)}>
+                          {item.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        {/* Today's Visitors */}
+        <div className="rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Today's Visitors</h3>
+              <Link href="/hostel/visitors" className="text-xs font-bold text-primary hover:underline">View All</Link>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs text-left min-w-[200px]">
+                <thead>
+                  <tr className="border-b border-border text-muted-foreground">
+                    <th className="pb-2 font-semibold">Visitor</th>
+                    <th className="pb-2 font-semibold">Relation</th>
+                    <th className="pb-2 font-semibold text-right">Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {todaysVisitors.map((item, idx) => (
+                    <tr key={idx} className="border-b border-border/50 last:border-0 hover:bg-muted/10">
+                      <td className="py-2.5 font-medium text-foreground">{item.name}</td>
+                      <td className="py-2.5 text-muted-foreground">{item.relation}</td>
+                      <td className="py-2.5 text-right text-muted-foreground font-mono">{item.time}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        {/* Recent Complaints */}
+        <div className="rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Recent Complaints</h3>
+              <Link href="/hostel/complaints" className="text-xs font-bold text-primary hover:underline">View All</Link>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs text-left min-w-[200px]">
+                <thead>
+                  <tr className="border-b border-border text-muted-foreground">
+                    <th className="pb-2 font-semibold">Complaint</th>
+                    <th className="pb-2 font-semibold">Date</th>
+                    <th className="pb-2 font-semibold text-right">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {recentComplaints.map((item, idx) => (
+                    <tr key={idx} className="border-b border-border/50 last:border-0 hover:bg-muted/10">
+                      <td className="py-2">
+                        <p className="font-medium text-foreground truncate max-w-[90px]" title={item.title}>{item.title}</p>
+                        <p className="text-[9px] text-muted-foreground">{item.room}</p>
+                      </td>
+                      <td className="py-2 text-muted-foreground font-mono">{item.date.split(" ")[0]}</td>
+                      <td className="py-2 text-right">
+                        <span className={cn("px-1.5 py-0.5 rounded text-[9px] font-bold border inline-block whitespace-nowrap", item.color)}>
+                          {item.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Row 4: Fee collection summary & notices ── */}
+      <div className="grid gap-6 grid-cols-1 lg:grid-cols-12">
+        {/* Hostel Fee Collection Summary */}
+        <div className="lg:col-span-6 bg-card border border-border rounded-xl p-5 shadow-sm">
+          <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+            <h3 className="text-sm font-semibold tracking-tight text-foreground">Hostel Fee Collection Summary</h3>
+            <select className="text-xs bg-muted/50 border border-border rounded-lg px-2 py-1 font-medium text-muted-foreground outline-none cursor-pointer">
+              <option>This Month</option>
+            </select>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs text-left min-w-[450px]">
+              <thead>
+                <tr className="border-b border-border text-muted-foreground">
+                  <th className="pb-2 font-semibold">Block</th>
+                  <th className="pb-2 font-semibold text-center">Total Students</th>
+                  <th className="pb-2 font-semibold">Collected (₹)</th>
+                  <th className="pb-2 font-semibold">Pending (₹)</th>
+                  <th className="pb-2 font-semibold text-right">Total (₹)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {feeSummaryData.map((item, idx) => (
+                  <tr key={idx} className="border-b border-border/50 last:border-0 hover:bg-muted/10">
+                    <td className="py-2.5 font-medium text-foreground">{item.block}</td>
+                    <td className="py-2.5 text-center text-muted-foreground">{item.students}</td>
+                    <td className="py-2.5 text-muted-foreground font-mono">₹{item.collected.toLocaleString()}</td>
+                    <td className="py-2.5 text-muted-foreground font-mono">₹{item.pending.toLocaleString()}</td>
+                    <td className="py-2.5 text-right font-bold text-foreground font-mono">₹{item.total.toLocaleString()}</td>
+                  </tr>
+                ))}
+                <tr className="border-t border-border/60 font-bold bg-muted/5">
+                  <td className="py-2.5 text-foreground">Total</td>
+                  <td className="py-2.5 text-center text-foreground">256</td>
+                  <td className="py-2.5 text-foreground font-mono">₹4,32,000</td>
+                  <td className="py-2.5 text-red-500 font-mono">₹58,750</td>
+                  <td className="py-2.5 text-right text-foreground font-mono">₹4,90,750</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Room Status Overview Donut Chart */}
+        <div className="lg:col-span-3 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <h3 className="text-sm font-semibold tracking-tight text-foreground pb-2 border-b border-border/40 mb-3">Room Status Overview</h3>
+            <div className="flex flex-col items-center gap-3">
+              <div className="relative flex items-center justify-center h-28 w-28 shrink-0">
+                <ResponsiveContainer width="100%" height="100%">
+                  <RechartsPieChart>
+                    <Pie
+                      data={roomStatusData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={30}
+                      outerRadius={45}
+                      paddingAngle={2}
+                      dataKey="value"
+                    >
+                      {roomStatusData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      formatter={(value: any) => [`${value} Rooms`, "Rooms"]}
+                      contentStyle={{
+                        backgroundColor: "white",
+                        borderColor: "hsl(var(--border))",
+                        color: "black",
+                        borderRadius: "8px",
+                        fontSize: "11px",
+                      }}
+                    />
+                  </RechartsPieChart>
+                </ResponsiveContainer>
+                <div className="absolute flex flex-col items-center justify-center text-center">
+                  <span className="text-base font-extrabold text-foreground leading-none">42</span>
+                  <span className="text-[7px] text-muted-foreground font-bold mt-0.5 uppercase tracking-wide">Total Rooms</span>
+                </div>
+              </div>
+
+              <div className="w-full space-y-1 text-[11px]">
+                {roomStatusData.map((item) => {
+                  const percent = ((item.value / 42) * 100).toFixed(0);
+                  return (
+                    <div key={item.name} className="flex items-center justify-between border-b border-border/40 pb-1 last:border-0 last:pb-0">
+                      <div className="flex items-center gap-1">
+                        <span className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
+                        <span className="text-muted-foreground font-medium">{item.name}</span>
+                      </div>
+                      <span className="font-bold text-foreground">{item.value} ({percent}%)</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Important Notices */}
+        <div className="lg:col-span-3 bg-card border border-border rounded-xl p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Important Notices</h3>
+              <Link href="/hostel/dashboard" className="text-xs font-bold text-primary hover:underline">View All</Link>
+            </div>
+            <div className="space-y-3">
+              {notices.map((n, idx) => (
+                <div key={idx} className="p-2 border border-border/60 rounded-lg bg-muted/10 flex flex-col gap-1">
+                  <div className="flex items-start gap-1.5">
+                    <span className={cn("h-2 w-2 rounded-full shrink-0 mt-1", n.color)} />
+                    <p className="text-[11px] font-medium text-foreground leading-tight">{n.text}</p>
+                  </div>
+                  <span className="text-[9px] text-muted-foreground font-mono self-end">{n.date}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="text-center py-4 border-t border-border/40">
+        <p className="text-[11px] text-muted-foreground">© 2025 School Management System ERP | All Rights Reserved</p>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────
+   Transport Manager Dashboard - matching reference image exactly
+   ───────────────────────────────────────────────────────── */
+
+function TransportDashboard() {
+  const vehicleStatusData = [
+    { name: "Running", value: 28, color: "#22c55e" },
+    { name: "In Maintenance", value: 2, color: "#f59e0b" },
+    { name: "Inactive", value: 1, color: "#ef4444" },
+    { name: "Pending Service", value: 1, color: "#ec4899" },
+  ];
+
+  const tripsOverviewData = [
+    { day: "23 May", Completed: 45, Upcoming: 15 },
+    { day: "24 May", Completed: 50, Upcoming: 18 },
+    { day: "25 May", Completed: 40, Upcoming: 12 },
+    { day: "26 May", Completed: 70, Upcoming: 25 },
+    { day: "27 May", Completed: 60, Upcoming: 20 },
+    { day: "28 May", Completed: 55, Upcoming: 22 },
+    { day: "29 May", Completed: 48, Upcoming: 16 },
+  ];
+
+  const topRoutesData = [
+    { title: "Route 1 (City Center)", count: 185, color: "#3b82f6" },
+    { title: "Route 4 (Green Park)", count: 142, color: "#22c55e" },
+    { title: "Route 2 (Airport Road)", count: 128, color: "#f59e0b" },
+    { title: "Route 7 (Royal Enclave)", count: 110, color: "#8b5cf6" },
+    { title: "Route 3 (Civil Lines)", count: 98, color: "#ec4899" },
+  ];
+
+  const maintenanceAlerts = [
+    { vehicleNo: "UP32 AB 1234", name: "Bus 01", date: "31 May 2025", status: "Due Soon", color: "bg-amber-500/10 text-amber-600 border-amber-500/20" },
+    { vehicleNo: "UP32 CD 5678", name: "Bus 07", date: "02 Jun 2025", status: "Due Soon", color: "bg-amber-500/10 text-amber-600 border-amber-500/20" },
+    { vehicleNo: "UP32 EF 9012", name: "Bus 12", date: "21 May 2025", status: "Overdue", color: "bg-red-500/10 text-red-600 border-red-500/20" },
+    { vehicleNo: "UP32 GH 3456", name: "Bus 18", date: "04 Jun 2025", status: "Due Soon", color: "bg-amber-500/10 text-amber-600 border-amber-500/20" },
+    { vehicleNo: "UP32 IJ 7890", name: "Bus 25", date: "05 Jun 2025", status: "Overdue", color: "bg-red-500/10 text-red-600 border-red-500/20" },
+  ];
+
+  const todaysTrips = [
+    { route: "Route 1", vehicle: "UP32 AB 1234", driver: "Amit Kumar", type: "Morning", status: "Completed", color: "bg-green-500/10 text-green-600 border-green-500/20" },
+    { route: "Route 2", vehicle: "UP32 CD 5678", driver: "Rakesh Singh", type: "Morning", status: "Completed", color: "bg-green-500/10 text-green-600 border-green-500/20" },
+    { route: "Route 3", vehicle: "UP32 EF 9012", driver: "Suresh Yadav", type: "Morning", status: "Completed", color: "bg-green-500/10 text-green-600 border-green-500/20" },
+    { route: "Route 4", vehicle: "UP32 GH 3456", driver: "Mahesh Pal", type: "Evening", status: "In Progress", color: "bg-blue-500/10 text-blue-600 border-blue-500/20" },
+    { route: "Route 5", vehicle: "UP32 IJ 7890", driver: "Vikram Singh", type: "Evening", status: "In Progress", color: "bg-blue-500/10 text-blue-600 border-blue-500/20" },
+  ];
+
+  const driverAttendanceData = [
+    { name: "Present", value: 24, color: "#22c55e" },
+    { name: "Absent", value: 1, color: "#ef4444" },
+    { name: "On Leave", value: 1, color: "#f59e0b" },
+  ];
+
+  const fuelTransactions = [
+    { date: "29 May 2025", vehicleNo: "UP32 AB 1234", name: "Bus 01", qty: 40.00, amt: 4320, driver: "Amit Kumar", station: "Fuel Station 1" },
+    { date: "29 May 2025", vehicleNo: "UP32 CD 5678", name: "Bus 07", qty: 35.50, amt: 3827, driver: "Rakesh Singh", station: "Fuel Station 2" },
+    { date: "29 May 2025", vehicleNo: "UP32 EF 9012", name: "Bus 12", qty: 42.00, amt: 4536, driver: "Suresh Yadav", station: "Fuel Station 1" },
+    { date: "28 May 2025", vehicleNo: "UP32 GH 3456", name: "Bus 18", qty: 38.00, amt: 4104, driver: "Mahesh Pal", station: "Fuel Station 3" },
+    { date: "28 May 2025", vehicleNo: "UP32 IJ 7890", name: "Bus 25", qty: 36.00, amt: 3888, driver: "Vikram Singh", station: "Fuel Station 2" },
+  ];
+
+  const notifications = [
+    { text: "Vehicle UP32 EF 9012 Insurance will expire on 15 Jun 2025.", date: "29 May 2025", color: "bg-rose-500" },
+    { text: "Driver Rakesh Singh document (DL) will expire on 10 Jun 2025.", date: "29 May 2025", color: "bg-amber-500" },
+    { text: "Bus 07 is due for service on 02 Jun 2025.", date: "29 May 2025", color: "bg-blue-500" },
+    { text: "Fitness certificate of Bus 18 will expire on 20 Jun 2025.", date: "28 May 2025", color: "bg-green-500" },
+  ];
+
+  return (
+    <div className="space-y-6 text-left">
+      {/* Greenwood School Toolbar */}
+      <PageHeader
+        title="Transport Manager Dashboard"
+        description="Oversee fleet status, monitor daily trip schedules, track fuel costs, and manage driver attendance."
+        actions={
+          <div className="flex items-center gap-3">
+            <select className="text-xs bg-card border border-border rounded-lg px-3 py-1.5 font-semibold text-muted-foreground outline-none cursor-pointer">
+              <option>Session 2024-25</option>
+              <option>Session 2025-26</option>
+            </select>
+            <select className="text-xs bg-card border border-border rounded-lg px-3 py-1.5 font-semibold text-muted-foreground outline-none cursor-pointer">
+              <option>Green Valley School</option>
+            </select>
+          </div>
+        }
+      />
+
+      {/* Date Display */}
+      <div className="flex justify-end items-center gap-1.5 text-muted-foreground text-xs font-semibold -mt-2">
+        <span>Today, 29 May 2025</span>
+        <Calendar className="h-4 w-4 text-muted-foreground" />
+      </div>
+
+      {/* ── Row 1: Top 5 KPI Cards ── */}
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <KPICard
+          title="Total Vehicles"
+          value="32"
+          icon={Bus}
+          description="Active: 28 | Inactive: 4"
+          color="blue"
+        />
+        <KPICard
+          title="Total Routes"
+          value="18"
+          icon={Building2}
+          description="Active Routes"
+          color="green"
+        />
+        <KPICard
+          title="Total Drivers"
+          value="26"
+          icon={Users}
+          description="Active: 24 | Inactive: 2"
+          color="orange"
+        />
+        <KPICard
+          title="Total Students"
+          value="1,248"
+          icon={Users}
+          trend={{ value: 2.97, isPositive: true }}
+          description="↑ 36 this month"
+          color="purple"
+        />
+        <KPICard
+          title="Today's Fuel Cost"
+          value="₹12,450"
+          icon={CreditCard}
+          description="Total Trips Today: 48"
+          color="red"
+        />
+      </div>
+
+      {/* ── Row 2: Charts + Right side list ── */}
+      <div className="grid gap-6 grid-cols-1 lg:grid-cols-12">
+        {/* Vehicle Status Overview Donut Chart */}
+        <div className="lg:col-span-4 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-1 border-b border-border/40 mb-4">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Vehicle Status Overview</h3>
+              <select className="text-xs bg-muted/50 border border-border rounded-lg px-2 py-1 font-medium text-muted-foreground outline-none cursor-pointer">
+                <option>All Fleet</option>
+              </select>
+            </div>
+            
+            <div className="h-[200px] flex items-center justify-between gap-1">
+              {/* Chart */}
+              <div className="relative flex items-center justify-center h-full w-[45%] shrink-0">
+                <ResponsiveContainer width="100%" height="100%">
+                  <RechartsPieChart>
+                    <Pie
+                      data={vehicleStatusData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={38}
+                      outerRadius={55}
+                      paddingAngle={2}
+                      dataKey="value"
+                    >
+                      {vehicleStatusData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      formatter={(value: any) => [
+                        `${Number(value)} Vehicles (${((Number(value) / 32) * 100).toFixed(1)}%)`,
+                        "Vehicles",
+                      ]}
+                      contentStyle={{
+                        backgroundColor: "white",
+                        borderColor: "hsl(var(--border))",
+                        color: "black",
+                        borderRadius: "8px",
+                        fontSize: "11px",
+                      }}
+                    />
+                  </RechartsPieChart>
+                </ResponsiveContainer>
+                {/* Centered Total */}
+                <div className="absolute flex flex-col items-center justify-center text-center">
+                  <span className="text-lg font-extrabold text-foreground leading-none">32</span>
+                  <span className="text-[7.5px] uppercase font-bold text-muted-foreground mt-0.5 leading-none">Total</span>
+                </div>
+              </div>
+
+              {/* Legend */}
+              <div className="w-[55%] flex flex-col justify-center space-y-2 text-[10px] sm:text-[11px] pr-1">
+                {vehicleStatusData.map((item) => {
+                  const percent = ((item.value / 32) * 100).toFixed(1);
+                  return (
+                    <div key={item.name} className="flex items-center justify-between gap-1">
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <span
+                          className="h-2 w-2 rounded-full shrink-0"
+                          style={{ backgroundColor: item.color }}
+                        />
+                        <span className="text-muted-foreground font-medium truncate" title={item.name}>{item.name}</span>
+                      </div>
+                      <span className="font-bold text-foreground shrink-0 whitespace-nowrap pl-0.5">
+                        {item.value} ({percent}%)
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <Link href="/transport/vehicles" className="flex items-center justify-center w-full pt-2.5 mt-auto text-[11px] font-bold text-primary hover:underline border-t border-border/45">
+              View All Vehicles
+            </Link>
+          </div>
+        </div>
+
+        {/* Trips Overview Line Chart */}
+        <div className="lg:col-span-5">
+          <ChartContainer
+            title="Trips Overview (This Week)"
+            subtitle="Completed and upcoming runs over the past week"
+            action={
+              <select className="text-xs bg-muted/50 border border-border rounded-lg px-2 py-1 font-medium text-muted-foreground outline-none cursor-pointer">
+                <option>This Week</option>
+              </select>
+            }
+          >
+            <LineChart
+              data={tripsOverviewData}
+              xAxisKey="day"
+              series={[
+                { key: "Completed", name: "Completed Trips", color: "#3b82f6" },
+                { key: "Upcoming", name: "Upcoming Trips", color: "#22c55e" },
+              ]}
+            />
+          </ChartContainer>
+          <div className="text-right -mt-2.5 mb-1.5">
+            <Link href="/transport/trips" className="text-xs font-bold text-primary hover:underline">View Trip Management →</Link>
+          </div>
+        </div>
+
+        {/* Top Routes Horizontal Bar Chart */}
+        <div className="lg:col-span-3 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-1 border-b border-border/40 mb-4">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Top Routes (By Students)</h3>
+              <select className="text-xs bg-muted/50 border border-border rounded-lg px-2 py-1 font-medium text-muted-foreground outline-none cursor-pointer">
+                <option>All Routes</option>
+              </select>
+            </div>
+            
+            <div className="h-[180px]">
+              <HorizontalBarChart
+                data={topRoutesData}
+                yAxisKey="title"
+                barKey="count"
+                barName="Students"
+                color="#3b82f6"
+              />
+            </div>
+            <Link href="/transport/routes" className="flex items-center justify-center w-full pt-2.5 mt-auto text-[11px] font-bold text-primary hover:underline border-t border-border/45">
+              View All Routes
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Row 3: Tables & Attendance ── */}
+      <div className="grid gap-6 grid-cols-1 lg:grid-cols-12">
+        {/* Vehicle Maintenance Alerts */}
+        <div className="lg:col-span-5 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <div className="flex items-center gap-1.5">
+                <AlertTriangle className="h-4.5 w-4.5 text-red-500" />
+                <h3 className="text-sm font-semibold tracking-tight text-foreground">Vehicle Maintenance Alerts</h3>
+              </div>
+              <Link href="/transport/vehicles/maintenance" className="text-xs font-bold text-primary hover:underline">View All Maintenance →</Link>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs text-left min-w-[320px]">
+                <thead>
+                  <tr className="border-b border-border text-muted-foreground">
+                    <th className="pb-2 font-semibold">Vehicle No.</th>
+                    <th className="pb-2 font-semibold">Vehicle Name</th>
+                    <th className="pb-2 font-semibold">Next Service Date</th>
+                    <th className="pb-2 font-semibold text-right">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {maintenanceAlerts.map((item, idx) => (
+                    <tr key={idx} className="border-b border-border/50 last:border-0 hover:bg-muted/10">
+                      <td className="py-2.5 font-bold font-mono text-primary hover:underline cursor-pointer">{item.vehicleNo}</td>
+                      <td className="py-2.5 font-medium text-foreground">{item.name}</td>
+                      <td className="py-2.5 text-muted-foreground font-mono">{item.date}</td>
+                      <td className="py-2.5 text-right">
+                        <span className={cn("px-2 py-0.5 rounded text-[9px] font-bold border inline-block", item.color)}>
+                          {item.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        {/* Today's Trips */}
+        <div className="lg:col-span-4 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Today's Trips</h3>
+              <Link href="/transport/trips" className="text-xs font-bold text-primary hover:underline">View All Trips →</Link>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs text-left min-w-[280px]">
+                <thead>
+                  <tr className="border-b border-border text-muted-foreground">
+                    <th className="pb-2 font-semibold">Route</th>
+                    <th className="pb-2 font-semibold">Vehicle</th>
+                    <th className="pb-2 font-semibold">Driver</th>
+                    <th className="pb-2 font-semibold">Type</th>
+                    <th className="pb-2 font-semibold text-right">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {todaysTrips.map((item, idx) => (
+                    <tr key={idx} className="border-b border-border/50 last:border-0 hover:bg-muted/10">
+                      <td className="py-2.5 font-medium text-foreground">{item.route}</td>
+                      <td className="py-2.5 font-mono text-muted-foreground">{item.vehicle}</td>
+                      <td className="py-2.5 text-muted-foreground">{item.driver}</td>
+                      <td className="py-2.5 text-muted-foreground">{item.type}</td>
+                      <td className="py-2.5 text-right">
+                        <span className={cn("px-2 py-0.5 rounded text-[9px] font-bold border inline-block", item.color)}>
+                          {item.status}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        {/* Driver Attendance Donut Chart */}
+        <div className="lg:col-span-3 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-1 border-b border-border/40 mb-4">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Driver Attendance (Today)</h3>
+              <select className="text-xs bg-muted/50 border border-border rounded-lg px-2 py-1 font-medium text-muted-foreground outline-none cursor-pointer">
+                <option>Today</option>
+              </select>
+            </div>
+            
+            <div className="flex flex-col items-center gap-3">
+              <div className="relative flex items-center justify-center h-28 w-28 shrink-0">
+                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="40" className="stroke-muted/20" strokeWidth="9" fill="transparent" />
+                  <circle cx="50" cy="50" r="40" className="stroke-success" strokeWidth="9" fill="transparent" strokeDasharray="251.2" strokeDashoffset={251.2 - (251.2 * 92.31) / 100} strokeLinecap="round" />
+                </svg>
+                <div className="absolute flex flex-col items-center justify-center text-center">
+                  <span className="text-base font-extrabold text-foreground leading-none">26</span>
+                  <span className="text-[7px] text-muted-foreground font-bold mt-0.5 uppercase tracking-wide">Total Drivers</span>
+                </div>
+              </div>
+
+              <div className="w-full space-y-1.5 text-[11px]">
+                {driverAttendanceData.map((item) => {
+                  const percent = ((item.value / 26) * 100).toFixed(2);
+                  return (
+                    <div key={item.name} className="flex items-center justify-between border-b border-border/40 pb-1 last:border-0 last:pb-0">
+                      <div className="flex items-center gap-1.5">
+                        <span className="h-2 w-2 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
+                        <span className="text-muted-foreground font-medium">{item.name}</span>
+                      </div>
+                      <span className="font-bold text-foreground">{item.value} ({percent}%)</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <Link href="/transport/attendance" className="flex items-center justify-center w-full pt-2.5 mt-auto text-[11px] font-bold text-primary hover:underline border-t border-border/45">
+              View Attendance →
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Row 4: Recent Fuel Transactions & Important Notifications ── */}
+      <div className="grid gap-6 grid-cols-1 lg:grid-cols-12">
+        {/* Recent Fuel Transactions */}
+        <div className="lg:col-span-7 bg-card border border-border rounded-xl p-5 shadow-sm">
+          <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+            <h3 className="text-sm font-semibold tracking-tight text-foreground">Recent Fuel Transactions</h3>
+            <Link href="/transport/fuel" className="text-xs font-bold text-primary hover:underline">View All Fuel Records →</Link>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs text-left min-w-[500px]">
+              <thead>
+                <tr className="border-b border-border text-muted-foreground">
+                  <th className="pb-2 font-semibold">Date</th>
+                  <th className="pb-2 font-semibold">Vehicle No.</th>
+                  <th className="pb-2 font-semibold">Vehicle Name</th>
+                  <th className="pb-2 font-semibold">Quantity (Ltr)</th>
+                  <th className="pb-2 font-semibold">Amount (₹)</th>
+                  <th className="pb-2 font-semibold">Driver</th>
+                  <th className="pb-2 font-semibold text-right">Filled By</th>
+                </tr>
+              </thead>
+              <tbody>
+                {fuelTransactions.map((tx, idx) => (
+                  <tr key={idx} className="border-b border-border/50 last:border-0 hover:bg-muted/10">
+                    <td className="py-2.5 text-muted-foreground font-mono">{tx.date}</td>
+                    <td className="py-2.5 font-bold font-mono text-primary hover:underline cursor-pointer">{tx.vehicleNo}</td>
+                    <td className="py-2.5 font-medium text-foreground">{tx.name}</td>
+                    <td className="py-2.5 text-muted-foreground font-mono">{tx.qty.toFixed(2)}</td>
+                    <td className="py-2.5 font-bold text-foreground">₹{tx.amt.toLocaleString()}</td>
+                    <td className="py-2.5 text-muted-foreground">{tx.driver}</td>
+                    <td className="py-2.5 text-right text-muted-foreground">{tx.station}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Important Notifications */}
+        <div className="lg:col-span-5 bg-card border border-border rounded-xl p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Important Notifications</h3>
+              <Link href="/transport/dashboard" className="text-xs font-bold text-primary hover:underline">View All Notifications →</Link>
+            </div>
+            <div className="space-y-3.5">
+              {notifications.map((n, idx) => (
+                <div key={idx} className="p-3 border border-border/60 rounded-xl bg-muted/20 hover:bg-muted/30 transition-all flex justify-between items-start gap-3">
+                  <div className="flex gap-2 min-w-0">
+                    <span className={cn("h-2.5 w-2.5 rounded-full shrink-0 mt-1", n.color)} />
+                    <p className="text-xs font-semibold text-foreground leading-normal">{n.text}</p>
+                  </div>
+                  <span className="text-[10px] text-muted-foreground font-semibold shrink-0 font-mono pt-0.5">{n.date}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="text-center py-4 border-t border-border/40">
+        <p className="text-[11px] text-muted-foreground">© 2025 School Management System ERP | All Rights Reserved</p>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────
+   Librarian Dashboard - matching reference image exactly
+   ───────────────────────────────────────────────────────── */
+
+function LibrarianDashboard() {
+  const issueReturnData = [
+    { day: "23 May", Issued: 42, Returned: 48 },
+    { day: "24 May", Issued: 35, Returned: 30 },
+    { day: "25 May", Issued: 60, Returned: 40 },
+    { day: "26 May", Issued: 40, Returned: 35 },
+    { day: "27 May", Issued: 48, Returned: 32 },
+    { day: "28 May", Issued: 58, Returned: 38 },
+    { day: "29 May", Issued: 45, Returned: 35 },
+  ];
+
+  const bookCategoryData = [
+    { name: "Academic", value: 3245, color: "#8b5cf6" },
+    { name: "Reference", value: 2150, color: "#3b82f6" },
+    { name: "Fiction", value: 1820, color: "#22c55e" },
+    { name: "Biography", value: 780, color: "#f59e0b" },
+    { name: "Others", value: 659, color: "#ef4444" },
+  ];
+
+  const recentlyIssued = [
+    { name: "Aarav Sharma", title: "Advanced Physics", date: "29 May 2025", due: "12 Jun 2025" },
+    { name: "Diya Singh", title: "Business Studies", date: "29 May 2025", due: "12 Jun 2025" },
+    { name: "Kabir Verma", title: "The Alchemist", date: "29 May 2025", due: "12 Jun 2025" },
+    { name: "Myra Patel", title: "Computer Networks", date: "28 May 2025", due: "11 Jun 2025" },
+    { name: "Vivaan Gupta", title: "Indian Economy", date: "28 May 2025", due: "11 Jun 2025" },
+  ];
+
+  const overdueBooks = [
+    { name: "Rohan Mehta", title: "Wings of Fire", due: "20 May 2025", fine: 50 },
+    { name: "Ananya Reddy", title: "Organic Chemistry", due: "21 May 2025", fine: 30 },
+    { name: "Ishaan Malhotra", title: "Rich Dad Poor Dad", due: "22 May 2025", fine: 30 },
+    { name: "Sara Khan", title: "General Knowledge 2024", due: "23 May 2025", fine: 20 },
+    { name: "Arjun Nair", title: "Environmental Science", due: "24 May 2025", fine: 20 },
+  ];
+
+  const topBooks = [
+    { title: "A Brief History of Time", count: 25 },
+    { title: "The Alchemist", count: 22 },
+    { title: "Indian Polity", count: 18 },
+    { title: "Rich Dad Poor Dad", count: 16 },
+    { title: "Wings of Fire", count: 15 },
+  ];
+
+  const recentTransactions = [
+    { id: "TXN10245", type: "Issued", name: "Aarav Sharma", book: "Advanced Physics", date: "29 May 2025", due: "12 Jun 2025", status: "Issued", fine: 0 },
+    { id: "TXN10244", type: "Returned", name: "Diya Singh", book: "Business Studies", date: "29 May 2025", due: "29 May 2025", status: "Returned", fine: 0 },
+    { id: "TXN10243", type: "Issued", name: "Kabir Verma", book: "The Alchemist", date: "29 May 2025", due: "12 Jun 2025", status: "Issued", fine: 0 },
+    { id: "TXN10242", type: "Renewed", name: "Myra Patel", book: "Computer Networks", date: "28 May 2025", due: "18 Jun 2025", status: "Renewed", fine: 0 },
+    { id: "TXN10241", type: "Returned", name: "Vivaan Gupta", book: "Indian Economy", date: "28 May 2025", due: "28 May 2025", status: "Returned", fine: 0 },
+  ];
+
+  return (
+    <div className="space-y-6 text-left">
+      {/* Greenwood School Toolbar */}
+      <PageHeader
+        title="Librarian Dashboard"
+        description="Catalog books, monitor borrowings, audit membership lists, and trace late fees."
+        actions={
+          <div className="flex items-center gap-3">
+            <select className="text-xs bg-card border border-border rounded-lg px-3 py-1.5 font-semibold text-muted-foreground outline-none cursor-pointer">
+              <option>Session 2024-25</option>
+              <option>Session 2025-26</option>
+            </select>
+            <select className="text-xs bg-card border border-border rounded-lg px-3 py-1.5 font-semibold text-muted-foreground outline-none cursor-pointer">
+              <option>Green Valley School</option>
+            </select>
+          </div>
+        }
+      />
+
+      {/* Date Display */}
+      <div className="flex justify-end items-center gap-1.5 text-muted-foreground text-xs font-semibold -mt-2">
+        <span>Today, 29 May 2025</span>
+        <Calendar className="h-4 w-4 text-muted-foreground" />
+      </div>
+
+      {/* ── Row 1: Top 5 KPI Cards ── */}
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <KPICard
+          title="Total Books"
+          value="8,654"
+          icon={BookOpen}
+          trend={{ value: 1.4, isPositive: true }}
+          description="↑ 120 this month"
+          color="blue"
+        />
+        <KPICard
+          title="Books Issued"
+          value="215"
+          icon={ClipboardList}
+          trend={{ value: 9.1, isPositive: true }}
+          description="↑ 18 today"
+          color="blue"
+        />
+        <KPICard
+          title="Books Returned"
+          value="198"
+          icon={CheckCircle}
+          trend={{ value: 8.8, isPositive: true }}
+          description="↑ 16 today"
+          color="green"
+        />
+        <KPICard
+          title="Active Members"
+          value="1,245"
+          icon={Users}
+          trend={{ value: 2.89, isPositive: true }}
+          description="↑ 35 this month"
+          color="orange"
+        />
+        <KPICard
+          title="Overdue Books"
+          value="27"
+          icon={AlertTriangle}
+          trend={{ value: 15.6, isPositive: false }}
+          description="↓ 5 from yesterday"
+          color="red"
+        />
+      </div>
+
+      {/* ── Row 2: Charts + Quick Actions ── */}
+      <div className="grid gap-6 grid-cols-1 lg:grid-cols-12">
+        {/* Issue / Return Overview */}
+        <div className="lg:col-span-5">
+          <ChartContainer
+            title="Issue / Return Overview"
+            subtitle="Comparing book issuances and returns over the past week"
+            action={
+              <select className="text-xs bg-muted/50 border border-border rounded-lg px-2 py-1 font-medium text-muted-foreground outline-none cursor-pointer">
+                <option>This Week</option>
+              </select>
+            }
+          >
+            <BarChart
+              data={issueReturnData}
+              xAxisKey="day"
+              series={[
+                { key: "Issued", name: "Issued", color: "#8b5cf6" },
+                { key: "Returned", name: "Returned", color: "#22c55e" },
+              ]}
+            />
+          </ChartContainer>
+        </div>
+
+        {/* Books by Category Donut Chart */}
+        <div className="lg:col-span-4 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-1 border-b border-border/40 mb-4">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Books by Category</h3>
+              <select className="text-xs bg-muted/50 border border-border rounded-lg px-2 py-1 font-medium text-muted-foreground outline-none cursor-pointer">
+                <option>All Branches</option>
+              </select>
+            </div>
+            
+            <div className="h-[200px] flex items-center justify-between gap-1">
+              {/* Chart */}
+              <div className="relative flex items-center justify-center h-full w-[45%] shrink-0">
+                <ResponsiveContainer width="100%" height="100%">
+                  <RechartsPieChart>
+                    <Pie
+                      data={bookCategoryData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={38}
+                      outerRadius={55}
+                      paddingAngle={2}
+                      dataKey="value"
+                    >
+                      {bookCategoryData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      formatter={(value: any) => [
+                        `${Number(value).toLocaleString()} Books (${((Number(value) / 8654) * 100).toFixed(1)}%)`,
+                        "Books",
+                      ]}
+                      contentStyle={{
+                        backgroundColor: "white",
+                        borderColor: "hsl(var(--border))",
+                        color: "black",
+                        borderRadius: "8px",
+                        fontSize: "11px",
+                      }}
+                    />
+                  </RechartsPieChart>
+                </ResponsiveContainer>
+                {/* Centered Total */}
+                <div className="absolute flex flex-col items-center justify-center text-center">
+                  <span className="text-lg font-extrabold text-foreground leading-none">8,654</span>
+                  <span className="text-[7.5px] uppercase font-bold text-muted-foreground mt-0.5 leading-none">Total Books</span>
+                </div>
+              </div>
+
+              {/* Legend */}
+              <div className="w-[55%] flex flex-col justify-center space-y-2 text-[10px] sm:text-[11px] pr-1">
+                {bookCategoryData.map((item) => {
+                  const percent = ((item.value / 8654) * 100).toFixed(0);
+                  return (
+                    <div key={item.name} className="flex items-center justify-between gap-1">
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <span
+                          className="h-2 w-2 rounded-full shrink-0"
+                          style={{ backgroundColor: item.color }}
+                        />
+                        <span className="text-muted-foreground font-medium truncate" title={item.name}>{item.name}</span>
+                      </div>
+                      <span className="font-bold text-foreground shrink-0 whitespace-nowrap pl-0.5">
+                        {item.value.toLocaleString()} ({percent}%)
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Quick Actions Panel */}
+        <div className="lg:col-span-3 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col">
+          <h3 className="text-sm font-semibold tracking-tight text-foreground pb-2 border-b border-border/40 mb-3">Quick Actions</h3>
+          <div className="flex-1 flex flex-col justify-center gap-2">
+            {[
+              { label: "Issue Book", icon: ClipboardList, href: "/library/issue-return/issue", color: "text-blue-500 bg-blue-500/10 border-blue-500/10" },
+              { label: "Return Book", icon: CheckCircle, href: "/library/issue-return/return", color: "text-green-500 bg-green-500/10 border-green-500/10" },
+              { label: "Add New Book", icon: Plus, href: "/library/books/create", color: "text-orange-500 bg-orange-500/10 border-orange-500/10" },
+              { label: "Add Member", icon: UserPlus, href: "/library/members/create", color: "text-purple-500 bg-purple-500/10 border-purple-500/10" },
+              { label: "Manage Fines", icon: CreditCard, href: "/library/fines", color: "text-teal-500 bg-teal-500/10 border-teal-500/10" },
+              { label: "Generate Report", icon: FileText, href: "/library/reports", color: "text-indigo-500 bg-indigo-500/10 border-indigo-500/10" },
+            ].map((action, idx) => {
+              const Icon = action.icon;
+              return (
+                <Link
+                  key={idx}
+                  href={action.href}
+                  className="flex items-center gap-3 p-2 rounded-lg border border-border/40 hover:bg-muted/50 hover:border-border transition-all group"
+                >
+                  <div className={cn("flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border", action.color)}>
+                    <Icon className="h-4.5 w-4.5" />
+                  </div>
+                  <span className="text-xs font-bold text-foreground group-hover:text-primary transition-colors">{action.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* ── Row 3: Recently Issued + Overdue Books + Top Books Chart ── */}
+      <div className="grid gap-6 grid-cols-1 lg:grid-cols-12">
+        {/* Recently Issued */}
+        <div className="lg:col-span-5 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Recently Issued Books</h3>
+              <Link href="/library/issue-return" className="text-xs font-bold text-primary hover:underline">View All</Link>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs text-left min-w-[320px]">
+                <thead>
+                  <tr className="border-b border-border text-muted-foreground">
+                    <th className="pb-2 font-semibold">Member Name</th>
+                    <th className="pb-2 font-semibold">Book Title</th>
+                    <th className="pb-2 font-semibold">Issue Date</th>
+                    <th className="pb-2 font-semibold text-right">Due Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {recentlyIssued.map((item, idx) => (
+                    <tr key={idx} className="border-b border-border/50 last:border-0 hover:bg-muted/10">
+                      <td className="py-2.5 font-medium text-foreground">{item.name}</td>
+                      <td className="py-2.5 text-muted-foreground">{item.title}</td>
+                      <td className="py-2.5 text-muted-foreground font-mono">{item.date}</td>
+                      <td className="py-2.5 text-right text-red-500 font-bold font-mono">{item.due}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        {/* Overdue Books */}
+        <div className="lg:col-span-3 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Overdue Books</h3>
+              <Link href="/library/fines" className="text-xs font-bold text-primary hover:underline">View All</Link>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs text-left min-w-[200px]">
+                <thead>
+                  <tr className="border-b border-border text-muted-foreground">
+                    <th className="pb-2 font-semibold">Member</th>
+                    <th className="pb-2 font-semibold">Due Date</th>
+                    <th className="pb-2 font-semibold text-right">Fine</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {overdueBooks.map((item, idx) => (
+                    <tr key={idx} className="border-b border-border/50 last:border-0 hover:bg-muted/10">
+                      <td className="py-2.5">
+                        <p className="font-medium text-foreground">{item.name}</p>
+                        <p className="text-[9px] text-muted-foreground truncate max-w-[100px]">{item.title}</p>
+                      </td>
+                      <td className="py-2.5 text-muted-foreground font-mono">{item.due}</td>
+                      <td className="py-2.5 text-right text-red-500 font-bold">₹{item.fine}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        {/* Top Books (Most Issued) Horizontal Bar Chart */}
+        <div className="lg:col-span-4 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-1 border-b border-border/40 mb-4">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Top Books (Most Issued)</h3>
+              <select className="text-xs bg-muted/50 border border-border rounded-lg px-2 py-1 font-medium text-muted-foreground outline-none cursor-pointer">
+                <option>This Month</option>
+              </select>
+            </div>
+            
+            <div className="h-[180px]">
+              <HorizontalBarChart
+                data={topBooks}
+                yAxisKey="title"
+                barKey="count"
+                barName="Issue Count"
+                color="#8b5cf6"
+              />
+            </div>
+            <Link href="/library/books" className="flex items-center justify-center w-full pt-2.5 mt-auto text-[11px] font-bold text-primary hover:underline border-t border-border/45">
+              View All Books
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Row 4: Recent Transactions Table (Full Width) ── */}
+      <div className="bg-card border border-border rounded-xl p-5 shadow-sm">
+        <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+          <h3 className="text-sm font-semibold tracking-tight text-foreground">Recent Transactions</h3>
+          <Link href="/library/transactions" className="text-xs font-bold text-primary hover:underline">View All</Link>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-xs text-left min-w-[700px]">
+            <thead>
+              <tr className="border-b border-border text-muted-foreground">
+                <th className="pb-2 font-semibold">Transaction ID</th>
+                <th className="pb-2 font-semibold">Type</th>
+                <th className="pb-2 font-semibold">Member Name</th>
+                <th className="pb-2 font-semibold">Book Title</th>
+                <th className="pb-2 font-semibold">Date</th>
+                <th className="pb-2 font-semibold">Due / Return Date</th>
+                <th className="pb-2 font-semibold text-center">Status</th>
+                <th className="pb-2 font-semibold text-right">Fine</th>
+              </tr>
+            </thead>
+            <tbody>
+              {recentTransactions.map((tx, idx) => (
+                <tr key={idx} className="border-b border-border/50 last:border-0 hover:bg-muted/10">
+                  <td className="py-2.5 font-bold font-mono text-primary hover:underline cursor-pointer">{tx.id}</td>
+                  <td className="py-2.5 font-medium text-foreground">{tx.type}</td>
+                  <td className="py-2.5 font-medium text-foreground">{tx.name}</td>
+                  <td className="py-2.5 text-muted-foreground">{tx.book}</td>
+                  <td className="py-2.5 text-muted-foreground font-mono">{tx.date}</td>
+                  <td className="py-2.5 text-muted-foreground font-mono">{tx.due}</td>
+                  <td className="py-2.5 text-center">
+                    <span className={cn(
+                      "px-2 py-0.5 rounded-full text-[9px] font-bold border inline-block uppercase",
+                      tx.status === "Issued" && "bg-blue-500/10 text-blue-600 border-blue-500/20",
+                      tx.status === "Returned" && "bg-green-500/10 text-green-600 border-green-500/20",
+                      tx.status === "Renewed" && "bg-purple-500/10 text-purple-600 border-purple-500/20"
+                    )}>
+                      {tx.status}
+                    </span>
+                  </td>
+                  <td className="py-2.5 text-right font-bold text-foreground">₹{tx.fine}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="text-center py-4 border-t border-border/40">
+        <p className="text-[11px] text-muted-foreground">© 2025 School Management System ERP | All Rights Reserved</p>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────
+   HR Manager Dashboard - matching reference image exactly
+   ───────────────────────────────────────────────────────── */
+
+function HrDashboard() {
+  const [leaveRequests, setLeaveRequests] = useState([
+    {
+      id: "lr-1",
+      employeeName: "Rohit Sharma",
+      department: "Computer Science",
+      designation: "Teacher",
+      leaveType: "Casual Leave",
+      from: "29 May 2025",
+      to: "30 May 2025",
+      days: 2,
+      reason: "Personal work",
+      status: "Pending",
+      appliedOn: "28 May 2025",
+      avatar: "RS",
+      color: "bg-blue-500/10 text-blue-600"
+    },
+    {
+      id: "lr-2",
+      employeeName: "Priya Verma",
+      department: "Administration",
+      designation: "Receptionist",
+      leaveType: "Sick Leave",
+      from: "28 May 2025",
+      to: "29 May 2025",
+      days: 2,
+      reason: "Fever",
+      status: "Approved",
+      appliedOn: "27 May 2025",
+      avatar: "PV",
+      color: "bg-green-500/10 text-green-600"
+    },
+    {
+      id: "lr-3",
+      employeeName: "Arjun Patel",
+      department: "Mathematics",
+      designation: "Teacher",
+      leaveType: "Privilege Leave",
+      from: "02 Jun 2025",
+      to: "06 Jun 2025",
+      days: 5,
+      reason: "Family function",
+      status: "Pending",
+      appliedOn: "27 May 2025",
+      avatar: "AP",
+      color: "bg-purple-500/10 text-purple-600"
+    },
+    {
+      id: "lr-4",
+      employeeName: "Neha Gupta",
+      department: "Finance",
+      designation: "Accountant",
+      leaveType: "Casual Leave",
+      from: "03 Jun 2025",
+      to: "03 Jun 2025",
+      days: 1,
+      reason: "Doctor appointment",
+      status: "Approved",
+      appliedOn: "26 May 2025",
+      avatar: "NG",
+      color: "bg-orange-500/10 text-orange-600"
+    }
+  ]);
+
+  const handleApprove = (id: string, name: string) => {
+    setLeaveRequests(prev => prev.map(req => req.id === id ? { ...req, status: "Approved" } : req));
+    toast.success(`Leave approved for ${name}!`);
+  };
+
+  const handleReject = (id: string, name: string) => {
+    setLeaveRequests(prev => prev.map(req => req.id === id ? { ...req, status: "Rejected" } : req));
+    toast.error(`Leave rejected for ${name}.`);
+  };
+
+  const employeeOverviewData = [
+    { day: "1 May", Total: 90, Joined: 0, Resigned: 0 },
+    { day: "6 May", Total: 96, Joined: 6, Resigned: 0 },
+    { day: "11 May", Total: 104, Joined: 8, Resigned: 0 },
+    { day: "16 May", Total: 110, Joined: 8, Resigned: 2 },
+    { day: "21 May", Total: 118, Joined: 10, Resigned: 2 },
+    { day: "26 May", Total: 124, Joined: 8, Resigned: 2 },
+    { day: "31 May", Total: 128, Joined: 8, Resigned: 2 },
+  ];
+
+  const leaveSummaryData = [
+    { name: "Casual Leave", value: 8, color: "#8b5cf6" },
+    { name: "Sick Leave", value: 6, color: "#3b82f6" },
+    { name: "Privilege Leave", value: 5, color: "#22c55e" },
+    { name: "Earned Leave", value: 3, color: "#f59e0b" },
+    { name: "Maternity Leave", value: 2, color: "#ef4444" },
+  ];
+
+  const recentJoinings = [
+    { name: "Rohit Sharma", dept: "Computer Science", role: "Teacher", date: "26 May 2025", avatar: "RS", color: "bg-blue-500/10 text-blue-600" },
+    { name: "Priya Verma", dept: "Administration", role: "Receptionist", date: "24 May 2025", avatar: "PV", color: "bg-green-500/10 text-green-600" },
+    { name: "Arjun Patel", dept: "Mathematics", role: "Teacher", date: "20 May 2025", avatar: "AP", color: "bg-purple-500/10 text-purple-600" },
+    { name: "Neha Gupta", dept: "Finance", role: "Accountant", date: "18 May 2025", avatar: "NG", color: "bg-amber-500/10 text-amber-600" },
+    { name: "Vikram Singh", dept: "Physical Education", role: "Coach", date: "16 May 2025", avatar: "VS", color: "bg-rose-500/10 text-rose-600" },
+  ];
+
+  const upcomingBirthdays = [
+    { name: "Anjali Mehta", dept: "English", date: "02 Jun", avatar: "AM", color: "bg-pink-500/10 text-pink-600" },
+    { name: "Sandeep Kumar", dept: "Science", date: "05 Jun", avatar: "SK", color: "bg-indigo-500/10 text-indigo-600" },
+    { name: "Pooja Sharma", dept: "Administration", date: "07 Jun", avatar: "PS", color: "bg-teal-500/10 text-teal-600" },
+    { name: "Manish Verma", dept: "IT Department", date: "10 Jun", avatar: "MV", color: "bg-cyan-500/10 text-cyan-600" },
+    { name: "Kavita Singh", dept: "Primary Wing", date: "12 Jun", avatar: "KS", color: "bg-orange-500/10 text-orange-600" },
+  ];
+
+  return (
+    <div className="space-y-6 text-left">
+      {/* Greenwood School Toolbar */}
+      <PageHeader
+        title="HR Manager Dashboard"
+        description="Monitor staff attendance, leave claims, hiring cycles, and employee milestones."
+        actions={
+          <div className="flex items-center gap-3">
+            <select className="text-xs bg-card border border-border rounded-lg px-3 py-1.5 font-semibold text-muted-foreground outline-none cursor-pointer">
+              <option>Session 2024-25</option>
+              <option>Session 2025-26</option>
+            </select>
+            <select className="text-xs bg-card border border-border rounded-lg px-3 py-1.5 font-semibold text-muted-foreground outline-none cursor-pointer">
+              <option>Green Valley School</option>
+            </select>
+          </div>
+        }
+      />
+
+      {/* Date Display */}
+      <div className="flex justify-end items-center gap-1.5 text-muted-foreground text-xs font-semibold -mt-2">
+        <span>Today, 29 May 2025</span>
+        <Calendar className="h-4 w-4 text-muted-foreground" />
+      </div>
+
+      {/* ── Row 1: Top 5 KPI Cards ── */}
+      <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <KPICard
+          title="Total Employees"
+          value="128"
+          icon={Users}
+          trend={{ value: 4.69, isPositive: true }}
+          description="↑ 6 this month"
+          color="blue"
+        />
+        <KPICard
+          title="Present Today"
+          value="98"
+          icon={UserCheck}
+          trend={{ value: 76.56, isPositive: true }}
+          description="↑ 76.56% of total"
+          color="green"
+        />
+        <KPICard
+          title="On Leave Today"
+          value="12"
+          icon={Calendar}
+          trend={{ value: 9.38, isPositive: false }}
+          description="↓ 9.38% of total"
+          color="orange"
+        />
+        <KPICard
+          title="Total Departments"
+          value="12"
+          icon={Building2}
+          description="Active Departments"
+          color="indigo"
+        />
+        <KPICard
+          title="Birthdays This Month"
+          value="7"
+          icon={Cake}
+          description="Upcoming birthdays"
+          color="purple"
+        />
+      </div>
+
+      {/* ── Row 2: Charts + Quick Actions ── */}
+      <div className="grid gap-6 grid-cols-1 lg:grid-cols-12">
+        {/* Employee Overview Area/Line Chart */}
+        <div className="lg:col-span-5">
+          <ChartContainer
+            title="Employee Overview"
+            subtitle="Comparing cumulative employee count vs joinings & resignations"
+            action={
+              <select className="text-xs bg-muted/50 border border-border rounded-lg px-2 py-1 font-medium text-muted-foreground outline-none cursor-pointer">
+                <option>This Month</option>
+              </select>
+            }
+          >
+            <LineChart
+              data={employeeOverviewData}
+              xAxisKey="day"
+              series={[
+                { key: "Total", name: "Total Employees", color: "#8b5cf6" },
+                { key: "Joined", name: "Joined", color: "#22c55e" },
+                { key: "Resigned", name: "Resigned", color: "#ef4444" },
+              ]}
+            />
+          </ChartContainer>
+        </div>
+
+        {/* Leave Summary Donut Chart */}
+        <div className="lg:col-span-4 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-1 border-b border-border/40 mb-4">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Leave Summary</h3>
+              <select className="text-xs bg-muted/50 border border-border rounded-lg px-2 py-1 font-medium text-muted-foreground outline-none cursor-pointer">
+                <option>This Month</option>
+              </select>
+            </div>
+            <div className="h-[200px] flex items-center justify-between gap-1">
+              {/* Chart */}
+              <div className="relative flex items-center justify-center h-full w-[45%] shrink-0">
+                <ResponsiveContainer width="100%" height="100%">
+                  <RechartsPieChart>
+                    <Pie
+                      data={leaveSummaryData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={38}
+                      outerRadius={55}
+                      paddingAngle={2}
+                      dataKey="value"
+                    >
+                      {leaveSummaryData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      formatter={(value: any) => [
+                        `${Number(value)} Leaves (${((Number(value) / 24) * 100).toFixed(1)}%)`,
+                        "Leaves",
+                      ]}
+                      contentStyle={{
+                        backgroundColor: "hsl(var(--card))",
+                        borderColor: "hsl(var(--border))",
+                        color: "hsl(var(--foreground))",
+                        borderRadius: "8px",
+                        fontSize: "11px",
+                      }}
+                    />
+                  </RechartsPieChart>
+                </ResponsiveContainer>
+                {/* Centered Total */}
+                <div className="absolute flex flex-col items-center justify-center text-center">
+                  <span className="text-xl font-extrabold text-foreground leading-none">24</span>
+                  <span className="text-[8px] uppercase font-bold text-muted-foreground mt-0.5 leading-none">Total</span>
+                </div>
+              </div>
+
+              {/* Legend */}
+              <div className="w-[55%] flex flex-col justify-center space-y-2 text-[10px] sm:text-[11px] pr-1">
+                {leaveSummaryData.map((item) => {
+                  const percent = ((item.value / 24) * 100).toFixed(0);
+                  return (
+                    <div key={item.name} className="flex items-center justify-between gap-1">
+                      <div className="flex items-center gap-1.5 min-w-0">
+                        <span
+                          className="h-2 w-2 rounded-full shrink-0"
+                          style={{ backgroundColor: item.color }}
+                        />
+                        <span className="text-muted-foreground font-medium truncate" title={item.name}>{item.name}</span>
+                      </div>
+                      <span className="font-bold text-foreground shrink-0 whitespace-nowrap pl-0.5">
+                        {item.value} ({percent}%)
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Quick Actions Panel */}
+        <div className="lg:col-span-3 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col">
+          <h3 className="text-sm font-semibold tracking-tight text-foreground pb-2 border-b border-border/40 mb-3">Quick Actions</h3>
+          <div className="flex-1 flex flex-col justify-center gap-2">
+            {[
+              { label: "Add Employee", icon: UserPlus, href: "/hr/employees/create", color: "text-blue-500 bg-blue-500/10 border-blue-500/10" },
+              { label: "Apply Leave", icon: Calendar, href: "/hr/leave", color: "text-green-500 bg-green-500/10 border-green-500/10" },
+              { label: "Mark Attendance", icon: UserCheck, href: "/hr/attendance", color: "text-orange-500 bg-orange-500/10 border-orange-500/10" },
+              { label: "Create Announcement", icon: Megaphone, href: "/hr/communications", color: "text-purple-500 bg-purple-500/10 border-purple-500/10" },
+              { label: "Add Holiday", icon: CalendarRange, href: "/hr/attendance", color: "text-teal-500 bg-teal-500/10 border-teal-500/10" },
+              { label: "Generate Report", icon: FileText, href: "/hr/reports", color: "text-indigo-500 bg-indigo-500/10 border-indigo-500/10" },
+            ].map((action, idx) => {
+              const Icon = action.icon;
+              return (
+                <Link
+                  key={idx}
+                  href={action.href}
+                  className="flex items-center gap-3 p-2 rounded-lg border border-border/40 hover:bg-muted/50 hover:border-border transition-all group"
+                >
+                  <div className={cn("flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border", action.color)}>
+                    <Icon className="h-4.5 w-4.5" />
+                  </div>
+                  <span className="text-xs font-bold text-foreground group-hover:text-primary transition-colors">{action.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* ── Row 3: Recent Joinings + Upcoming Birthdays + Attendance Circular Gauge ── */}
+      <div className="grid gap-6 grid-cols-1 lg:grid-cols-12">
+        {/* Recent Joinings */}
+        <div className="lg:col-span-5 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Recent Joinings</h3>
+              <Link href="/hr/employees" className="text-xs font-bold text-primary hover:underline">View All</Link>
+            </div>
+            <div className="space-y-3.5">
+              {recentJoinings.map((person, idx) => (
+                <div key={idx} className="flex items-center justify-between hover:bg-muted/10 p-1.5 rounded-lg transition-colors">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className={cn("h-8 w-8 rounded-full flex items-center justify-center font-bold text-xs shrink-0", person.color)}>
+                      {person.avatar}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-xs font-semibold text-foreground truncate">{person.name}</p>
+                      <p className="text-[10px] text-muted-foreground truncate">{person.dept} • {person.role}</p>
+                    </div>
+                  </div>
+                  <span className="text-[10px] text-muted-foreground font-semibold">{person.date}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Upcoming Birthdays */}
+        <div className="lg:col-span-3 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Upcoming Birthdays</h3>
+              <Link href="/hr/directory" className="text-xs font-bold text-primary hover:underline">View All</Link>
+            </div>
+            <div className="space-y-3.5">
+              {upcomingBirthdays.map((person, idx) => (
+                <div key={idx} className="flex items-center justify-between hover:bg-muted/10 p-1.5 rounded-lg transition-colors">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className={cn("h-8 w-8 rounded-full flex items-center justify-center font-bold text-xs shrink-0", person.color)}>
+                      {person.avatar}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-xs font-semibold text-foreground truncate">{person.name}</p>
+                      <p className="text-[10px] text-muted-foreground truncate">{person.dept}</p>
+                    </div>
+                  </div>
+                  <span className="text-[10px] text-primary font-bold flex items-center gap-1">
+                    <Cake className="h-3 w-3 shrink-0" />
+                    {person.date}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Attendance circular gauge */}
+        <div className="lg:col-span-4 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between pb-1 border-b border-border/40 mb-4">
+              <h3 className="text-sm font-semibold tracking-tight text-foreground">Attendance Summary</h3>
+              <select className="text-xs bg-muted/50 border border-border rounded-lg px-2 py-1 font-medium text-muted-foreground outline-none cursor-pointer">
+                <option>This Month</option>
+              </select>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-6 py-2 flex-1">
+              <div className="relative flex items-center justify-center h-32 w-32 shrink-0 mx-auto sm:mx-0">
+                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="40" className="stroke-muted/20" strokeWidth="9" fill="transparent" />
+                  <circle cx="50" cy="50" r="40" className="stroke-success" strokeWidth="9" fill="transparent" strokeDasharray="251.2" strokeDashoffset={251.2 - (251.2 * 76.56) / 100} strokeLinecap="round" />
+                </svg>
+                <div className="absolute flex flex-col items-center justify-center text-center">
+                  <span className="text-lg font-extrabold text-foreground leading-none">76.56%</span>
+                  <span className="text-[7px] text-muted-foreground font-bold mt-1 uppercase tracking-wide">Avg Presence</span>
+                </div>
+              </div>
+
+              <div className="flex-1 space-y-2.5 text-xs w-full">
+                <div className="flex items-center justify-between border-b border-border/40 pb-1.5">
+                  <div className="flex items-center gap-1.5">
+                    <span className="h-2 w-2 rounded-full bg-green-500" />
+                    <span className="text-muted-foreground font-medium">Present Days</span>
+                  </div>
+                  <span className="font-bold text-green-500">98 (76.56%)</span>
+                </div>
+                <div className="flex items-center justify-between border-b border-border/40 pb-1.5">
+                  <div className="flex items-center gap-1.5">
+                    <span className="h-2 w-2 rounded-full bg-red-500" />
+                    <span className="text-muted-foreground font-medium">Absent Days</span>
+                  </div>
+                  <span className="font-bold text-red-500">24 (18.75%)</span>
+                </div>
+                <div className="flex items-center justify-between border-b border-border/40 pb-1.5">
+                  <div className="flex items-center gap-1.5">
+                    <span className="h-2 w-2 rounded-full bg-amber-500" />
+                    <span className="text-muted-foreground font-medium">Leave Days</span>
+                  </div>
+                  <span className="font-bold text-amber-500">6 (4.69%)</span>
+                </div>
+                <div className="flex items-center justify-between pb-0.5 font-bold text-foreground">
+                  <span>Total Working Days</span>
+                  <span>128</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Row 4: Leave Requests Table ── */}
+      <div className="bg-card border border-border rounded-xl p-5 shadow-sm">
+        <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+          <h3 className="text-sm font-semibold tracking-tight text-foreground">Leave Requests</h3>
+          <Link href="/hr/leave" className="text-xs font-bold text-primary hover:underline">View All</Link>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-xs text-left min-w-[700px]">
+            <thead>
+              <tr className="border-b border-border text-muted-foreground">
+                <th className="pb-2 font-semibold">Employee</th>
+                <th className="pb-2 font-semibold">Leave Type</th>
+                <th className="pb-2 font-semibold">From</th>
+                <th className="pb-2 font-semibold">To</th>
+                <th className="pb-2 font-semibold text-center">Days</th>
+                <th className="pb-2 font-semibold">Reason</th>
+                <th className="pb-2 font-semibold">Applied On</th>
+                <th className="pb-2 font-semibold text-center">Status</th>
+                <th className="pb-2 font-semibold text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {leaveRequests.map((req) => (
+                <tr key={req.id} className="border-b border-border/50 last:border-0 hover:bg-muted/10">
+                  <td className="py-3">
+                    <div className="flex items-center gap-2">
+                      <div className={cn("h-7 w-7 rounded-full flex items-center justify-center font-bold text-[10px] shrink-0", req.color)}>
+                        {req.avatar}
+                      </div>
+                      <div>
+                        <p className="font-semibold text-foreground leading-none">{req.employeeName}</p>
+                        <p className="text-[10px] text-muted-foreground pt-0.5">{req.designation} ({req.department})</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="py-3 font-medium text-foreground">{req.leaveType}</td>
+                  <td className="py-3 text-muted-foreground font-mono">{req.from}</td>
+                  <td className="py-3 text-muted-foreground font-mono">{req.to}</td>
+                  <td className="py-3 text-center font-bold text-foreground">{req.days}</td>
+                  <td className="py-3 text-muted-foreground max-w-[150px] truncate" title={req.reason}>{req.reason}</td>
+                  <td className="py-3 text-muted-foreground font-mono">{req.appliedOn}</td>
+                  <td className="py-3 text-center">
+                    <span className={cn(
+                      "px-2.5 py-0.5 rounded-full text-[10px] font-bold border inline-block",
+                      req.status === "Approved" && "bg-green-500/10 text-green-600 border-green-500/20",
+                      req.status === "Pending" && "bg-amber-500/10 text-amber-600 border-amber-500/20",
+                      req.status === "Rejected" && "bg-red-500/10 text-red-600 border-red-500/20"
+                    )}>
+                      {req.status}
+                    </span>
+                  </td>
+                  <td className="py-3 text-right">
+                    {req.status === "Pending" ? (
+                      <div className="flex items-center justify-end gap-1.5">
+                        <button
+                          onClick={() => handleApprove(req.id, req.employeeName)}
+                          className="p-1 hover:bg-green-500/10 border hover:border-green-500/30 rounded text-green-600 transition-colors shrink-0"
+                          title="Approve"
+                        >
+                          <Check className="h-3.5 w-3.5" />
+                        </button>
+                        <button
+                          onClick={() => handleReject(req.id, req.employeeName)}
+                          className="p-1 hover:bg-red-500/10 border hover:border-red-500/30 rounded text-red-600 transition-colors shrink-0"
+                          title="Reject"
+                        >
+                          <X className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    ) : (
+                      <span className="text-[10px] text-muted-foreground font-medium italic">Processed</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Footer */}
       <div className="text-center py-4 border-t border-border/40">
         <p className="text-[11px] text-muted-foreground">© 2025 School Management System ERP | All Rights Reserved</p>
       </div>
@@ -868,7 +4164,7 @@ export default function RoleDashboardPage({ params }: { params: Promise<{ role: 
                       <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
                         <circle cx="50" cy="50" r="40" className="stroke-muted/20" strokeWidth="10" fill="transparent" />
                         <circle cx="50" cy="50" r="40" className="stroke-blue-500" strokeWidth="10" fill="transparent" strokeDasharray="251.2" strokeDashoffset={251.2 - (251.2 * 25) / 100} />
-                        <circle cx="50" cy="50" r="40" className="stroke-green-500" strokeWidth="10" fill="transparent" strokeDasharray="251.2" strokeDashoffset={251.2 - (251.2 * 64) / 100} strokeDashdelay="25" />
+                        <circle cx="50" cy="50" r="40" className="stroke-green-500" strokeWidth="10" fill="transparent" strokeDasharray="251.2" strokeDashoffset={251.2 - (251.2 * 64) / 100} />
                       </svg>
                       <div className="absolute flex flex-col items-center justify-center text-center">
                         <span className="text-lg font-extrabold text-foreground leading-none">1,248</span>
@@ -1028,315 +4324,443 @@ export default function RoleDashboardPage({ params }: { params: Promise<{ role: 
           </div>
         );
 
-      case "finance":
+      case "finance": {
+        const kpis = [
+          {
+            title: "Total Collection (This Month)",
+            value: "₹24,85,300",
+            trend: "12.5% from last month",
+            isPositive: true,
+            icon: IndianRupee,
+            bgClass: "bg-emerald-500 text-white",
+            textClass: "text-emerald-500",
+            trendText: "↑ 12.5% from last month"
+          },
+          {
+            title: "Total Fees Due",
+            value: "₹8,42,600",
+            trend: "6.3% from last month",
+            isPositive: false,
+            icon: Users,
+            bgClass: "bg-blue-500 text-white",
+            textClass: "text-red-500",
+            trendText: "↓ 6.3% from last month"
+          },
+          {
+            title: "Total Expenses (This Month)",
+            value: "₹5,18,750",
+            trend: "8.1% from last month",
+            isPositive: true,
+            icon: FileText,
+            bgClass: "bg-amber-500 text-white",
+            textClass: "text-emerald-500",
+            trendText: "↑ 8.1% from last month"
+          },
+          {
+            title: "Balance (This Month)",
+            value: "₹19,66,550",
+            trend: "15.2% from last month",
+            isPositive: true,
+            icon: CreditCard,
+            bgClass: "bg-purple-500 text-white",
+            textClass: "text-emerald-500",
+            trendText: "↑ 15.2% from last month"
+          }
+        ];
+
+        const feeCollectionTrend = [
+          { date: "1 May", current: 350000, previous: 300000 },
+          { date: "6 May", current: 820000, previous: 680000 },
+          { date: "11 May", current: 1150000, previous: 980000 },
+          { date: "16 May", current: 1580000, previous: 1250000 },
+          { date: "21 May", current: 1920000, previous: 1520000 },
+          { date: "26 May", current: 2240000, previous: 1810000 },
+          { date: "31 May", current: 2485300, previous: 2080000 },
+        ];
+
+        const classSplitData = [
+          { name: "Class 1 - 5", value: 325400, color: "#3b82f6" },
+          { name: "Class 6 - 8", value: 645800, color: "#22c55e" },
+          { name: "Class 9 - 10", value: 785600, color: "#f59e0b" },
+          { name: "Class 11 - 12", value: 615000, color: "#8b5cf6" },
+          { name: "Other", value: 113500, color: "#94a3b8" },
+        ];
+
+        const recentFeeCollections = [
+          { receiptNo: "RCP-2025-0501", studentName: "Aarav Sharma", class: "8-A", amount: 15600, date: "29 May 2025", mode: "Online", status: "online" },
+          { receiptNo: "RCP-2025-0500", studentName: "Diya Singh", class: "6-B", amount: 12000, date: "29 May 2025", mode: "Cash", status: "cash" },
+          { receiptNo: "RCP-2025-0499", studentName: "Kabir Verma", class: "10-A", amount: 18500, date: "29 May 2025", mode: "Online", status: "online" },
+          { receiptNo: "RCP-2025-0498", studentName: "Myra Patel", class: "4-A", amount: 9800, date: "29 May 2025", mode: "Card", status: "card" },
+          { receiptNo: "RCP-2025-0497", studentName: "Vivaan Gupta", class: "7-A", amount: 14300, date: "28 May 2025", mode: "Online", status: "online" },
+        ];
+
+        const topDueStudents = [
+          { name: "Rohan Mehta", class: "9-B", amount: 24600 },
+          { name: "Ananya Reddy", class: "8-A", amount: 18750 },
+          { name: "Ishaan Malhotra", class: "7-B", amount: 17200 },
+          { name: "Sara Khan", class: "6-A", amount: 14600 },
+          { name: "Arjun Nair", class: "10-A", amount: 13350 },
+        ];
+
+        const expenseCategories = [
+          { name: "Salaries", amount: 285400, percent: 55 },
+          { name: "Maintenance", amount: 125600, percent: 24.2 },
+          { name: "Utilities", amount: 45300, percent: 8.7 },
+          { name: "Transport", amount: 36800, percent: 7.1 },
+          { name: "Others", amount: 25650, percent: 4.9 },
+        ];
+
         return (
-          <div className="space-y-6">
-            <KPICardRow>
-              <KPICard title="Total Income" value="₹4,25,000" icon={CreditCard} trend={{ value: 14, isPositive: true }} color="green" />
-              <KPICard title="Due Receivables" value="₹1,12,000" icon={Clock} trend={{ value: 6, isPositive: false }} color="red" />
-              <KPICard title="Total Expenses" value="₹85,000" icon={Briefcase} trend={{ value: 3, isPositive: true }} color="orange" />
-              <KPICard title="Scholarships Approved" value="5" icon={Award} trend={{ value: 20, isPositive: true }} color="blue" />
-            </KPICardRow>
+          <div className="space-y-6 text-left">
+            {/* Header Selector Toolbar */}
+            <PageHeader
+              title="Finance Manager Dashboard"
+              description="Comprehensive financial metrics, fee tracking, and real-time operations ledger."
+              actions={
+                <div className="flex items-center gap-3">
+                  <select className="text-xs bg-card border border-border rounded-lg px-3 py-1.5 font-semibold text-muted-foreground outline-none cursor-pointer">
+                    <option>Session 2024-25</option>
+                    <option>Session 2025-26</option>
+                  </select>
+                  <select className="text-xs bg-card border border-border rounded-lg px-3 py-1.5 font-semibold text-muted-foreground outline-none cursor-pointer">
+                    <option>Green Valley School</option>
+                  </select>
+                </div>
+              }
+            />
 
-            <QuickActionsGrid>
-              <QuickActionCard label="Collect Student Fee" icon={PlusCircle} href="/finance/fee-collection" color="green" />
-              <QuickActionCard label="Record Expense" icon={Briefcase} href="/finance/expenses" color="orange" />
-              <QuickActionCard label="Receipt Register" icon={FileCheck} href="/finance/receipts" color="blue" />
-            </QuickActionsGrid>
+            {/* Date Display */}
+            <div className="flex justify-end items-center gap-1.5 text-muted-foreground text-xs font-semibold -mt-2">
+              <span>Today, 29 May 2025</span>
+              <Calendar className="h-4 w-4 text-muted-foreground" />
+            </div>
 
-            <div className="grid gap-6 lg:grid-cols-3">
-              <div className="lg:col-span-2">
-                <ChartContainer title="Fee Collections by Grade" subtitle="Comparing collections vs pending dues">
-                  <BarChart
-                    data={[
-                      { grade: "Class 6", Collected: 42000, Pending: 8000 },
-                      { grade: "Class 7", Collected: 48000, Pending: 6000 },
-                      { grade: "Class 8", Collected: 55000, Pending: 12000 },
-                      { grade: "Class 9", Collected: 64000, Pending: 15000 },
-                      { grade: "Class 10", Collected: 72000, Pending: 20000 },
-                    ]}
-                    xAxisKey="grade"
+            {/* KPIs Row */}
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+              {kpis.map((kpi, idx) => {
+                const Icon = kpi.icon;
+                return (
+                  <div key={idx} className="rounded-xl border border-border bg-card p-5 shadow-sm flex items-center justify-between gap-4">
+                    <div className="space-y-1.5 min-w-0">
+                      <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block">{kpi.title}</span>
+                      <span className="text-2xl font-bold tracking-tight text-foreground block">{kpi.value}</span>
+                      <div className="flex items-center gap-1.5">
+                        {kpi.isPositive ? (
+                          <ArrowUpRight className={cn("h-3.5 w-3.5 shrink-0", kpi.textClass)} />
+                        ) : (
+                          <ArrowDownRight className={cn("h-3.5 w-3.5 shrink-0", kpi.textClass)} />
+                        )}
+                        <span className={cn("text-[11px] font-bold", kpi.textClass)}>{kpi.trend}</span>
+                      </div>
+                    </div>
+                    <div className={cn("flex h-12 w-12 shrink-0 items-center justify-center rounded-full shadow-inner", kpi.bgClass)}>
+                      <Icon className="h-6 w-6" />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Row 2: Charts + Quick Actions */}
+            <div className="grid gap-6 grid-cols-1 lg:grid-cols-12">
+              {/* Fee Collection Overview Area Chart */}
+              <div className="lg:col-span-5">
+                <ChartContainer
+                  title="Fee Collection Overview"
+                  subtitle="Comparing cumulative collected vs last month"
+                  action={
+                    <select className="text-xs bg-muted/50 border border-border rounded-lg px-2 py-1 font-medium text-muted-foreground outline-none cursor-pointer">
+                      <option>This Month</option>
+                    </select>
+                  }
+                >
+                  <AreaChart
+                    data={feeCollectionTrend}
+                    xAxisKey="date"
                     series={[
-                      { key: "Collected", name: "Collected (₹)", color: "#22c55e" },
-                      { key: "Pending", name: "Pending (₹)", color: "#ef4444" },
+                      { key: "current", name: "This Month", color: "#3b82f6" },
+                      { key: "previous", name: "Last Month", color: "#94a3b8" },
                     ]}
                   />
                 </ChartContainer>
               </div>
-              <div>
-                <ChartContainer title="Revenue Split by Mode" subtitle="Payment gateway share">
-                  <DonutChart
-                    data={[
-                      { name: "UPI Apps", value: 180000, color: "#22c55e" },
-                      { name: "Net Banking", value: 120000, color: "#3b82f6" },
-                      { name: "Credit/Debit", value: 85000, color: "#6366f1" },
-                      { name: "Cash", value: 40000, color: "#f59e0b" },
-                    ]}
-                  />
-                </ChartContainer>
+
+              {/* Fee Collection by Class Pie Chart */}
+              <div className="lg:col-span-4 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between pb-1 border-b border-border/40 mb-4">
+                    <h3 className="text-sm font-semibold tracking-tight text-foreground">Fee Collection by Class</h3>
+                    <select className="text-xs bg-muted/50 border border-border rounded-lg px-2 py-1 font-medium text-muted-foreground outline-none cursor-pointer">
+                      <option>This Month</option>
+                    </select>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-4 py-2">
+                    <div className="relative flex items-center justify-center h-32 w-32 shrink-0 mx-auto sm:mx-0">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <RechartsPieChart>
+                          <Pie
+                            data={classSplitData}
+                            cx="50%"
+                            cy="50%"
+                            innerRadius={42}
+                            outerRadius={60}
+                            paddingAngle={2}
+                            dataKey="value"
+                          >
+                            {classSplitData.map((entry, index) => (
+                              <Cell key={`cell-${index}`} fill={entry.color} />
+                            ))}
+                          </Pie>
+                          <Tooltip
+                            formatter={(value: any) => [`₹${Number(value).toLocaleString()}`, "Collected"]}
+                            contentStyle={{
+                              backgroundColor: "white",
+                              borderColor: "hsl(var(--border))",
+                              color: "black",
+                              borderRadius: "8px",
+                              fontSize: "11px",
+                            }}
+                          />
+                        </RechartsPieChart>
+                      </ResponsiveContainer>
+                      <div className="absolute flex flex-col items-center justify-center text-center">
+                        <span className="text-[9px] uppercase font-bold text-muted-foreground">Total</span>
+                        <span className="text-xs font-extrabold text-foreground leading-none">₹24.85L</span>
+                      </div>
+                    </div>
+
+                    <div className="flex-1 space-y-1 text-[11px] w-full">
+                      {classSplitData.map((item, idx) => (
+                        <div key={item.name} className="flex items-center justify-between border-b border-border/40 pb-1 last:border-0 last:pb-0">
+                          <div className="flex items-center gap-1.5 min-w-0">
+                            <span className="h-2.5 w-2.5 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
+                            <span className="text-muted-foreground font-medium truncate">{item.name}</span>
+                          </div>
+                          <div className="flex items-center gap-1 text-right font-bold text-foreground">
+                            <span>₹{item.value.toLocaleString()}</span>
+                            <span className="text-muted-foreground w-8 font-semibold text-[10px]">
+                              {((item.value / 2485300) * 100).toFixed(0)}%
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                      <div className="flex items-center justify-between pt-1 border-t border-border font-bold text-foreground">
+                        <span>Total</span>
+                        <div className="flex items-center gap-1 text-right">
+                          <span>₹24,85,300</span>
+                          <span className="w-8">100%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Quick Actions Panel */}
+              <div className="lg:col-span-3 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col">
+                <h3 className="text-sm font-semibold tracking-tight text-foreground pb-2 border-b border-border/40 mb-3">Quick Actions</h3>
+                <div className="flex-1 flex flex-col justify-center gap-2">
+                  {[
+                    { label: "Collect Fee", icon: IndianRupee, href: "/finance/fee-collection", color: "text-emerald-500 bg-emerald-500/10 border-emerald-500/10" },
+                    { label: "Create Receipt", icon: FileText, href: "/finance/receipts", color: "text-blue-500 bg-blue-500/10 border-blue-500/10" },
+                    { label: "Add Expense", icon: Briefcase, href: "/finance/expenses", color: "text-amber-500 bg-amber-500/10 border-amber-500/10" },
+                    { label: "Add Income", icon: BadgePercent, href: "/finance/income", color: "text-purple-500 bg-purple-500/10 border-purple-500/10" },
+                    { label: "Approve Refund", icon: Shield, href: "/finance/approvals", color: "text-teal-500 bg-teal-500/10 border-teal-500/10" },
+                    { label: "Generate Report", icon: FileText, href: "/finance/reports", color: "text-indigo-500 bg-indigo-500/10 border-indigo-500/10" },
+                  ].map((action, idx) => {
+                    const Icon = action.icon;
+                    return (
+                      <Link
+                        key={idx}
+                        href={action.href}
+                        className="flex items-center gap-3 p-2 rounded-lg border border-border/40 hover:bg-muted/50 hover:border-border transition-all group"
+                      >
+                        <div className={cn("flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border", action.color)}>
+                          <Icon className="h-4.5 w-4.5" />
+                        </div>
+                        <span className="text-xs font-bold text-foreground group-hover:text-primary transition-colors">{action.label}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
               </div>
             </div>
 
-            <div className="bg-card border rounded-xl p-5 shadow-sm text-left">
-              <h3 className="text-sm font-bold text-foreground mb-4">Recent Receipts Directory</h3>
-              <DataTable columns={feeColumns} data={mockFees} />
+            {/* Row 3: Tables Grid */}
+            <div className="grid gap-6 grid-cols-1 lg:grid-cols-12">
+              {/* Recent Fee Collections */}
+              <div className="lg:col-span-5 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+                    <h3 className="text-sm font-semibold tracking-tight text-foreground">Recent Fee Collections</h3>
+                    <Link href="/finance/fee-collection" className="text-xs font-bold text-primary hover:underline">View All</Link>
+                  </div>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-xs text-left min-w-[400px]">
+                      <thead>
+                        <tr className="border-b border-border text-muted-foreground">
+                          <th className="pb-2 font-semibold">Receipt No.</th>
+                          <th className="pb-2 font-semibold">Student Name</th>
+                          <th className="pb-2 font-semibold">Class</th>
+                          <th className="pb-2 font-semibold">Amount</th>
+                          <th className="pb-2 font-semibold">Date</th>
+                          <th className="pb-2 font-semibold text-right">Payment Mode</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {recentFeeCollections.map((row, idx) => (
+                          <tr key={idx} className="border-b border-border/50 last:border-0 hover:bg-muted/10">
+                            <td className="py-2.5 font-bold text-primary hover:underline cursor-pointer">{row.receiptNo}</td>
+                            <td className="py-2.5 font-medium text-foreground">{row.studentName}</td>
+                            <td className="py-2.5 text-muted-foreground">{row.class}</td>
+                            <td className="py-2.5 font-bold text-foreground">₹{row.amount.toLocaleString()}</td>
+                            <td className="py-2.5 text-muted-foreground">{row.date}</td>
+                            <td className="py-2.5 text-right">
+                              <span className={cn(
+                                "px-2 py-0.5 rounded-full text-[10px] font-bold border inline-block",
+                                row.status === "online" && "bg-emerald-500/10 text-emerald-600 border-emerald-500/20",
+                                row.status === "cash" && "bg-amber-500/10 text-amber-600 border-amber-500/20",
+                                row.status === "card" && "bg-blue-500/10 text-blue-600 border-blue-500/20"
+                              )}>
+                                {row.mode}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              {/* Top Due Students */}
+              <div className="lg:col-span-3 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+                    <h3 className="text-sm font-semibold tracking-tight text-foreground">Top Due Students</h3>
+                    <Link href="/finance/due-management" className="text-xs font-bold text-primary hover:underline">View All</Link>
+                  </div>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-xs text-left min-w-[200px]">
+                      <thead>
+                        <tr className="border-b border-border text-muted-foreground">
+                          <th className="pb-2 font-semibold">Student Name</th>
+                          <th className="pb-2 font-semibold">Class</th>
+                          <th className="pb-2 font-semibold text-right">Due Amount</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {topDueStudents.map((row, idx) => (
+                          <tr key={idx} className="border-b border-border/50 last:border-0 hover:bg-muted/10">
+                            <td className="py-2.5 font-medium text-foreground">{row.name}</td>
+                            <td className="py-2.5 text-muted-foreground">{row.class}</td>
+                            <td className="py-2.5 font-bold text-red-500 text-right">₹{row.amount.toLocaleString()}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              {/* Expense Summary Progress Bars */}
+              <div className="lg:col-span-4 rounded-xl border border-border bg-card p-5 shadow-sm flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between pb-1 border-b border-border/40 mb-4">
+                    <h3 className="text-sm font-semibold tracking-tight text-foreground">Expense Summary</h3>
+                    <select className="text-xs bg-muted/50 border border-border rounded-lg px-2 py-1 font-medium text-muted-foreground outline-none cursor-pointer">
+                      <option>This Month</option>
+                    </select>
+                  </div>
+
+                  <div className="space-y-3.5 text-xs">
+                    {expenseCategories.map((exp, idx) => (
+                      <div key={idx} className="space-y-1.5">
+                        <div className="flex items-center justify-between">
+                          <span className="text-muted-foreground font-medium">{exp.name}</span>
+                          <span className="font-bold text-foreground">₹{exp.amount.toLocaleString()}</span>
+                        </div>
+                        <div className="w-full bg-muted/60 h-2 rounded-full overflow-hidden">
+                          <div className="bg-primary h-full rounded-full" style={{ width: `${exp.percent}%` }} />
+                        </div>
+                      </div>
+                    ))}
+                    <div className="pt-3 border-t border-border flex items-center justify-between font-bold text-sm text-foreground">
+                      <span>Total Expenses</span>
+                      <span>₹5,18,750</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Row 4: Recent Expenses */}
+            <div className="bg-card border border-border rounded-xl p-5 shadow-sm">
+              <div className="flex items-center justify-between pb-2 border-b border-border/40 mb-3">
+                <h3 className="text-sm font-semibold tracking-tight text-foreground">Recent Expenses</h3>
+                <Link href="/finance/expenses" className="text-xs font-bold text-primary hover:underline">View All</Link>
+              </div>
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs text-left min-w-[600px]">
+                  <thead>
+                    <tr className="border-b border-border text-muted-foreground">
+                      <th className="pb-2 font-semibold">Voucher No.</th>
+                      <th className="pb-2 font-semibold">Category</th>
+                      <th className="pb-2 font-semibold">Description</th>
+                      <th className="pb-2 font-semibold">Amount</th>
+                      <th className="pb-2 font-semibold">Date</th>
+                      <th className="pb-2 font-semibold">Paid To</th>
+                      <th className="pb-2 font-semibold">Payment Mode</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="hover:bg-muted/10">
+                      <td className="py-2.5 font-bold text-primary hover:underline cursor-pointer">EXP-2025-0562</td>
+                      <td className="py-2.5 font-medium text-foreground">Salaries</td>
+                      <td className="py-2.5 text-muted-foreground">May 2025 - Teaching Staff Salary</td>
+                      <td className="py-2.5 font-bold text-foreground">₹2,45,000</td>
+                      <td className="py-2.5 text-muted-foreground">29 May 2025</td>
+                      <td className="py-2.5 font-medium text-foreground">Teaching Staff</td>
+                      <td className="py-2.5">
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold border bg-blue-500/10 text-blue-600 border-blue-500/20">
+                          Bank Transfer
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="text-center py-4 border-t border-border/40">
+              <p className="text-[11px] text-muted-foreground">© 2025 School Management System ERP | All Rights Reserved</p>
             </div>
           </div>
         );
+      }
 
       case "library":
-        return (
-          <div className="space-y-6">
-            <KPICardRow>
-              <KPICard title="Total Books" value="12,500" icon={BookOpen} trend={{ value: 2, isPositive: true }} color="blue" />
-              <KPICard title="Books Checked Out" value="124" icon={CheckCircle} trend={{ value: 8, isPositive: true }} color="purple" />
-              <KPICard title="Active Members" value="480" icon={Users} trend={{ value: 15, isPositive: true }} color="green" />
-              <KPICard title="Pending Overdue Fines" value="₹4,250" icon={AlertTriangle} trend={{ value: 12, isPositive: false }} color="red" />
-            </KPICardRow>
-
-            <QuickActionsGrid>
-              <QuickActionCard label="Issue New Book" icon={Plus} href="/library/issue-return" color="blue" />
-              <QuickActionCard label="Add Book to Catalog" icon={BookOpen} href="/library/books" color="purple" />
-              <QuickActionCard label="Register Library Member" icon={Users} href="/library/members" color="green" />
-            </QuickActionsGrid>
-
-            <div className="grid gap-6 lg:grid-cols-2">
-              <ChartContainer title="Book Issues Trend" subtitle="Monthly issue distributions">
-                <LineChart
-                  data={[
-                    { month: "Jan", Issues: 180 },
-                    { month: "Feb", Issues: 210 },
-                    { month: "Mar", Issues: 290 },
-                    { month: "Apr", Issues: 250 },
-                    { month: "May", Issues: 320 },
-                    { month: "Jun", Issues: 280 },
-                  ]}
-                  xAxisKey="month"
-                  series={[{ key: "Issues", name: "Issues Checked", color: "#6366f1" }]}
-                />
-              </ChartContainer>
-              <ChartContainer title="Top Issued Books List" subtitle="Top performing educational booklets">
-                <HorizontalBarChart
-                  data={[
-                    { title: "Intro to Physics", count: 48 },
-                    { title: "Advanced Maths", count: 42 },
-                    { title: "History of India", count: 35 },
-                    { title: "Computer Networks", count: 28 },
-                    { title: "English Grammar", count: 22 },
-                  ]}
-                  yAxisKey="title"
-                  barKey="count"
-                  barName="Issue Count"
-                  color="#8b5cf6"
-                />
-              </ChartContainer>
-            </div>
-
-            <div className="bg-card border rounded-xl p-5 shadow-sm text-left">
-              <h3 className="text-sm font-bold text-foreground mb-4">Library Catalog Registry</h3>
-              <DataTable columns={bookColumns} data={mockBooks} />
-            </div>
-          </div>
-        );
+        return <LibrarianDashboard />;
 
       case "hr":
-        return (
-          <div className="space-y-6">
-            <KPICardRow>
-              <KPICard title="Total Employees" value="156 Staff" icon={Users} trend={{ value: 3.1, isPositive: true }} color="blue" />
-              <KPICard title="Daily Attendance" value="94.2%" icon={UserCheck} trend={{ value: 1.2, isPositive: true }} color="green" />
-              <KPICard title="Pending Leave Requests" value="8 Claims" icon={Calendar} trend={{ value: 15.2, isPositive: false }} color="orange" />
-              <KPICard title="Open Vacancies" value="5 Openings" icon={Briefcase} description="Hiring pipeline" color="purple" />
-            </KPICardRow>
-
-            <QuickActionsGrid>
-              <QuickActionCard label="Staff Directory" icon={Users} href="/hr/employees" color="blue" />
-              <QuickActionCard label="Add Employee Profile" icon={UserPlus} href="/hr/employees/create" color="green" />
-              <QuickActionCard label="Leave Approvals" icon={ClipboardList} href="/hr/leave" color="orange" />
-              <QuickActionCard label="Recruitment Kanban" icon={Briefcase} href="/hr/recruitment" color="purple" />
-            </QuickActionsGrid>
-
-            <div className="grid gap-6 lg:grid-cols-2">
-              <ChartContainer title="HR Recruitment Funnel" subtitle="Number of active candidates in stages">
-                <BarChart
-                  data={[
-                    { stage: "Applied", Candidates: 42 },
-                    { stage: "Screening", Candidates: 24 },
-                    { stage: "Interview", Candidates: 15 },
-                    { stage: "Offered", Candidates: 6 },
-                    { stage: "Hired", Candidates: 4 },
-                  ]}
-                  xAxisKey="stage"
-                  series={[{ key: "Candidates", name: "Candidates", color: "#6366f1" }]}
-                />
-              </ChartContainer>
-
-              <ChartContainer title="Staff Absentees Trend" subtitle="Daily average absentees count">
-                <LineChart
-                  data={[
-                    { day: "Mon", Staff: 5 },
-                    { day: "Tue", Staff: 3 },
-                    { day: "Wed", Staff: 4 },
-                    { day: "Thu", Staff: 2 },
-                    { day: "Fri", Staff: 6 },
-                  ]}
-                  xAxisKey="day"
-                  series={[{ key: "Staff", name: "Absent Employees", color: "#ef4444" }]}
-                />
-              </ChartContainer>
-            </div>
-
-            <div className="bg-card border rounded-xl p-5 shadow-sm text-left">
-              <h3 className="text-sm font-bold text-foreground mb-4">Pending Leave Approval Board</h3>
-              <DataTable
-                columns={[
-                  { accessorKey: "name", header: "Staff Member" },
-                  { accessorKey: "type", header: "Leave Type" },
-                  { accessorKey: "range", header: "Date Range" },
-                  { accessorKey: "reason", header: "Reason Summary" },
-                  { accessorKey: "status", header: "Status" },
-                ]}
-                data={[
-                  { name: "Ms. Shalini Gupta", type: "Casual Leave", range: "02 Jul - 03 Jul (2 days)", reason: "Personal family emergency", status: "Pending HR Approval" },
-                  { name: "Mr. Amit Verma", type: "Sick Leave", range: "05 Jul (1 day)", reason: "Doctor appointment", status: "Pending HR Approval" },
-                ]}
-              />
-            </div>
-          </div>
-        );
+        return <HrDashboard />;
 
       case "transport":
-        return (
-          <div className="space-y-6">
-            <KPICardRow>
-              <KPICard title="Fleet Vehicles" value="48 Active" icon={Bus} description="Buses & Vans" color="blue" />
-              <KPICard title="Active Routes" value="12 Main Routes" icon={Building2} description="148 stops mapped" color="purple" />
-              <KPICard title="Drivers on Duty" value="45 Personnel" icon={Users} trend={{ value: 2.1, isPositive: true }} color="green" />
-              <KPICard title="In Repair / Service" value="3 Units" icon={AlertTriangle} trend={{ value: 20, isPositive: false }} color="red" />
-            </KPICardRow>
-
-            <QuickActionsGrid>
-              <QuickActionCard label="Add New Vehicle" icon={Plus} href="/transport/vehicles" color="blue" />
-              <QuickActionCard label="Configure Routes" icon={Building2} href="/transport/routes" color="purple" />
-              <QuickActionCard label="Driver Directory" icon={Users} href="/transport/drivers" color="green" />
-              <QuickActionCard label="GPS Allocation" icon={UserCheck} href="/transport/allocation" color="orange" />
-            </QuickActionsGrid>
-
-            <div className="grid gap-6 lg:grid-cols-2">
-              <ChartContainer title="Fuel Consumption Ledger" subtitle="Liters consumed per vehicle group this month">
-                <BarChart
-                  data={[
-                    { group: "Buses North", Consumption: 850 },
-                    { group: "Buses South", Consumption: 940 },
-                    { group: "Buses Central", Consumption: 1120 },
-                    { group: "Staff Vans", Consumption: 430 },
-                    { group: "Other Cars", Consumption: 210 },
-                  ]}
-                  xAxisKey="group"
-                  series={[{ key: "Consumption", name: "Fuel (Liters)", color: "#10b981" }]}
-                />
-              </ChartContainer>
-
-              <ChartContainer title="Route Load Densities" subtitle="Average pupil riders count per bus route">
-                <LineChart
-                  data={[
-                    { route: "Route 1", Pupils: 48 },
-                    { route: "Route 2", Pupils: 35 },
-                    { route: "Route 3", Pupils: 52 },
-                    { route: "Route 4", Pupils: 40 },
-                    { route: "Route 5", Pupils: 28 },
-                  ]}
-                  xAxisKey="route"
-                  series={[{ key: "Pupils", name: "Pupil Seatings Mapped", color: "#6366f1" }]}
-                />
-              </ChartContainer>
-            </div>
-
-            <div className="bg-card border rounded-xl p-5 shadow-sm text-left">
-              <h3 className="text-sm font-bold text-foreground mb-4">Urgent Fleet Maintenance Alerts</h3>
-              <DataTable
-                columns={[
-                  { accessorKey: "code", header: "Vehicle Code" },
-                  { accessorKey: "model", header: "Vehicle Model" },
-                  { accessorKey: "issue", header: "Reported Issue / Audit" },
-                  { accessorKey: "status", header: "Urgency Status" },
-                ]}
-                data={[
-                  { code: "GW-BUS-04", model: "Tata Starbus 40-Seater", issue: "Engine oil change overdue by 350km", status: "High Priority" },
-                  { code: "GW-VAN-02", model: "Maruti Suzuki Eeco", issue: "Brake pads inspection required", status: "Medium Priority" },
-                ]}
-              />
-            </div>
-          </div>
-        );
+        return <TransportDashboard />;
 
       case "hostel":
-        return (
-          <div className="space-y-6">
-            <KPICardRow>
-              <KPICard title="Bed Occupancy" value="412 / 500" icon={Home} trend={{ value: 5.4, isPositive: true }} color="blue" />
-              <KPICard title="Vacant Rooms" value="24 Rooms" icon={CheckCircle} description="Ready for allotment" color="green" />
-              <KPICard title="Guest Logs Today" value="6 Visitors" icon={Users} description="Active check-in passes" color="purple" />
-              <KPICard title="Open Complaints" value="12 Cases" icon={AlertCircle} trend={{ value: 8, isPositive: false }} color="red" />
-            </KPICardRow>
+        return <HostelDashboard />;
 
-            <QuickActionsGrid>
-              <QuickActionCard label="Allot Room Bed" icon={Plus} href="/hostel/allocation" color="blue" />
-              <QuickActionCard label="Guest Pass Log" icon={Users} href="/hostel/visitors" color="purple" />
-              <QuickActionCard label="Log Repair Complaint" icon={AlertTriangle} href="/hostel/complaints" color="red" />
-              <QuickActionCard label="Mess Billing Ledger" icon={CreditCard} href="/hostel/finance" color="green" />
-            </QuickActionsGrid>
+      case "teacher":
+        return <TeacherDashboard />;
 
-            <div className="grid gap-6 lg:grid-cols-3">
-              <div className="lg:col-span-2">
-                <ChartContainer title="Hostel Occupancy by Block" subtitle="Beds taken vs beds vacant">
-                  <BarChart
-                    data={[
-                      { block: "Block A (Boys)", Occupied: 180, Vacant: 20 },
-                      { block: "Block B (Girls)", Occupied: 192, Vacant: 8 },
-                      { block: "Block C (Staff)", Occupied: 40, Vacant: 60 },
-                    ]}
-                    xAxisKey="block"
-                    series={[
-                      { key: "Occupied", name: "Beds Occupied", color: "#3b82f6" },
-                      { key: "Vacant", name: "Beds Vacant", color: "#cbd5e1" },
-                    ]}
-                  />
-                </ChartContainer>
-              </div>
+      case "student":
+        return <StudentDashboard />;
 
-              <div>
-                <ChartContainer title="Complaints Distribution" subtitle="Categories of logged issues">
-                  <DonutChart
-                    data={[
-                      { name: "Electrical", value: 5, color: "#ef4444" },
-                      { name: "Plumbing", value: 4, color: "#f59e0b" },
-                      { name: "Furniture", value: 2, color: "#3b82f6" },
-                      { name: "Internet / Wi-Fi", value: 1, color: "#10b981" },
-                    ]}
-                  />
-                </ChartContainer>
-              </div>
-            </div>
-
-            <div className="bg-card border rounded-xl p-5 shadow-sm text-left">
-              <h3 className="text-sm font-bold text-foreground mb-4">Recent Visitor Check-In Log</h3>
-              <DataTable
-                columns={[
-                  { accessorKey: "visitor", header: "Visitor Name" },
-                  { accessorKey: "contact", header: "Contact Phone" },
-                  { accessorKey: "relation", header: "Relation / Mapped Host" },
-                  { accessorKey: "checkIn", header: "Check-In Time" },
-                  { accessorKey: "status", header: "Validity" },
-                ]}
-                data={[
-                  { visitor: "Mr. Ramesh Patel", contact: "+91 98765 43210", relation: "Father of Priya Patel (Room 102)", checkIn: "Today, 04:30 PM", status: "Active Visitor Pass" },
-                  { visitor: "Vendor (Amul Milk)", contact: "+91 99887 76655", relation: "Kitchen Supplies Delivery", checkIn: "Today, 05:15 PM", status: "Active Visitor Pass" },
-                ]}
-              />
-            </div>
-          </div>
-        );
+      case "parent":
+        return <ParentDashboard />;
 
       default:
         // --- General Fallback UI for other roles ---
