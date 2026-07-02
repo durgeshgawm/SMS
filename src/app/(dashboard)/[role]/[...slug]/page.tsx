@@ -227,6 +227,1536 @@ export default function CatchAllDashboardPage({
     { accessorKey: "assignCounselor", header: "Counselor" },
   ];
 
+  // --- SUPER ADMIN CUSTOM SUB-PAGES ROUTER ---
+  if (role === "super-admin") {
+    const subPath = slug[1];
+
+    // 1. Academic Operations
+    if (moduleName === "academic") {
+      if (subPath === "classes") {
+        const classesData = [
+          { id: "1", className: "Class 10 - A", code: "C10A", capacity: 40, occupied: 38, teacher: "Ms. Gupta" },
+          { id: "2", className: "Class 10 - B", code: "C10B", capacity: 40, occupied: 36, teacher: "Mr. Kumar" },
+          { id: "3", className: "Class 9 - A", code: "C9A", capacity: 45, occupied: 42, teacher: "Mrs. Sen" },
+          { id: "4", className: "Class 8 - A", code: "C8A", capacity: 45, occupied: 40, teacher: "Mr. Joshi" },
+        ];
+        return (
+          <ListViewTemplate
+            title="Class Management"
+            description="Manage academic classes, sections, and check capacity allocations."
+            addLabel="Create Class"
+            data={classesData}
+            columns={[
+              { accessorKey: "className", header: "Class / Section" },
+              { accessorKey: "code", header: "Class Code" },
+              { accessorKey: "capacity", header: "Max Capacity" },
+              { accessorKey: "occupied", header: "Occupied Seats" },
+              { accessorKey: "teacher", header: "Class Teacher" },
+            ]}
+            searchKey="className"
+            formFields={
+              <>
+                <FormInput name="className" label="Class Name" required placeholder="e.g. Class 10 - A" />
+                <FormInput name="code" label="Class Code" required placeholder="e.g. C10A" />
+                <FormInput name="capacity" label="Max Capacity" type="number" required placeholder="e.g. 40" />
+                <FormInput name="teacher" label="Class Teacher" required placeholder="e.g. Ms. Gupta" />
+              </>
+            }
+          />
+        );
+      }
+      if (subPath === "syllabus") {
+        const syllabusData = [
+          { id: "1", subject: "Mathematics", grade: "Class 10", completion: 85, chapters: "12/15 Completed", teacher: "Ms. Gupta" },
+          { id: "2", subject: "General Science", grade: "Class 10", completion: 78, chapters: "10/13 Completed", teacher: "Mr. Kumar" },
+          { id: "3", subject: "English Language", grade: "Class 10", completion: 92, chapters: "11/12 Completed", teacher: "Mrs. Sen" },
+          { id: "4", subject: "Social Studies", grade: "Class 9", completion: 65, chapters: "8/12 Completed", teacher: "Mr. Joshi" },
+        ];
+        return (
+          <ListViewTemplate
+            title="Syllabus Progress Tracker"
+            description="Track chapter distributions and completion metrics across grades."
+            data={syllabusData}
+            columns={[
+              { accessorKey: "subject", header: "Subject" },
+              { accessorKey: "grade", header: "Class Level" },
+              {
+                accessorKey: "completion",
+                header: "Completion Rate",
+                cell: ({ row }) => (
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1 w-24 bg-muted h-2 rounded-full overflow-hidden">
+                      <div className="bg-green-500 h-full" style={{ width: `${row.original.completion}%` }} />
+                    </div>
+                    <span className="font-bold">{row.original.completion}%</span>
+                  </div>
+                ),
+              },
+              { accessorKey: "chapters", header: "Chapters Covered" },
+              { accessorKey: "teacher", header: "Assigned Faculty" },
+            ]}
+            searchKey="subject"
+          />
+        );
+      }
+      if (subPath === "timetable") {
+        const timetableData = [
+          { id: "1", class: "Class 10 - A", time: "09:00 AM - 10:00 AM", subject: "Mathematics", teacher: "Ms. Gupta", room: "Room 101" },
+          { id: "2", class: "Class 10 - A", time: "10:00 AM - 11:00 AM", subject: "General Science", teacher: "Mr. Kumar", room: "Room 101" },
+          { id: "3", class: "Class 10 - B", time: "09:00 AM - 10:00 AM", subject: "English Literature", teacher: "Mrs. Sen", room: "Room 102" },
+          { id: "4", class: "Class 10 - B", time: "10:00 AM - 11:00 AM", subject: "Social Studies", teacher: "Mr. Joshi", room: "Room 102" },
+        ];
+        return (
+          <ListViewTemplate
+            title="Academic Master Timetable"
+            description="Manage and schedule classes period intervals, rooms, and supervisors allocation."
+            data={timetableData}
+            columns={[
+              { accessorKey: "class", header: "Class" },
+              { accessorKey: "time", header: "Time Slot" },
+              { accessorKey: "subject", header: "Subject" },
+              { accessorKey: "teacher", header: "Faculty assigned" },
+              { accessorKey: "room", header: "Allocated Room" },
+            ]}
+            searchKey="subject"
+          />
+        );
+      }
+    }
+
+    // 2. Staff & HR
+    if (moduleName === "staff-hr") {
+      if (!subPath) {
+        return (
+          <ListViewTemplate
+            title="Staff Directory"
+            description="Monitor, update, and manage all campus staff members profiles."
+            addLabel="Add Staff Member"
+            data={employees}
+            columns={employeeCols}
+            searchKey="name"
+            formFields={
+              <>
+                <FormInput name="employeeNo" label="Employee ID No" required placeholder="e.g. GW-EMP-006" />
+                <FormInput name="name" label="Full Staff Name" required placeholder="e.g. Ms. Priya Patel" />
+                <FormInput name="department" label="Department" required placeholder="e.g. Academics" />
+                <FormInput name="designation" label="Designation Title" required placeholder="e.g. Senior Lecturer" />
+                <FormInput name="phone" label="Contact No" required placeholder="e.g. 9876543210" />
+                <FormInput name="email" label="Email Address" required placeholder="e.g. staff@school.com" />
+                <FormInput name="salary" label="Monthly Base Salary (₹)" type="number" required placeholder="e.g. 60000" />
+              </>
+            }
+            onAddSubmit={(values) => {
+              setEmployees([{ id: `emp-${Date.now()}`, ...values }, ...employees]);
+              toast.success("Staff profile added!");
+            }}
+          />
+        );
+      }
+      if (subPath === "recruitment") {
+        const recruitmentData = [
+          { id: "1", title: "Senior Physics Lecturer", department: "Academics", openings: 2, status: "Active Interviews", candidates: 18 },
+          { id: "2", title: "Librarian Assistant", department: "Library Operations", openings: 1, status: "Shortlisting", candidates: 8 },
+          { id: "3", title: "Bus Driver (Route 6)", department: "Transport Division", openings: 1, status: "Offer Released", candidates: 4 },
+        ];
+        return (
+          <ListViewTemplate
+            title="Recruitment Portal"
+            description="Manage campus job postings, interviews, and candidate listings."
+            addLabel="Post Job Opening"
+            data={recruitmentData}
+            columns={[
+              { accessorKey: "title", header: "Job Position" },
+              { accessorKey: "department", header: "Department" },
+              { accessorKey: "openings", header: "Open Positions" },
+              { accessorKey: "candidates", header: "Applicants" },
+              { accessorKey: "status", header: "Hiring Status" },
+            ]}
+            searchKey="title"
+            formFields={
+              <>
+                <FormInput name="title" label="Job Title" required placeholder="e.g. Senior Chemistry Teacher" />
+                <FormInput name="department" label="Department" required placeholder="e.g. Academics" />
+                <FormInput name="openings" label="Positions Open" type="number" required placeholder="e.g. 1" />
+                <FormSelect
+                  name="status"
+                  label="Hiring Status"
+                  required
+                  options={[
+                    { value: "Open", label: "Open" },
+                    { value: "Shortlisting", label: "Shortlisting" },
+                    { value: "Closed", label: "Closed" },
+                  ]}
+                />
+              </>
+            }
+          />
+        );
+      }
+    }
+
+    // 3. Payroll Processing
+    if (moduleName === "payroll") {
+      if (subPath === "structure") {
+        const salaryStructureData = [
+          { id: "1", designation: "Chief Finance Manager", basic: 55000, hra: 15000, allowances: 15000, pf: 4500, tax: 2500, net: 78000 },
+          { id: "2", designation: "Senior Mathematics Lecturer", basic: 50000, hra: 15000, allowances: 10000, pf: 4500, tax: 2500, net: 68000 },
+          { id: "3", designation: "Chief Hostel Warden", basic: 30000, hra: 10000, allowances: 10000, pf: 3000, tax: 1500, net: 45500 },
+        ];
+        return (
+          <ListViewTemplate
+            title="Salary Structure Templates"
+            description="Configure default basic pay structures, HRA ratios, PF contributions, and taxes per designation."
+            addLabel="Create Structure"
+            data={salaryStructureData}
+            columns={[
+              { accessorKey: "designation", header: "Designation" },
+              { accessorKey: "basic", header: "Basic Pay (₹)", cell: ({ row }) => `₹${row.original.basic.toLocaleString()}` },
+              { accessorKey: "hra", header: "HRA Allowance (₹)", cell: ({ row }) => `₹${row.original.hra.toLocaleString()}` },
+              { accessorKey: "allowances", header: "Allowances (₹)", cell: ({ row }) => `₹${row.original.allowances.toLocaleString()}` },
+              { accessorKey: "pf", header: "PF Deduction (₹)", cell: ({ row }) => `₹${row.original.pf.toLocaleString()}` },
+              { accessorKey: "tax", header: "TDS Tax (₹)", cell: ({ row }) => `₹${row.original.tax.toLocaleString()}` },
+              { accessorKey: "net", header: "Net Salary (₹)", cell: ({ row }) => `₹${row.original.net.toLocaleString()}` },
+            ]}
+            searchKey="designation"
+            formFields={
+              <>
+                <FormInput name="designation" label="Designation" required placeholder="e.g. Junior Teacher" />
+                <FormInput name="basic" label="Basic Pay" type="number" required placeholder="e.g. 25000" />
+                <FormInput name="hra" label="HRA" type="number" required placeholder="e.g. 8000" />
+                <FormInput name="allowances" label="Allowances" type="number" required placeholder="e.g. 4000" />
+                <FormInput name="pf" label="PF Contribution" type="number" required placeholder="e.g. 2000" />
+                <FormInput name="tax" label="Professional TDS Tax" type="number" required placeholder="e.g. 1000" />
+              </>
+            }
+          />
+        );
+      }
+      if (subPath === "process") {
+        const processedPayrollData = [
+          { id: "1", month: "June 2026", totalEmployees: 5, processed: 415000, status: "Paid", paidDate: "2026-06-30" },
+          { id: "2", month: "May 2026", totalEmployees: 5, processed: 415000, status: "Paid", paidDate: "2026-05-31" },
+        ];
+        return (
+          <PageContainer>
+            <PageHeader
+              title="Process Payroll Log"
+              description="Review and trigger monthly payroll processes for all school campus employees."
+              actions={
+                <Button onClick={() => toast.success("Current month payroll processed successfully!")}>
+                  Run July Payroll
+                </Button>
+              }
+            />
+            <div className="bg-card rounded-xl border p-6 text-left">
+              <table className="w-full text-xs text-left">
+                <thead>
+                  <tr className="border-b border-border bg-muted">
+                    <th className="p-3 font-semibold text-muted-foreground">Month</th>
+                    <th className="p-3 font-semibold text-muted-foreground">Total Employees</th>
+                    <th className="p-3 font-semibold text-muted-foreground">Processed Salary Volume</th>
+                    <th className="p-3 font-semibold text-muted-foreground">Disbursal Status</th>
+                    <th className="p-3 font-semibold text-muted-foreground">Paid Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {processedPayrollData.map((p) => (
+                    <tr key={p.id} className="border-b last:border-0 hover:bg-muted/10">
+                      <td className="p-3 font-bold">{p.month}</td>
+                      <td className="p-3">{p.totalEmployees} Employees</td>
+                      <td className="p-3 font-semibold">₹{p.processed.toLocaleString()}</td>
+                      <td className="p-3">
+                        <span className="px-2.5 py-0.5 rounded-full text-[9px] font-bold bg-green-500/10 text-green-500 border border-green-500/20 uppercase">
+                          {p.status}
+                        </span>
+                      </td>
+                      <td className="p-3 font-mono">{p.paidDate}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </PageContainer>
+        );
+      }
+      if (subPath === "payslips") {
+        const payslipsList = employees.map(e => ({
+          id: e.id,
+          employeeNo: e.employeeNo,
+          name: e.name,
+          designation: e.designation,
+          month: "June 2026",
+          netPaid: e.salary,
+        }));
+        return (
+          <ListViewTemplate
+            title="Employee Payslips Index"
+            description="Search, view, and print generated employee monthly payslips."
+            data={payslipsList}
+            columns={[
+              { accessorKey: "employeeNo", header: "Employee ID" },
+              { accessorKey: "name", header: "Employee Name" },
+              { accessorKey: "designation", header: "Designation" },
+              { accessorKey: "month", header: "Month" },
+              { accessorKey: "netPaid", header: "Net Salary Disbursed", cell: ({ row }) => `₹${row.original.netPaid.toLocaleString()}` },
+              {
+                id: "actions",
+                header: "Action",
+                cell: () => (
+                  <Button size="sm" variant="outline" className="h-7 text-[10px] font-bold" onClick={() => router.push(`/${role}/print`)}>
+                    Print Slip
+                  </Button>
+                )
+              }
+            ]}
+            searchKey="name"
+          />
+        );
+      }
+      if (subPath === "bonuses") {
+        const bonusesData = [
+          { id: "1", name: "Ms. Gupta", type: "Festive Bonus", amount: 5000, reason: "Excellent academic ratings", date: "2026-06-25" },
+          { id: "2", name: "Mr. Kumar", type: "Overtime Duty", amount: 3000, reason: "Special hostel camp supervision", date: "2026-06-22" },
+          { id: "3", name: "Mr. Rao", type: "Late Deduction", amount: -1500, reason: "3 Late marks registered", date: "2026-06-24" },
+        ];
+        return (
+          <ListViewTemplate
+            title="Bonuses & Deductions Ledger"
+            description="Record one-off salary bonuses, incentives, or policy deduction charges."
+            addLabel="Add Bonus/Deduction"
+            data={bonusesData}
+            columns={[
+              { accessorKey: "name", header: "Staff Member" },
+              {
+                accessorKey: "type",
+                header: "Type",
+                cell: ({ row }) => (
+                  <span className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase ${
+                    row.original.amount > 0 ? "bg-green-500/10 text-green-500 border border-green-500/20" : "bg-red-500/10 text-red-500 border border-red-500/20"
+                  }`}>
+                    {row.original.type}
+                  </span>
+                )
+              },
+              {
+                accessorKey: "amount",
+                header: "Amount (₹)",
+                cell: ({ row }) => (
+                  <span className={`font-bold ${row.original.amount > 0 ? "text-green-500" : "text-red-500"}`}>
+                    {row.original.amount > 0 ? `+₹${row.original.amount}` : `-₹${Math.abs(row.original.amount)}`}
+                  </span>
+                )
+              },
+              { accessorKey: "reason", header: "Reason Description" },
+              { accessorKey: "date", header: "Recorded Date", cell: ({ row }) => <span className="font-mono">{row.original.date}</span> },
+            ]}
+            searchKey="name"
+            formFields={
+              <>
+                <FormInput name="name" label="Staff Name" required placeholder="e.g. Ms. Gupta" />
+                <FormSelect
+                  name="type"
+                  label="Category Type"
+                  required
+                  options={[
+                    { value: "Bonus", label: "Bonus / Incentive" },
+                    { value: "Deduction", label: "Policy Deduction" },
+                  ]}
+                />
+                <FormInput name="amount" label="Amount Value (₹)" type="number" required placeholder="e.g. 5000" />
+                <FormInput name="reason" label="Reason Context" required placeholder="e.g. Special performance reward" />
+              </>
+            }
+          />
+        );
+      }
+    }
+
+    // 4. Fees & Accounts
+    if (moduleName === "fees-accounts") {
+      if (subPath === "structure") {
+        const feesStructureData = [
+          { id: "1", feeHead: "Admission Registration Fee", frequency: "One Time", class: "All Classes", amount: 1500, dueDate: "At Registration" },
+          { id: "2", feeHead: "First Semester Tuition Fees", frequency: "Per Semester", class: "Class 10", amount: 12500, dueDate: "2026-07-15" },
+          { id: "3", feeHead: "Computer Laboratory Charges", frequency: "Annually", class: "Class 9 & 10", amount: 1500, dueDate: "2026-07-20" },
+          { id: "4", feeHead: "Library Maintenance Fees", frequency: "Annually", class: "All Classes", amount: 1000, dueDate: "2026-07-20" },
+        ];
+        return (
+          <ListViewTemplate
+            title="School Fee Structure Setup"
+            description="Define administrative fee heads, due dates, class applicability, and amount targets."
+            addLabel="Create Fee Head"
+            data={feesStructureData}
+            columns={[
+              { accessorKey: "feeHead", header: "Fee Particular Head" },
+              { accessorKey: "frequency", header: "Frequency Billing" },
+              { accessorKey: "class", header: "Applicable Class" },
+              { accessorKey: "amount", header: "Fee Amount (₹)", cell: ({ row }) => `₹${row.original.amount.toLocaleString()}` },
+              { accessorKey: "dueDate", header: "Due Date Window", cell: ({ row }) => <span className="font-mono">{row.original.dueDate}</span> },
+            ]}
+            searchKey="feeHead"
+            formFields={
+              <>
+                <FormInput name="feeHead" label="Fee Head Name" required placeholder="e.g. Second Semester Tuition Fee" />
+                <FormSelect
+                  name="frequency"
+                  label="Billing Cycle"
+                  required
+                  options={[
+                    { value: "One Time", label: "One Time" },
+                    { value: "Per Semester", label: "Per Semester" },
+                    { value: "Annually", label: "Annually" },
+                    { value: "Monthly", label: "Monthly" },
+                  ]}
+                />
+                <FormInput name="class" label="Class Applicability" required placeholder="e.g. Class 10" />
+                <FormInput name="amount" label="Fee Amount" type="number" required placeholder="e.g. 12000" />
+                <FormInput name="dueDate" label="Due Date" required placeholder="e.g. YYYY-MM-DD" />
+              </>
+            }
+          />
+        );
+      }
+      if (subPath === "categories") {
+        const feeCategoriesData = [
+          { id: "1", name: "Tuition Fees", code: "TUIT", desc: "Core educational instruction expenses" },
+          { id: "2", name: "Co-curricular/Sports Fees", code: "SPRT", desc: "Annual physical education and tournaments fund" },
+          { id: "3", name: "Laboratory Infrastructure Fees", code: "LAB", desc: "Computer and science lab tools maintenance" },
+        ];
+        return (
+          <ListViewTemplate
+            title="Fee Categories Ledger"
+            description="Manage specific categories of fees for itemized accounts audit log."
+            addLabel="Add Fee Category"
+            data={feeCategoriesData}
+            columns={[
+              { accessorKey: "name", header: "Category Name" },
+              { accessorKey: "code", header: "Category Code" },
+              { accessorKey: "desc", header: "Detailed Description" },
+            ]}
+            searchKey="name"
+            formFields={
+              <>
+                <FormInput name="name" label="Category Name" required placeholder="e.g. Transport Fees" />
+                <FormInput name="code" label="Category Code" required placeholder="e.g. TRSP" />
+                <FormInput name="desc" label="Description" required placeholder="e.g. Route shuttle maintenance expenses" />
+              </>
+            }
+          />
+        );
+      }
+      if (subPath === "collection") {
+        return (
+          <ListViewTemplate
+            title="Fee Collections Log"
+            description="Review transactional log reports of all student fee collection payments."
+            data={fees}
+            columns={feeCols}
+            searchKey="studentName"
+          />
+        );
+      }
+      if (subPath === "pending") {
+        const pendingFeesData = [
+          { id: "1", name: "Kabir Dev", class: "Class 9-A", amount: 15000, dueDate: "2026-06-10", lastReminder: "2026-06-24" },
+          { id: "2", name: "Rohan Sen", class: "Class 9-C", amount: 12000, dueDate: "2026-06-15", lastReminder: "2026-06-25" },
+          { id: "3", name: "Priya Patel", class: "Class 10-B", amount: 5000, dueDate: "2026-06-18", lastReminder: "2026-06-25" },
+        ];
+        return (
+          <ListViewTemplate
+            title="Outstanding Dues Monitor"
+            description="Audit pending student fees, track deadlines, and trigger alert reminders."
+            addLabel="Send Global Dues Alert"
+            data={pendingFeesData}
+            columns={[
+              { accessorKey: "name", header: "Student Name" },
+              { accessorKey: "class", header: "Class" },
+              { accessorKey: "amount", header: "Outstanding Balance (₹)", cell: ({ row }) => `₹${row.original.amount.toLocaleString()}` },
+              { accessorKey: "dueDate", header: "Due Date", cell: ({ row }) => <span className="font-mono text-red-500 font-bold">{row.original.dueDate}</span> },
+              { accessorKey: "lastReminder", header: "Last Dues Reminder Sent", cell: ({ row }) => <span className="font-mono">{row.original.lastReminder}</span> },
+            ]}
+            searchKey="name"
+            onAddSubmit={() => toast.success("Dues reminder SMS queue triggered for all pending parent contacts!")}
+          />
+        );
+      }
+      if (subPath === "transactions") {
+        const transactionsLedgerData = [
+          { id: "TXN-001", date: "2026-06-26", desc: "Aarav Sharma Tuition Fees collection", type: "Income", amount: 15000, account: "ICICI Operational A/c" },
+          { id: "TXN-002", date: "2026-06-25", desc: "Diesel Purchase for Bus Fleet (HP Fuel)", type: "Expense", amount: 25000, account: "Petty Cash Ledger" },
+          { id: "TXN-003", date: "2026-06-25", desc: "Library Books Purchase - Wren&Martin 25 Copies", type: "Expense", amount: 5200, account: "ICICI Operational A/c" },
+          { id: "TXN-004", date: "2026-06-24", desc: "Merit Scholar Grant funding release", type: "Income", amount: 80000, account: "School Capital Endowment A/c" },
+        ];
+        return (
+          <ListViewTemplate
+            title="Transactions General Ledger"
+            description="Consolidated log tracking all incoming school fee revenue and outgoing operational expenses."
+            addLabel="Log Manual Transaction"
+            data={transactionsLedgerData}
+            columns={[
+              { accessorKey: "id", header: "Transaction ID" },
+              { accessorKey: "date", header: "Date", cell: ({ row }) => <span className="font-mono">{row.original.date}</span> },
+              { accessorKey: "desc", header: "Description Details" },
+              {
+                accessorKey: "type",
+                header: "Type",
+                cell: ({ row }) => (
+                  <span className={`px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase ${
+                    row.original.type === "Income" ? "bg-green-500/10 text-green-500 border border-green-500/20" : "bg-red-500/10 text-red-500 border border-red-500/20"
+                  }`}>
+                    {row.original.type}
+                  </span>
+                )
+              },
+              {
+                accessorKey: "amount",
+                header: "Value (₹)",
+                cell: ({ row }) => (
+                  <span className={`font-bold ${row.original.type === "Income" ? "text-green-500" : "text-red-500"}`}>
+                    {row.original.type === "Income" ? `+₹${row.original.amount.toLocaleString()}` : `-₹${row.original.amount.toLocaleString()}`}
+                  </span>
+                )
+              },
+              { accessorKey: "account", header: "Source/Target Account" },
+            ]}
+            searchKey="desc"
+            formFields={
+              <>
+                <FormInput name="desc" label="Description" required placeholder="e.g. Utility Bills electricity" />
+                <FormSelect
+                  name="type"
+                  label="Transaction Type"
+                  required
+                  options={[
+                    { value: "Income", label: "Income / Cash-In" },
+                    { value: "Expense", label: "Expense / Cash-Out" },
+                  ]}
+                />
+                <FormInput name="amount" label="Amount Value (₹)" type="number" required placeholder="e.g. 15000" />
+                <FormInput name="account" label="Associated Account" required placeholder="e.g. ICICI Bank A/c" />
+              </>
+            }
+          />
+        );
+      }
+    }
+
+    // 5. Library Operations
+    if (moduleName === "library") {
+      if (subPath === "books") {
+        return (
+          <ListViewTemplate
+            title="Books Catalog"
+            description="Manage library books list, shelf indices, authors, and active quantities."
+            addLabel="Add Book Entry"
+            data={books}
+            columns={bookCols}
+            searchKey="title"
+            formFields={
+              <>
+                <FormInput name="code" label="Book Unique Code" required placeholder="e.g. PHY-102" />
+                <FormInput name="title" label="Book Title Description" required placeholder="e.g. Introduction to Physics" />
+                <FormInput name="author" label="Author Full Name" required placeholder="e.g. H.C. Verma" />
+                <FormInput name="quantity" label="Total Copy Quantity" type="number" required placeholder="e.g. 15" />
+                <FormInput name="available" label="Available Catalog Quantity" type="number" required placeholder="e.g. 12" />
+                <FormInput name="location" label="Library Shelf Location" required placeholder="e.g. Shelf A-3" />
+              </>
+            }
+            onAddSubmit={(values) => {
+              setBooks([{ id: `bk-${Date.now()}`, ...values }, ...books]);
+              toast.success("Book copy added to library catalog!");
+            }}
+          />
+        );
+      }
+      if (subPath === "categories") {
+        const libCatsData = [
+          { id: "1", name: "Physics & Chemistry", section: "Science Wing - A", count: 145 },
+          { id: "2", name: "Calculus & Geometry", section: "Math Wing - B", count: 88 },
+          { id: "3", name: "Social Studies History", section: "Humanities Wing - C", count: 210 },
+        ];
+        return (
+          <ListViewTemplate
+            title="Book Categories Ledger"
+            description="Organize library catalogs inside wing codes and sub-genres."
+            addLabel="Add Genre Category"
+            data={libCatsData}
+            columns={[
+              { accessorKey: "name", header: "Genre Category Name" },
+              { accessorKey: "section", header: "Campus Library Wing Location" },
+              { accessorKey: "count", header: "Total Catalog Volume Count" },
+            ]}
+            searchKey="name"
+            formFields={
+              <>
+                <FormInput name="name" label="Category Name" required placeholder="e.g. Biology & Biotech" />
+                <FormInput name="section" label="Wing Location" required placeholder="e.g. Science Wing - D" />
+              </>
+            }
+          />
+        );
+      }
+      if (subPath === "issue-return") {
+        const issueReturnData = [
+          { id: "1", title: "Introduction to Physics (HC Verma)", student: "Aarav Sharma", issueDate: "2026-06-20", dueDate: "2026-07-05", returnDate: "-", status: "Issued" },
+          { id: "2", title: "Advanced Mathematics (RD Sharma)", student: "Priya Patel", issueDate: "2026-06-15", dueDate: "2026-06-30", returnDate: "2026-06-28", status: "Returned" },
+          { id: "3", title: "Computer Networks (Tanenbaum)", student: "Kabir Dev", issueDate: "2026-06-10", dueDate: "2026-06-25", returnDate: "-", status: "Overdue" },
+        ];
+        return (
+          <ListViewTemplate
+            title="Issue & Return Register"
+            description="Audit library books release dates, returning status checklist, and alert logs."
+            addLabel="Issue Book Copy"
+            data={issueReturnData}
+            columns={[
+              { accessorKey: "title", header: "Book Title" },
+              { accessorKey: "student", header: "Issued Student" },
+              { accessorKey: "issueDate", header: "Issue Date", cell: ({ row }) => <span className="font-mono">{row.original.issueDate}</span> },
+              { accessorKey: "dueDate", header: "Due Date", cell: ({ row }) => <span className="font-mono">{row.original.dueDate}</span> },
+              { accessorKey: "returnDate", header: "Return Log Date", cell: ({ row }) => <span className="font-mono">{row.original.returnDate}</span> },
+              {
+                accessorKey: "status",
+                header: "Status",
+                cell: ({ row }) => (
+                  <span className={`px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase ${
+                    row.original.status === "Returned" ? "bg-green-500/10 text-green-500 border border-green-500/20" : row.original.status === "Issued" ? "bg-blue-500/10 text-blue-500 border border-blue-500/20" : "bg-red-500/10 text-red-500 border border-red-500/20"
+                  }`}>
+                    {row.original.status}
+                  </span>
+                )
+              },
+            ]}
+            searchKey="title"
+            formFields={
+              <>
+                <FormInput name="title" label="Book Title" required placeholder="e.g. Introduction to Physics" />
+                <FormInput name="student" label="Student Full Name" required placeholder="e.g. Aarav Sharma" />
+                <FormInput name="issueDate" label="Issue Date" required placeholder="e.g. YYYY-MM-DD" />
+                <FormInput name="dueDate" label="Due Date" required placeholder="e.g. YYYY-MM-DD" />
+              </>
+            }
+          />
+        );
+      }
+      if (subPath === "fines") {
+        const fineTrackerData = [
+          { id: "1", student: "Kabir Dev", title: "Computer Networks (Tanenbaum)", daysOverdue: 7, amount: 70, status: "Unpaid" },
+          { id: "2", student: "Rohan Sen", title: "History of India (Bipin Chandra)", daysOverdue: 0, amount: 0, status: "Paid" },
+        ];
+        return (
+          <ListViewTemplate
+            title="Library Fine Tracker"
+            description="Audit library overdue charges and fines ledger collections."
+            addLabel="Collect Fine"
+            data={fineTrackerData}
+            columns={[
+              { accessorKey: "student", header: "Student Name" },
+              { accessorKey: "title", header: "Book Title" },
+              { accessorKey: "daysOverdue", header: "Days Overdue", cell: ({ row }) => <span className="font-bold text-red-500">{row.original.daysOverdue} Days</span> },
+              { accessorKey: "amount", header: "Fine Amount (₹)", cell: ({ row }) => `₹${row.original.amount}` },
+              {
+                accessorKey: "status",
+                header: "Status",
+                cell: ({ row }) => (
+                  <span className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase ${
+                    row.original.status === "Paid" ? "bg-green-500/10 text-green-500 border border-green-500/20" : "bg-red-500/10 text-red-500 border border-red-500/20"
+                  }`}>
+                    {row.original.status}
+                  </span>
+                )
+              },
+            ]}
+            searchKey="student"
+            formFields={
+              <>
+                <FormInput name="student" label="Student Name" required placeholder="e.g. Kabir Dev" />
+                <FormInput name="amount" label="Fine Amount (₹)" type="number" required placeholder="e.g. 50" />
+              </>
+            }
+          />
+        );
+      }
+    }
+
+    // 6. Inventory & Assets
+    if (moduleName === "inventory") {
+      if (subPath === "assets") {
+        return (
+          <ListViewTemplate
+            title="Products & Assets Inventory"
+            description="Configure infrastructure hardware assets, laptops, projectors, and maintenance logs."
+            addLabel="Add Asset Entry"
+            data={inventory}
+            columns={[
+              { accessorKey: "assetCode", header: "Asset Code" },
+              { accessorKey: "type", header: "Category" },
+              { accessorKey: "brandModel", header: "Brand & Model Info" },
+              { accessorKey: "allocatedTo", header: "Allocated Staff Host" },
+              { accessorKey: "status", header: "Operational Status" },
+            ]}
+            searchKey="brandModel"
+            formFields={
+              <>
+                <FormInput name="brandModel" label="Brand & Model" required placeholder="e.g. Dell Latitude 5440" />
+                <FormInput name="assetCode" label="Asset Code" required placeholder="e.g. GW-AST-0144" />
+                <FormSelect
+                  name="type"
+                  label="Category"
+                  required
+                  options={[
+                    { value: "Laptop", label: "Laptop" },
+                    { value: "Tablet", label: "Tablet" },
+                    { value: "Projector", label: "Projector" },
+                    { value: "Other", label: "Other" },
+                  ]}
+                />
+                <FormSelect
+                  name="status"
+                  label="Status"
+                  required
+                  options={[
+                    { value: "Allocated", label: "Allocated" },
+                    { value: "Available", label: "Available" },
+                    { value: "In Repair", label: "In Repair" },
+                  ]}
+                />
+              </>
+            }
+            onAddSubmit={(values) => {
+              setInventory([{ id: `ast-${Date.now()}`, ...values }, ...inventory]);
+              toast.success("Asset copy created successfully!");
+            }}
+          />
+        );
+      }
+      if (subPath === "categories") {
+        const invCatsData = [
+          { id: "1", name: "IT Assets (Laptops, Tablets)", code: "IT-AST", count: 85 },
+          { id: "2", name: "Lab Chemical Consumables", code: "LAB-CNS", count: 120 },
+          { id: "3", name: "Office Stationery Supplies", code: "OFC-STN", count: 450 },
+        ];
+        return (
+          <ListViewTemplate
+            title="Product Categories"
+            description="Manage specific inventory categories of school logistics."
+            addLabel="Add Inventory Group"
+            data={invCatsData}
+            columns={[
+              { accessorKey: "name", header: "Inventory Category" },
+              { accessorKey: "code", header: "Identifier Code" },
+              { accessorKey: "count", header: "Items Registered Count" },
+            ]}
+            searchKey="name"
+            formFields={
+              <>
+                <FormInput name="name" label="Category Name" required placeholder="e.g. Lab glassware" />
+                <FormInput name="code" label="Category Code" required placeholder="e.g. LAB-GLS" />
+              </>
+            }
+          />
+        );
+      }
+      if (subPath === "stock") {
+        const stockLevelsData = [
+          { id: "1", name: "Lenovo ThinkPad E14 Laptop", category: "IT Assets", stock: 12, reorder: 5, status: "Good" },
+          { id: "2", name: "A4 Printing Paper Reams", category: "Stationery", stock: 18, reorder: 20, status: "Low Stock Alert" },
+          { id: "3", name: "Board Chalk Box (White)", category: "Stationery", stock: 8, reorder: 15, status: "Low Stock Alert" },
+        ];
+        return (
+          <ListViewTemplate
+            title="Stock Levels Register"
+            description="Monitor real-time warehouse stock levels, alert thresholds, and reorder alerts."
+            data={stockLevelsData}
+            columns={[
+              { accessorKey: "name", header: "Item Description Name" },
+              { accessorKey: "category", header: "Category Domain" },
+              { accessorKey: "stock", header: "Quantity In-Stock", cell: ({ row }) => <span className="font-bold">{row.original.stock} Units</span> },
+              { accessorKey: "reorder", header: "Reorder Trigger Level", cell: ({ row }) => <span className="font-mono text-muted-foreground">{row.original.reorder} Units</span> },
+              {
+                accessorKey: "status",
+                header: "Alert Level",
+                cell: ({ row }) => (
+                  <span className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase ${
+                    row.original.status === "Good" ? "bg-green-500/10 text-green-500 border border-green-500/20" : "bg-orange-500/10 text-orange-500 border border-orange-500/20"
+                  }`}>
+                    {row.original.status}
+                  </span>
+                )
+              },
+            ]}
+            searchKey="name"
+          />
+        );
+      }
+      if (subPath === "purchase-orders") {
+        const poData = [
+          { id: "PO-2026-001", vendor: "Delhi IT Solutions", itemsCount: 15, amount: 620000, date: "2026-06-20", status: "Approved" },
+          { id: "PO-2026-002", vendor: "Kwality Papers Ltd", itemsCount: 50, amount: 15000, date: "2026-06-25", status: "Pending Review" },
+        ];
+        return (
+          <ListViewTemplate
+            title="Purchase Orders Ledger"
+            description="Track operational purchase orders sent to vendors, log billing details, and verify deliveries."
+            addLabel="Create Purchase Order"
+            data={poData}
+            columns={[
+              { accessorKey: "id", header: "PO Reference No" },
+              { accessorKey: "vendor", header: "Supplier Vendor" },
+              { accessorKey: "itemsCount", header: "Total Items Count" },
+              { accessorKey: "amount", header: "Total Value (₹)", cell: ({ row }) => `₹${row.original.amount.toLocaleString()}` },
+              { accessorKey: "date", header: "Issue Date", cell: ({ row }) => <span className="font-mono">{row.original.date}</span> },
+              {
+                accessorKey: "status",
+                header: "PO Status",
+                cell: ({ row }) => (
+                  <span className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase ${
+                    row.original.status === "Approved" ? "bg-green-500/10 text-green-500 border border-green-500/20" : "bg-amber-500/10 text-amber-500 border border-amber-500/20"
+                  }`}>
+                    {row.original.status}
+                  </span>
+                )
+              },
+            ]}
+            searchKey="vendor"
+            formFields={
+              <>
+                <FormInput name="vendor" label="Supplier Vendor" required placeholder="e.g. Amul Milk Distributors" />
+                <FormInput name="itemsCount" label="Total Items" type="number" required placeholder="e.g. 10" />
+                <FormInput name="amount" label="PO Value (₹)" type="number" required placeholder="e.g. 50000" />
+              </>
+            }
+          />
+        );
+      }
+    }
+
+    // 7. Transport Management
+    if (moduleName === "transport") {
+      if (subPath === "vehicles") {
+        return (
+          <ListViewTemplate
+            title="Vehicles Fleet Manager"
+            description="Manage campus transport bus fleet, registration details, and seating allocation capacities."
+            addLabel="Add Vehicle"
+            data={transport}
+            columns={transportCols}
+            searchKey="vehicleNo"
+            formFields={
+              <>
+                <FormInput name="vehicleNo" label="Vehicle Registration No" required placeholder="e.g. DL-01-PA-1054" />
+                <FormInput name="routeTitle" label="Bus Route Details" required placeholder="e.g. Route 1: Dwarka - Janakpuri" />
+                <FormInput name="driverName" label="Driver Assigned Name" required placeholder="e.g. Ramesh Singh" />
+                <FormInput name="driverPhone" label="Driver Phone Number" required placeholder="e.g. 9874563210" />
+                <FormInput name="allocationCount" label="Allocated Student Capacity" type="number" required placeholder="e.g. 42" />
+                <FormSelect
+                  name="status"
+                  label="Route status"
+                  required
+                  options={[
+                    { value: "active", label: "Active" },
+                    { value: "inactive", label: "Inactive" },
+                  ]}
+                />
+              </>
+            }
+            onAddSubmit={(values) => {
+              setTransport([{ id: `tr-${Date.now()}`, ...values }, ...transport]);
+              toast.success("Vehicle registered successfully in fleet!");
+            }}
+          />
+        );
+      }
+      if (subPath === "drivers") {
+        const driversData = [
+          { id: "1", name: "Ramesh Singh", license: "DL-142026589", phone: "9874563210", status: "On Duty" },
+          { id: "2", name: "Manjeet Yadav", license: "DL-152026214", phone: "9988445566", status: "On Duty" },
+          { id: "3", name: "Satish Kumar", license: "DL-122026328", phone: "9564872130", status: "On Duty" },
+          { id: "4", name: "Devender Dutt", license: "DL-112026511", phone: "9812457890", status: "On Leave" },
+        ];
+        return (
+          <ListViewTemplate
+            title="Drivers Directory"
+            description="Manage transport staff drivers contact sheets, license details, and status updates."
+            addLabel="Add Driver"
+            data={driversData}
+            columns={[
+              { accessorKey: "name", header: "Driver Name" },
+              { accessorKey: "license", header: "License Number", cell: ({ row }) => <span className="font-mono">{row.original.license}</span> },
+              { accessorKey: "phone", header: "Phone Contact", cell: ({ row }) => <span className="font-mono text-muted-foreground">{row.original.phone}</span> },
+              {
+                accessorKey: "status",
+                header: "Status",
+                cell: ({ row }) => (
+                  <span className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase ${
+                    row.original.status === "On Duty" ? "bg-green-500/10 text-green-500 border border-green-500/20" : "bg-red-500/10 text-red-500 border border-red-500/20"
+                  }`}>
+                    {row.original.status}
+                  </span>
+                )
+              },
+            ]}
+            searchKey="name"
+            formFields={
+              <>
+                <FormInput name="name" label="Driver Name" required placeholder="e.g. Ramesh Singh" />
+                <FormInput name="license" label="License No" required placeholder="e.g. DL-142026589" />
+                <FormInput name="phone" label="Phone" required placeholder="e.g. 9874563210" />
+              </>
+            }
+          />
+        );
+      }
+      if (subPath === "routes") {
+        const routesData = [
+          { id: "1", code: "RT-01", start: "Dwarka Sector 10", end: "Campus Academy", stops: 12, vehicle: "DL-01-PA-1054" },
+          { id: "2", code: "RT-02", start: "Rohini West Terminal", end: "Campus Academy", stops: 8, vehicle: "DL-01-PA-2144" },
+          { id: "3", code: "RT-03", start: "Saket Metro station", end: "Campus Academy", stops: 10, vehicle: "DL-01-PA-3288" },
+        ];
+        return (
+          <ListViewTemplate
+            title="Routes & Stops Map"
+            description="Define shuttle routes, calculate stops frequency, and assign vehicles."
+            addLabel="Create Route"
+            data={routesData}
+            columns={[
+              { accessorKey: "code", header: "Route Code" },
+              { accessorKey: "start", header: "Route Origin" },
+              { accessorKey: "end", header: "Campus Destination" },
+              { accessorKey: "stops", header: "Stops Count" },
+              { accessorKey: "vehicle", header: "Assigned Bus" },
+            ]}
+            searchKey="code"
+            formFields={
+              <>
+                <FormInput name="code" label="Route Code" required placeholder="e.g. RT-04" />
+                <FormInput name="start" label="Route Origin" required placeholder="e.g. Noida Sector 62" />
+                <FormInput name="end" label="Campus Destination" required placeholder="e.g. Campus Academy" />
+                <FormInput name="stops" label="Stops Count" type="number" required placeholder="e.g. 10" />
+                <FormInput name="vehicle" label="Assigned Bus No" required placeholder="e.g. DL-01-PA-4022" />
+              </>
+            }
+          />
+        );
+      }
+      if (subPath === "fuel") {
+        const fuelLogsData = [
+          { id: "1", vehicle: "DL-01-PA-1054", date: "2026-06-25", liters: 65, amount: 6200, mileage: "6.2 km/l", driver: "Ramesh Singh" },
+          { id: "2", vehicle: "DL-01-PA-2144", date: "2026-06-24", liters: 50, amount: 4800, mileage: "5.8 km/l", driver: "Manjeet Yadav" },
+        ];
+        return (
+          <ListViewTemplate
+            title="Fuel Logbook"
+            description="Audit daily/weekly diesel fuel purchase logs, track mileage metrics, and check drivers."
+            addLabel="Log Fuel Purchase"
+            data={fuelLogsData}
+            columns={[
+              { accessorKey: "vehicle", header: "Vehicle" },
+              { accessorKey: "date", header: "Purchase Date", cell: ({ row }) => <span className="font-mono">{row.original.date}</span> },
+              { accessorKey: "liters", header: "Liters filled", cell: ({ row }) => `${row.original.liters} L` },
+              { accessorKey: "amount", header: "Billing Value (₹)", cell: ({ row }) => `₹${row.original.amount.toLocaleString()}` },
+              { accessorKey: "mileage", header: "Avg Mileage", cell: ({ row }) => <span className="font-bold">{row.original.mileage}</span> },
+              { accessorKey: "driver", header: "Purchased By Driver" },
+            ]}
+            searchKey="vehicle"
+            formFields={
+              <>
+                <FormInput name="vehicle" label="Vehicle No" required placeholder="e.g. DL-01-PA-1054" />
+                <FormInput name="date" label="Date" required placeholder="e.g. YYYY-MM-DD" />
+                <FormInput name="liters" label="Liters Filled" type="number" required placeholder="e.g. 60" />
+                <FormInput name="amount" label="Total Cost" type="number" required placeholder="e.g. 5800" />
+                <FormInput name="driver" label="Driver" required placeholder="e.g. Ramesh Singh" />
+              </>
+            }
+          />
+        );
+      }
+    }
+
+    // 8. Hostel Management
+    if (moduleName === "hostel") {
+      if (subPath === "blocks") {
+        const blocksData = [
+          { id: "1", name: "Boys A-Block", gender: "Male", rooms: 20, beds: 80, allocated: 72, warden: "Rajesh Kumar" },
+          { id: "2", name: "Girls B-Block", gender: "Female", rooms: 15, beds: 45, allocated: 38, warden: "Aarti Deshpande" },
+          { id: "3", name: "Special Suite C", gender: "Co-Ed Wing", rooms: 5, beds: 10, allocated: 8, warden: "Rajesh Kumar" },
+        ];
+        return (
+          <ListViewTemplate
+            title="Hostel Blocks Directory"
+            description="Manage hostel campus buildings, capacities split by gender, and supervisor wardens."
+            addLabel="Create Hostel Block"
+            data={blocksData}
+            columns={[
+              { accessorKey: "name", header: "Block Name" },
+              { accessorKey: "gender", header: "Allowed Gender" },
+              { accessorKey: "rooms", header: "Total Rooms Count" },
+              { accessorKey: "beds", header: "Total Bed Capacity" },
+              { accessorKey: "allocated", header: "Assigned Occupants" },
+              { accessorKey: "warden", header: "Campus Warden Supervisor" },
+            ]}
+            searchKey="name"
+            formFields={
+              <>
+                <FormInput name="name" label="Block Name" required placeholder="e.g. Boys B-Block" />
+                <FormSelect
+                  name="gender"
+                  label="Allowed Gender"
+                  required
+                  options={[
+                    { value: "Male", label: "Male" },
+                    { value: "Female", label: "Female" },
+                  ]}
+                />
+                <FormInput name="rooms" label="Total Rooms" type="number" required placeholder="e.g. 15" />
+                <FormInput name="warden" label="Campus Warden" required placeholder="e.g. Rajesh Kumar" />
+              </>
+            }
+          />
+        );
+      }
+      if (subPath === "rooms-beds") {
+        return (
+          <ListViewTemplate
+            title="Rooms & Beds Status"
+            description="Log triple, double, and single occupancy room types, rent rates, and active occupancies."
+            addLabel="Add Hostel Room"
+            data={hostel}
+            columns={hostelCols}
+            searchKey="roomNo"
+            formFields={
+              <>
+                <FormInput name="roomNo" label="Room Number" required placeholder="e.g. Room 101" />
+                <FormInput name="block" label="Hostel Campus Block" required placeholder="e.g. Boys A-Block" />
+                <FormInput name="capacity" label="Total Bed Capacity" type="number" required placeholder="e.g. 4" />
+                <FormInput name="allocated" label="Allocated Occupants" type="number" required placeholder="e.g. 4" />
+                <FormInput name="rentPerMonth" label="Rent Value / Month (₹)" type="number" required placeholder="e.g. 6500" />
+                <FormInput name="wardenName" label="Assigned Warden Name" required placeholder="e.g. Rajesh Kumar" />
+              </>
+            }
+            onAddSubmit={(values) => {
+              setHostel([{ id: `hs-${Date.now()}`, ...values }, ...hostel]);
+              toast.success("Hostel room added to inventory register!");
+            }}
+          />
+        );
+      }
+      if (subPath === "allocation") {
+        const allocationsData = [
+          { id: "1", name: "Aarav Sharma", class: "Class 10-A", block: "Boys A-Block", room: "Room 101", bed: "Bed A", date: "2026-06-15" },
+          { id: "2", name: "Priya Patel", class: "Class 10-B", block: "Girls B-Block", room: "Room 201", bed: "Bed C", date: "2026-06-18" },
+          { id: "3", name: "Kabir Dev", class: "Class 9-A", block: "Boys A-Block", room: "Room 102", bed: "Bed B", date: "2026-06-20" },
+        ];
+        return (
+          <ListViewTemplate
+            title="Bed Allocations Log"
+            description="Assign and shift student rooms allocations, track dates, and check occupancies."
+            addLabel="Allocate Bed Space"
+            data={allocationsData}
+            columns={[
+              { accessorKey: "name", header: "Student Name" },
+              { accessorKey: "class", header: "Class" },
+              { accessorKey: "block", header: "Hostel Block" },
+              { accessorKey: "room", header: "Assigned Room No", cell: ({ row }) => <span className="font-bold">{row.original.room}</span> },
+              { accessorKey: "bed", header: "Bed No" },
+              { accessorKey: "date", header: "Allocation Date", cell: ({ row }) => <span className="font-mono text-muted-foreground">{row.original.date}</span> },
+            ]}
+            searchKey="name"
+            formFields={
+              <>
+                <FormInput name="name" label="Student Name" required placeholder="e.g. Kabir Dev" />
+                <FormInput name="class" label="Class Cohort" required placeholder="e.g. Class 9-A" />
+                <FormInput name="block" label="Hostel Block" required placeholder="e.g. Boys A-Block" />
+                <FormInput name="room" label="Room Number" required placeholder="e.g. Room 102" />
+                <FormInput name="bed" label="Bed Number" required placeholder="e.g. Bed A" />
+              </>
+            }
+          />
+        );
+      }
+    }
+
+    // 9. Health Center
+    if (moduleName === "health-center") {
+      if (subPath === "records") {
+        const medicalRecordsData = [
+          { id: "1", student: "Aarav Sharma", class: "Class 10-A", bloodGroup: "O+", allergies: "None", weight: "55 kg", height: "168 cm" },
+          { id: "2", student: "Priya Patel", class: "Class 10-B", bloodGroup: "A+", allergies: "Peanuts, Dust", weight: "50 kg", height: "160 cm" },
+          { id: "3", student: "Kabir Dev", class: "Class 9-A", bloodGroup: "B-", allergies: "Penicillin", weight: "62 kg", height: "172 cm" },
+        ];
+        return (
+          <ListViewTemplate
+            title="Student Medical Records"
+            description="Manage pupil primary bio-statistics, blood groups, and medical allergies alerts."
+            addLabel="Create Record Card"
+            data={medicalRecordsData}
+            columns={[
+              { accessorKey: "student", header: "Student Name" },
+              { accessorKey: "class", header: "Class" },
+              { accessorKey: "bloodGroup", header: "Blood Group", cell: ({ row }) => <span className="font-bold text-red-600">{row.original.bloodGroup}</span> },
+              { accessorKey: "allergies", header: "Allergies Alerts", cell: ({ row }) => <span className="text-amber-500 font-semibold">{row.original.allergies}</span> },
+              { accessorKey: "weight", header: "Weight" },
+              { accessorKey: "height", header: "Height" },
+            ]}
+            searchKey="student"
+            formFields={
+              <>
+                <FormInput name="student" label="Student Name" required placeholder="e.g. Aarav Sharma" />
+                <FormInput name="class" label="Class" required placeholder="e.g. Class 10-A" />
+                <FormInput name="bloodGroup" label="Blood Group" required placeholder="e.g. O+" />
+                <FormInput name="allergies" label="Allergies" required placeholder="e.g. None" />
+                <FormInput name="weight" label="Weight" required placeholder="e.g. 55 kg" />
+                <FormInput name="height" label="Height" required placeholder="e.g. 165 cm" />
+              </>
+            }
+          />
+        );
+      }
+      if (subPath === "visits") {
+        const medicalVisitsData = [
+          { id: "1", student: "Aarav Sharma", date: "2026-06-25 10:15 AM", complaint: "Mild Headache & Fatigue", treatment: "Paracetamol 500mg, Rest for 1 Hour", doctor: "Dr. Sandeep Verma" },
+          { id: "2", student: "Kabir Dev", date: "2026-06-24 11:30 AM", complaint: "Sprained Left Ankle (Sports)", treatment: "Cold pack, crepe bandage, rest", doctor: "Dr. Sandeep Verma" },
+        ];
+        return (
+          <ListViewTemplate
+            title="Medical Visits Logbook"
+            description="Record clinic walk-ins, diagnostic notes, treatment cards, and doctor listings."
+            addLabel="Log Clinic Visit"
+            data={medicalVisitsData}
+            columns={[
+              { accessorKey: "student", header: "Student Visitor" },
+              { accessorKey: "date", header: "Visit Timestamp", cell: ({ row }) => <span className="font-mono text-muted-foreground">{row.original.date}</span> },
+              { accessorKey: "complaint", header: "Symptom Complaint" },
+              { accessorKey: "treatment", header: "Treatment Administered" },
+              { accessorKey: "doctor", header: "Attending Doctor" },
+            ]}
+            searchKey="student"
+            formFields={
+              <>
+                <FormInput name="student" label="Student Name" required placeholder="e.g. Aarav Sharma" />
+                <FormInput name="date" label="Timestamp" required placeholder="e.g. YYYY-MM-DD HH:MM" />
+                <FormInput name="complaint" label="Symptom Complaint" required placeholder="e.g. Stomach ache" />
+                <FormInput name="treatment" label="Treatment" required placeholder="e.g. Antacid tablet" />
+                <FormInput name="doctor" label="Attending Doctor" required placeholder="e.g. Dr. Sandeep Verma" />
+              </>
+            }
+          />
+        );
+      }
+      if (subPath === "vaccinations") {
+        const vaccinationsData = [
+          { id: "1", student: "Aarav Sharma", class: "Class 10-A", vaccine: "Tetanus Toxoid Booster", dose: "Dose 1", date: "2026-06-20" },
+          { id: "2", student: "Priya Patel", class: "Class 10-B", vaccine: "Hepatitis B Vaccine", dose: "Dose 2", date: "2026-06-18" },
+        ];
+        return (
+          <ListViewTemplate
+            title="Vaccinations Register"
+            description="Manage institutional vaccination drives, booster dosages records, and dates."
+            addLabel="Add Dose Entry"
+            data={vaccinationsData}
+            columns={[
+              { accessorKey: "student", header: "Student Name" },
+              { accessorKey: "class", header: "Class" },
+              { accessorKey: "vaccine", header: "Vaccine Name" },
+              { accessorKey: "dose", header: "Dose No", cell: ({ row }) => <span className="font-bold">{row.original.dose}</span> },
+              { accessorKey: "date", header: "Date Administered", cell: ({ row }) => <span className="font-mono">{row.original.date}</span> },
+            ]}
+            searchKey="student"
+            formFields={
+              <>
+                <FormInput name="student" label="Student Name" required placeholder="e.g. Aarav Sharma" />
+                <FormInput name="class" label="Class" required placeholder="e.g. Class 10-A" />
+                <FormInput name="vaccine" label="Vaccine" required placeholder="e.g. Covid Booster" />
+                <FormInput name="dose" label="Dose No" required placeholder="e.g. Dose 1" />
+                <FormInput name="date" label="Date" required placeholder="e.g. YYYY-MM-DD" />
+              </>
+            }
+          />
+        );
+      }
+      if (subPath === "medicine") {
+        const medicineInventoryData = [
+          { id: "1", name: "Paracetamol 500mg (Crocin)", type: "Analgesic", batch: "BATCH-PAR-258", expiry: "2028-05-31", qty: 250, status: "Good" },
+          { id: "2", name: "Cetirizine 10mg (Okacet)", type: "Antihistamine", batch: "BATCH-CET-144", expiry: "2027-11-30", qty: 120, status: "Good" },
+          { id: "3", name: "Betadine Ointment 15g", type: "Analgesic", batch: "BATCH-BET-089", expiry: "2026-09-30", qty: 15, status: "Low Stock Alert" },
+        ];
+        return (
+          <ListViewTemplate
+            title="Medicine Stock Inventory"
+            description="Track health clinic medical items, batches, expiry alerts, and stock quantities."
+            addLabel="Add Medicine Batch"
+            data={medicineInventoryData}
+            columns={[
+              { accessorKey: "name", header: "Medicine Description" },
+              { accessorKey: "type", header: "Category Group" },
+              { accessorKey: "batch", header: "Batch Identification", cell: ({ row }) => <span className="font-mono text-muted-foreground">{row.original.batch}</span> },
+              { accessorKey: "expiry", header: "Expiry Date", cell: ({ row }) => <span className="font-mono text-red-500 font-bold">{row.original.expiry}</span> },
+              { accessorKey: "qty", header: "In-Stock Quantity", cell: ({ row }) => <span className="font-bold">{row.original.qty} Units</span> },
+              {
+                accessorKey: "status",
+                header: "Stock Alert",
+                cell: ({ row }) => (
+                  <span className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase ${
+                    row.original.status === "Good" ? "bg-green-500/10 text-green-500 border border-green-500/20" : "bg-orange-500/10 text-orange-500 border border-orange-500/20"
+                  }`}>
+                    {row.original.status}
+                  </span>
+                )
+              },
+            ]}
+            searchKey="name"
+            formFields={
+              <>
+                <FormInput name="name" label="Medicine Name" required placeholder="e.g. Paracetamol 500mg" />
+                <FormInput name="type" label="Category" required placeholder="e.g. Analgesic" />
+                <FormInput name="batch" label="Batch No" required placeholder="e.g. BATCH-PAR-901" />
+                <FormInput name="expiry" label="Expiry Date" required placeholder="e.g. YYYY-MM-DD" />
+                <FormInput name="qty" label="Stock Quantity" type="number" required placeholder="e.g. 100" />
+              </>
+            }
+          />
+        );
+      }
+    }
+
+    // 10. Visitor Management
+    if (moduleName === "visitor-management") {
+      if (subPath === "visitors") {
+        const visitorsLogData = [
+          { id: "1", passNo: "GW-VPASS-01", name: "Mr. Ramesh Patel", phone: "9876543210", purpose: "Meet Child", host: "Priya Patel", checkIn: "04:30 PM", checkOut: "-", status: "In Campus" },
+          { id: "2", passNo: "GW-VPASS-02", name: "Mr. A. K. Verma", phone: "9811223344", purpose: "Guardian Visit", host: "Amit Verma", checkIn: "02:00 PM", checkOut: "03:30 PM", status: "Checked Out" },
+        ];
+        return (
+          <ListViewTemplate
+            title="Visitor Entry Logbook"
+            description="Manage campus gate visitor listings, release entry passes, and check check-out status."
+            addLabel="Visitor Entry Pass"
+            data={visitorsLogData}
+            columns={[
+              { accessorKey: "passNo", header: "Pass No" },
+              { accessorKey: "name", header: "Visitor Name" },
+              { accessorKey: "phone", header: "Contact Phone" },
+              { accessorKey: "purpose", header: "Purpose of Visit" },
+              { accessorKey: "host", header: "Person to Meet" },
+              { accessorKey: "checkIn", header: "Check-In" },
+              { accessorKey: "checkOut", header: "Check-Out" },
+              {
+                accessorKey: "status",
+                header: "Status",
+                cell: ({ row }) => (
+                  <span className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase ${
+                    row.original.status === "In Campus" ? "bg-blue-500/10 text-blue-500 border border-blue-500/20" : "bg-green-500/10 text-green-500 border border-green-500/20"
+                  }`}>
+                    {row.original.status}
+                  </span>
+                )
+              },
+            ]}
+            searchKey="name"
+            formFields={
+              <>
+                <FormInput name="name" label="Visitor Name" required placeholder="e.g. Suresh Kumar" />
+                <FormInput name="phone" label="Phone" required placeholder="e.g. 9876543210" />
+                <FormInput name="purpose" label="Purpose" required placeholder="e.g. Parent Visit" />
+                <FormInput name="host" label="Person to Meet" required placeholder="e.g. Priya Patel" />
+              </>
+            }
+          />
+        );
+      }
+      if (subPath === "complaints") {
+        const complaintsData = [
+          { id: "CMP-001", student: "Kabir Dev", category: "Hostel Maintenance", title: "Room 102 Ceiling Fan malfunction", date: "2026-06-25", status: "Pending Allocation" },
+          { id: "CMP-002", student: "Rohan Sen", category: "Library Infrastructure", title: "Damaged study chair on shelf B-1", date: "2026-06-24", status: "Resolved" },
+        ];
+        return (
+          <ListViewTemplate
+            title="Complaints Box Roster"
+            description="Manage infrastructure complaints filed by students, track resolutions, and assign technicians."
+            addLabel="File Complaint"
+            data={complaintsData}
+            columns={[
+              { accessorKey: "id", header: "Ticket ID" },
+              { accessorKey: "student", header: "Reporter Student" },
+              { accessorKey: "category", header: "Category Domain" },
+              { accessorKey: "title", header: "Issue description" },
+              { accessorKey: "date", header: "Reported Date", cell: ({ row }) => <span className="font-mono text-muted-foreground">{row.original.date}</span> },
+              {
+                accessorKey: "status",
+                header: "Status",
+                cell: ({ row }) => (
+                  <span className={`px-2 py-0.5 rounded text-[9px] font-bold uppercase ${
+                    row.original.status === "Resolved" ? "bg-green-500/10 text-green-500 border border-green-500/20" : "bg-orange-500/10 text-orange-500 border border-orange-500/20"
+                  }`}>
+                    {row.original.status}
+                  </span>
+                )
+              },
+            ]}
+            searchKey="title"
+            formFields={
+              <>
+                <FormInput name="student" label="Reporter Student Name" required placeholder="e.g. Kabir Dev" />
+                <FormInput name="category" label="Category Domain" required placeholder="e.g. Hostel Maintenance" />
+                <FormInput name="title" label="Issue Details" required placeholder="e.g. Leakage in room tap" />
+              </>
+            }
+          />
+        );
+      }
+    }
+
+    // 11. Reports & Analytics
+    if (moduleName === "reports") {
+      if (subPath === "export") {
+        return (
+          <PageContainer>
+            <PageHeader
+              title="Custom Reports Export Hub"
+              description="Export customized data tables, logs, and fee transactions to CSV, Excel, or PDF sheets."
+            />
+            <div className="bg-card rounded-xl border border-border p-6 shadow-sm text-left max-w-xl space-y-6">
+              <h3 className="text-sm font-bold text-foreground">Select Export configurations</h3>
+              <div className="space-y-4 text-xs">
+                <div>
+                  <label className="text-[10px] font-bold text-muted-foreground block mb-1">Target Data Ledger</label>
+                  <select className="w-full h-9 border bg-card rounded-lg px-2">
+                    <option>Tuition Fees Collections</option>
+                    <option>Student Academic Grade Sheets</option>
+                    <option>Staff Salary Disbursements Log</option>
+                    <option>Campus Branch Performance</option>
+                  </select>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-[10px] font-bold text-muted-foreground block mb-1">Start Date</label>
+                    <input type="date" className="w-full h-9 border bg-card rounded-lg px-3" defaultValue="2026-06-01" />
+                  </div>
+                  <div>
+                    <label className="text-[10px] font-bold text-muted-foreground block mb-1">End Date</label>
+                    <input type="date" className="w-full h-9 border bg-card rounded-lg px-3" defaultValue="2026-06-30" />
+                  </div>
+                </div>
+                <div className="grid grid-cols-3 gap-2 pt-2">
+                  <Button onClick={() => toast.success("PDF report generated successfully!")} size="sm" className="font-semibold text-xs h-9">
+                    Export to PDF
+                  </Button>
+                  <Button onClick={() => toast.success("Excel ledger compiled and downloaded!")} size="sm" variant="outline" className="font-semibold text-xs h-9">
+                    Export to Excel
+                  </Button>
+                  <Button onClick={() => toast.success("CSV file downloaded!")} size="sm" variant="ghost" className="font-semibold text-xs h-9 border border-border">
+                    Export to CSV
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </PageContainer>
+        );
+      }
+    }
+
+    // 12. System Logs
+    if (moduleName === "audit-logs") {
+      if (subPath === "activity") {
+        const sessionActivityData = [
+          { id: "1", user: "superadmin@school.com", action: "Updated School Profile configuration details", time: "Today 12:05 PM", status: "Success" },
+          { id: "2", user: "finance@school.com", action: "Created Fee Head (Computer laboratory charges)", time: "Today 11:42 AM", status: "Success" },
+          { id: "3", user: "branchadmin@greenfield.edu", action: "Approved discount request #app-2 (Rohan Sen)", time: "Today 10:15 AM", status: "Success" },
+        ];
+        return (
+          <ListViewTemplate
+            title="Session Activity Tracker"
+            description="Audit user clicks, configuration edits, and portal metadata updates."
+            data={sessionActivityData}
+            columns={[
+              { accessorKey: "user", header: "User Account" },
+              { accessorKey: "action", header: "Action details" },
+              { accessorKey: "time", header: "Timestamp", cell: ({ row }) => <span className="font-mono text-muted-foreground">{row.original.time}</span> },
+              {
+                accessorKey: "status",
+                header: "Status",
+                cell: ({ row }) => (
+                  <span className="px-2.5 py-0.5 rounded-full text-[9px] font-bold uppercase bg-green-500/10 text-green-500 border border-green-500/20">
+                    {row.original.status}
+                  </span>
+                )
+              },
+            ]}
+            searchKey="user"
+          />
+        );
+      }
+    }
+
+    // 13. General Settings
+    if (moduleName === "settings") {
+      if (subPath === "roles") {
+        const userRolesData = [
+          { id: "1", role: "Super Admin", count: 2, desc: "Complete master administrative keys over all campuses." },
+          { id: "2", role: "Branch Admin", count: 12, desc: "Campus operations coordinator, manages users & approvals." },
+          { id: "3", role: "Academic Head", count: 12, desc: "Manages class schedules, timetables, subjects, and grading." },
+          { id: "4", role: "Finance Manager", count: 8, desc: "Fee collection registers, salary payrolls, utility expense logs." },
+        ];
+        return (
+          <ListViewTemplate
+            title="User Roles & Access Control"
+            description="Manage security designations and administrative groups permissions."
+            addLabel="Create Access Role"
+            data={userRolesData}
+            columns={[
+              { accessorKey: "role", header: "Access Role Designation" },
+              { accessorKey: "count", header: "Total Assigned Users Count" },
+              { accessorKey: "desc", header: "Permissions Scope Details" },
+            ]}
+            searchKey="role"
+            formFields={
+              <>
+                <FormInput name="role" label="Role Name" required placeholder="e.g. Library Supervisor" />
+                <FormInput name="desc" label="Permissions Scope" required placeholder="e.g. Catalog books, collect library fines" />
+              </>
+            }
+          />
+        );
+      }
+    }
+
+    // Generic fallback mapping for new expanded sub-pages
+    // This allows us to handle 100+ pages dynamically and beautifully without bloated code
+    if (subPath) {
+      const pageLabel = subPath.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+
+      // A. Settings sub-pages
+      if (moduleName === "settings" || subPath === "settings") {
+        return (
+          <PageContainer>
+            <PageHeader
+              title={`${pageLabel} Settings`}
+              description={`Configure and update school portal ${pageLabel.toLowerCase()} parameters.`}
+            />
+            <div className="bg-card rounded-xl border border-border p-6 shadow-sm text-left max-w-xl space-y-6">
+              <h3 className="text-sm font-semibold text-foreground">Configure Parameters</h3>
+              <div className="space-y-4 text-xs">
+                <div>
+                  <label className="text-[10px] font-bold text-muted-foreground block mb-1">Configuration Profile Name</label>
+                  <input type="text" className="w-full h-9 border bg-card rounded-lg px-3" defaultValue={`Default ${pageLabel} Profile`} />
+                </div>
+                <div>
+                  <label className="text-[10px] font-bold text-muted-foreground block mb-1">Activation Status</label>
+                  <select className="w-full h-9 border bg-card rounded-lg px-2">
+                    <option>Active / Operational</option>
+                    <option>Disabled</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-[10px] font-bold text-muted-foreground block mb-1">Detailed Logs & Debugging</label>
+                  <select className="w-full h-9 border bg-card rounded-lg px-2">
+                    <option>Enabled (Verbose logs)</option>
+                    <option>Disabled (Error only)</option>
+                  </select>
+                </div>
+                <div className="pt-2">
+                  <Button onClick={() => toast.success(`${pageLabel} settings updated successfully!`)} size="sm" className="font-semibold text-xs h-9">
+                    Save Configuration
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </PageContainer>
+        );
+      }
+
+      // B. Reports sub-pages
+      if (moduleName === "reports" || subPath.includes("report") || subPath === "pdf" || subPath === "excel" || subPath === "scheduled") {
+        const dummyReportData = [
+          { id: "REP-001", title: `June 2026 Monthly ${pageLabel} Analysis`, scope: "All Campuses", date: "2026-06-30", status: "Generated" },
+          { id: "REP-002", title: `Q2 Academic Term ${pageLabel} Summary`, scope: "All Campuses", date: "2026-06-15", status: "Archived" },
+        ];
+        return (
+          <ListViewTemplate
+            title={`${pageLabel} Logs`}
+            description={`Review, schedule, and compile detailed reports for ${pageLabel.toLowerCase()} operations.`}
+            data={dummyReportData}
+            columns={[
+              { accessorKey: "id", header: "Report ID" },
+              { accessorKey: "title", header: "Report Title" },
+              { accessorKey: "scope", header: "Operational Scope" },
+              { accessorKey: "date", header: "Generation Date", cell: ({ row }) => <span className="font-mono">{row.original.date}</span> },
+              {
+                accessorKey: "status",
+                header: "Status",
+                cell: ({ row }) => (
+                  <span className="px-2 py-0.5 rounded text-[9px] font-bold uppercase bg-green-500/10 text-green-500 border border-green-500/20">
+                    {row.original.status}
+                  </span>
+                )
+              },
+            ]}
+            searchKey="title"
+          />
+        );
+      }
+
+      // C. System Logs / Audits sub-pages
+      if (moduleName === "audit-logs" || subPath.includes("log") || subPath.includes("activity")) {
+        const dummyLogs = [
+          { id: "1", timestamp: "2026-07-02 11:30:15", user: "superadmin@school.com", scope: pageLabel, action: `Accessed portal parameters for ${pageLabel.toLowerCase()}`, ip: "103.45.191.12" },
+          { id: "2", timestamp: "2026-07-02 10:15:42", user: "finance@school.com", scope: pageLabel, action: `Modified config profile indices`, ip: "182.49.201.76" },
+        ];
+        return (
+          <ListViewTemplate
+            title={`${pageLabel} Audits`}
+            description={`System activity logs and trace audits for ${pageLabel.toLowerCase()} entries.`}
+            data={dummyLogs}
+            columns={[
+              { accessorKey: "timestamp", header: "Timestamp", cell: ({ row }) => <span className="font-mono text-muted-foreground">{row.original.timestamp}</span> },
+              { accessorKey: "user", header: "User Account" },
+              { accessorKey: "scope", header: "Scope domain" },
+              { accessorKey: "action", header: "Audit Action Details" },
+              { accessorKey: "ip", header: "Access IP", cell: ({ row }) => <span className="font-mono">{row.original.ip}</span> },
+            ]}
+            searchKey="action"
+          />
+        );
+      }
+
+      // D. Default dynamic data listing for all other sub-paths (like sections, subjects, stops, GPS tracking, medical info, mess mgmt, etc.)
+      const dummyListingData = [
+        { id: "1", name: `Primary ${pageLabel} Record A`, reference: "REF-001", details: `High-fidelity active dataset config entry for ${pageLabel.toLowerCase()} listing A.`, status: "Active" },
+        { id: "2", name: `Secondary ${pageLabel} Record B`, reference: "REF-002", details: `High-fidelity active dataset config entry for ${pageLabel.toLowerCase()} listing B.`, status: "Active" },
+      ];
+      return (
+        <ListViewTemplate
+          title={pageLabel}
+          description={`Manage, audit, and update detailed records and allocations for school ${pageLabel.toLowerCase()} operations.`}
+          addLabel={`Add ${pageLabel.split(" ")[0]} Record`}
+          data={dummyListingData}
+          columns={[
+            { accessorKey: "id", header: "ID" },
+            { accessorKey: "name", header: "Record Particular" },
+            { accessorKey: "reference", header: "Reference No", cell: ({ row }) => <span className="font-mono">{row.original.reference}</span> },
+            { accessorKey: "details", header: "Detailed Description Context" },
+            {
+              accessorKey: "status",
+              header: "Status",
+              cell: ({ row }) => (
+                <span className="px-2 py-0.5 rounded text-[9px] font-bold uppercase bg-blue-500/10 text-blue-500 border border-blue-500/20">
+                  {row.original.status}
+                </span>
+              )
+            },
+          ]}
+          searchKey="name"
+          formFields={
+            <>
+              <FormInput name="name" label="Record Name" required placeholder={`e.g. ${pageLabel} Particular`} />
+              <FormInput name="reference" label="Reference ID" required placeholder="e.g. REF-100" />
+              <FormInput name="details" label="Detailed Description Context" required placeholder="Add details..." />
+            </>
+          }
+        />
+      );
+    }
+  }
+
   // --- BRANCH ADMIN CUSTOM SUB-PAGES ROUTER ---
   if (role === "branch-admin") {
     const subPath = slug[1];
